@@ -20,6 +20,9 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var binding: ActivityLoginBinding
 
+    private lateinit var email: String
+    private lateinit var password: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -33,42 +36,59 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun userLogin() {
-        val email: String = binding.emailEdittext.text!!.toString().trim()
-        val password: String = binding.passwordEdittext.text!!.toString().trim()
+        email = binding.emailEdittext.text!!.toString().trim()
+        password = binding.passwordEdittext.text!!.toString().trim()
 
-        if (email.isEmpty()) {
-            binding.emailEdittext.error = "Email is required!"
-            binding.emailEdittext.requestFocus(); return
-        } else {
-            binding.emailEdittext.error = null; binding.emailEdittext.requestFocus()
-        }
+        checkCredentials()
 
-        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            binding.emailEdittext.error = "Please provide valid email!"
-            binding.emailEdittext.requestFocus(); return
-        } else {
-            binding.emailEdittext.error = null; binding.emailEdittext.requestFocus()
-        }
-
-        if (password.isEmpty()) {
-            binding.passwordEdittext.error = "Password is required!"
-            binding.passwordEdittext.requestFocus(); return
-        } else {
-            binding.passwordEdittext.error = null; binding.passwordEdittext.requestFocus()
-        }
-
-        firebaseAuth.signInWithEmailAndPassword(email, password)
-            .addOnCompleteListener { task: Task<AuthResult?> ->
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+            task: Task<AuthResult?> ->
                 if (task.isSuccessful) {
                     Log.i(TAG, "Starting new Intent: MainActivity")
                     startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 } else {
-                    Toast.makeText(
-                        this,
+                    Toast.makeText(this@LoginActivity,
                         "Failed to login! Please check your credentials!",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                        Toast.LENGTH_SHORT).show()
                 }
             }
+    }
+
+    private fun checkCredentials() {
+        if (email.isEmpty()) {
+            binding.emailEdittext.error = "Email is required!"
+            binding.emailEdittext.requestFocus()
+            return
+        } else {
+            binding.emailEdittext.error = null
+            binding.emailEdittext.requestFocus()
+        }
+
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+            binding.emailEdittext.error = "Please provide valid email!"
+            binding.emailEdittext.requestFocus()
+            return
+        } else {
+            binding.emailEdittext.error = null
+            binding.emailEdittext.requestFocus()
+        }
+
+        if (password.isEmpty()) {
+            binding.passwordEdittext.error = "Password is required!"
+            binding.passwordEdittext.requestFocus()
+            return
+        } else {
+            binding.passwordEdittext.error = null
+            binding.passwordEdittext.requestFocus()
+        }
+
+        if (password.length < 6) {
+            binding.passwordEdittext.error = "Password should contain at least 6 characters"
+            binding.passwordEdittext.requestFocus()
+            return
+        } else {
+            binding.passwordEdittext.error = null
+            binding.passwordEdittext.requestFocus()
+        }
     }
 }

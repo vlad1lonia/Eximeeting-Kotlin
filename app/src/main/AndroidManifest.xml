@@ -12,23 +12,37 @@
         android:theme="@style/Theme.Eximeeting"
         tools:targetApi="31">
         <activity
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:name=".login_register.RegisterActivity"
+            android:exported="false" />
+        <activity
+            android:windowSoftInputMode="stateVisible|adjustResize"
             android:name=".login_register.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".login_register.StartActivity"
-            android:exported="false" />
-        <activity
-            android:name=".login_register.RegisterActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity"
+            android:noHistory = "true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.ALTERNATIVE" />
+            </intent-filter>
+        </activity>
+        <activity-alias
+            android:name="userLoggedIn"
+            android:targetActivity=".MainActivity"
+            android:enabled="false">
+
+        </activity-alias>
+        
     </application>
 
 </manifest>
