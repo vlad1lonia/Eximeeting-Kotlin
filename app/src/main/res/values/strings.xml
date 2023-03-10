@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Eximeeting</string>
+    <string name="start_screen_description">Exhibitions\nConferences\nMeetings</string>
+    <string name="login_string">Login</string>
+    <string name="register_string">Register</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="full_name_string">Full name</string>
+    <string name="company_name_string">Company name</string>
+    <string name="just_a_text">Just a text</string>
+</resources>

@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "732024754068",
+    "firebase_url": "https://eximeeting-default-rtdb.firebaseio.com",
+    "project_id": "eximeeting",
+    "storage_bucket": "eximeeting.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732024754068:android:d82c842b46182896c64981",
+        "android_client_info": {
+          "package_name": "com.application.vladcelona.eximeeting"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732024754068-gsqjhbqt5k5cmluudiacqmft61v7ib92.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZzv5cSIGlH1aT2k9-ndckjNGwydU_v1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732024754068-gsqjhbqt5k5cmluudiacqmft61v7ib92.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:732024754068:android:57e623a2b8c5383bc64981",
+        "android_client_info": {
+          "package_name": "com.application.vladcelona.eximeeting_samsung"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "732024754068-gsqjhbqt5k5cmluudiacqmft61v7ib92.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZzv5cSIGlH1aT2k9-ndckjNGwydU_v1k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "732024754068-gsqjhbqt5k5cmluudiacqmft61v7ib92.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

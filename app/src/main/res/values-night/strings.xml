@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="start_screen_description">Exhibitions\nConferences\nMeetings</string>
+    <string name="login_string">Login</string>
+    <string name="register_string">Register</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="full_name_string">Full name</string>
+    <string name="company_name_string">Company name</string>
+</resources>
