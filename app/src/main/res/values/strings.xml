@@ -8,4 +8,6 @@
     <string name="full_name_string">Full name</string>
     <string name="company_name_string">Company name</string>
     <string name="just_a_text">Just a text</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

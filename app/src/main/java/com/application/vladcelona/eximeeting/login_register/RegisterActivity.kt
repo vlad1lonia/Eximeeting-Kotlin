@@ -2,7 +2,6 @@ package com.application.vladcelona.eximeeting.login_register
 
 import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.provider.Settings.Secure
 import android.util.Log

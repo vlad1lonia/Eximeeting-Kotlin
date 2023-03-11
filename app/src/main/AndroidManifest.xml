@@ -40,9 +40,6 @@
             android:name="userLoggedIn"
             android:targetActivity=".MainActivity"
             android:enabled="false">
-
         </activity-alias>
-        
     </application>
-
 </manifest>
