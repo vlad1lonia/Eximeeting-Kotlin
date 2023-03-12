@@ -7,4 +7,8 @@
     <string name="password_hint">Password</string>
     <string name="full_name_string">Full name</string>
     <string name="company_name_string">Company name</string>
+    <string name="sign_out">Sign out</string>
+    <string name="personal_information">Personal information</string>
+    <string name="username_text">Username</string>
+    <string name="company_name_text">Company name</string>
 </resources>

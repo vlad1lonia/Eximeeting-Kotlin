@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Eximeeting" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/enabled_button</item>
-        <item name="colorPrimaryVariant">@color/enabled_button</item>
+        <item name="colorPrimary">@color/personal_light_green</item>
+        <item name="colorPrimaryVariant">@color/personal_light_green</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
@@ -24,4 +24,22 @@
         <item name="boxStrokeColor">@color/enabled_button</item>
         <item name="boxStrokeWidth">2dp</item>
     </style>
+    
+    <style name="TopButton" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:background">@drawable/top_button</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="android:buttonBarNegativeButtonStyle">@style/NegativeButtonStyle</item>
+        <item name="android:buttonBarPositiveButtonStyle">@style/PositiveButtonStyle</item>
+    </style>
+
+    <style name="PositiveButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/personal_red</item>
+    </style>
+
+    <style name="NegativeButtonStyle" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>
