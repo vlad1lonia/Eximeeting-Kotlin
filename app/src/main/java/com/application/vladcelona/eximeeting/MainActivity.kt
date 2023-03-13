@@ -1,14 +1,12 @@
 package com.application.vladcelona.eximeeting
 
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
+import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
-
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.application.vladcelona.eximeeting.databinding.ActivityMainBinding
 import com.google.android.material.navigation.NavigationView
 
@@ -30,6 +28,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             supportFragmentManager.beginTransaction().add(R.id.fragment_container,
                 UpcomingFragment.newInstance()).commit()
         }
+
+        binding.bottomNavigationBar.background = ContextCompat
+            .getDrawable(this@MainActivity, R.color.personal_green_background)
 
         val badge = binding.bottomNavigationBar.getOrCreateBadge(R.id.home)
         badge.isVisible = true
@@ -72,27 +73,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.home -> {
-                Toast.makeText(this@MainActivity,
-                    "You clicked home icon!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivity,
+//                    "You clicked home icon!", Toast.LENGTH_SHORT).show()
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
                     UpcomingFragment.newInstance()).commit()
-                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
+//                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
                 return true
             }
             R.id.ended -> {
-                Toast.makeText(this@MainActivity,
-                    "You clicked completed icon!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivity,
+//                    "You clicked completed icon!", Toast.LENGTH_SHORT).show()
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
                     CompletedFragment.newInstance()).commit()
-                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
+//                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
                 return true
             }
             R.id.settings -> {
-                Toast.makeText(this@MainActivity,
-                    "You clicked settings icon!", Toast.LENGTH_SHORT).show()
+//                Toast.makeText(this@MainActivity,
+//                    "You clicked settings icon!", Toast.LENGTH_SHORT).show()
                 supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
                     SettingsFragment.newInstance()).commit()
-                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
+//                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
                 return true
             }
             else -> return false

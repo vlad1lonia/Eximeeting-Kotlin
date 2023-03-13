@@ -11,4 +11,5 @@
     <string name="personal_information">Personal information</string>
     <string name="username_text">Username</string>
     <string name="company_name_text">Company name</string>
+    <string name="appearance_text">Appearance</string>
 </resources>

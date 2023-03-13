@@ -6,7 +6,7 @@
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="white">@color/personal_green_background</color>
 
     <!--  Start screen buttons  -->
 
@@ -18,9 +18,11 @@
     <!--  Green color is selected by default  -->
     <color name="personal_red">#A52A2A</color>
     <color name="personal_light_red">#FAA0A0</color>
+    <color name="personal_red_background">#FFE4E1</color>
 
     <color name="personal_green">#386A20</color>
     <color name="personal_light_green">#D9E7CB</color>
+    <color name="personal_green_background">#F0FAF0</color>
 
     <color name="personal_blue">#0047AB</color>
     <color name="personal_light_blue">#ADD8E6</color>
