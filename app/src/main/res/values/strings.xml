@@ -15,4 +15,5 @@
     <string name="username_text">Username</string>
     <string name="company_name_text">Company name</string>
     <string name="appearance_text">Appearance</string>
+    <string name="birth_date_string">Birth date</string>
 </resources>

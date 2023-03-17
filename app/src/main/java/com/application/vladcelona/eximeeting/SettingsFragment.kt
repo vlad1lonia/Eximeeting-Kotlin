@@ -14,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.application.vladcelona.eximeeting.data_classes.User
 import com.application.vladcelona.eximeeting.login_register.StartActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -116,7 +117,9 @@ class SettingsFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+                Toast.makeText(activity, "Failed to download data from Database",
+                    Toast.LENGTH_SHORT).show()
+
             }
         })
     }
