@@ -1,13 +1,10 @@
 package com.application.vladcelona.eximeeting
 
-import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,15 +12,16 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.application.vladcelona.eximeeting.data_classes.User
-import com.application.vladcelona.eximeeting.login_register.StartActivity
+import com.application.vladcelona.eximeeting.login_register.PickActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-private const val PICK_IMAGE = 100
+private const val REQUEST_PHOTO = 100
 
 class SettingsFragment : Fragment() {
     // TODO: Rename and change types of parameters
@@ -42,8 +40,7 @@ class SettingsFragment : Fragment() {
     private lateinit var user: User
     private lateinit var uid: String
 
-    private var imageUri: Uri? = null
-
+    private lateinit var photoUri: Uri
     private lateinit var databaseReference: DatabaseReference
 //    private lateinit var storageReference: StorageReference
 
@@ -69,13 +66,9 @@ class SettingsFragment : Fragment() {
         personalButton = view.findViewById(R.id.personal_button)
 
         profilePicture = view.findViewById(R.id.profile_picture)
+
         // TODO: Replace this with getting information from Firebase Realtime Database
         profilePicture.setImageResource(R.drawable.person_icon)
-
-        profilePicture.setOnClickListener {
-            val gallery = Intent(Intent.ACTION_PICK); gallery.type = "image/*"
-            startActivityForResult(gallery, PICK_IMAGE)
-        }
 
         usernameTextView = view.findViewById(R.id.username)
         companyNameTextView = view.findViewById(R.id.company_name)
@@ -86,8 +79,8 @@ class SettingsFragment : Fragment() {
         if (uid.isNotEmpty()) { getUserData() }
 
         personalButton.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.replace(R.id.fragment_container,
-                PersonalFragment.newInstance())?.commit()
+            activity?.supportFragmentManager?.beginTransaction()?.replace(
+                R.id.fragment_container, PersonalFragment.newInstance())?.commit()
         }
 
         signOutButton.setOnClickListener {
@@ -96,7 +89,7 @@ class SettingsFragment : Fragment() {
 
             alertDialog.setPositiveButton("Sign out") { _: DialogInterface, _: Int ->
                 FirebaseAuth.getInstance().signOut()
-                startActivity(Intent(activity, StartActivity::class.java))
+                startActivity(Intent(activity, PickActivity::class.java))
             }
             alertDialog.setNegativeButton("No", null)
 
@@ -119,17 +112,8 @@ class SettingsFragment : Fragment() {
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(activity, "Failed to download data from Database",
                     Toast.LENGTH_SHORT).show()
-
             }
         })
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE) {
-            imageUri = data?.data
-            profilePicture.setImageURI(imageUri)
-        }
     }
 
     companion object {

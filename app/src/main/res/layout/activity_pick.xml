@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/personal_green_background"
     android:padding="8dp"
-    tools:context=".login_register.StartActivity">
+    tools:context=".login_register.PickActivity">
 
     <TextView
         android:id="@+id/start_screen_app_name"

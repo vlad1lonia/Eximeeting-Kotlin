@@ -9,49 +9,49 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.application.vladcelona.eximeeting.MainActivity
 import com.application.vladcelona.eximeeting.R
-import com.application.vladcelona.eximeeting.databinding.ActivityStartBinding
+import com.application.vladcelona.eximeeting.databinding.ActivityPickBinding
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
 
-private const val TAG = "StartActivity"
+private const val TAG = "PickActivity"
 
-class StartActivity : AppCompatActivity() {
+class PickActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityStartBinding
+    private lateinit var binding: ActivityPickBinding
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        Log.i(TAG, "StartActivity created")
-        binding = ActivityStartBinding.inflate(layoutInflater)
+        Log.i(TAG, "PickActivity created")
+        binding = ActivityPickBinding.inflate(layoutInflater)
 
         val firebaseDatabase = FirebaseDatabase.getInstance()
         val databaseReference = firebaseDatabase.getReference("Users")
 
         // Check if user has an account in firebase
         FirebaseAuth.getInstance().currentUser.let { it?.let { it1 ->
-                databaseReference.child(it1.uid).get().addOnCompleteListener {
-                    task: Task<DataSnapshot> ->
-                    if (task.isSuccessful && task.result.exists()) {
-                        Toast.makeText(this@StartActivity,
-                            "You have been logged in successfully", Toast.LENGTH_SHORT).show()
-                        startActivity(Intent(this@StartActivity, MainActivity::class.java))
-                    }
+            databaseReference.child(it1.uid).get().addOnCompleteListener {
+                task: Task<DataSnapshot> ->
+                if (task.isSuccessful && task.result.exists()) {
+                    Toast.makeText(this@PickActivity,
+                        "You have been logged in successfully", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@PickActivity, MainActivity::class.java))
                 }
             }
         }
+        }
 
-        // Set up animation for StartActivity Views
+        // Set up animation for PickActivity Views
         val appNameAnimation = AnimationUtils.loadAnimation(
-            this@StartActivity, R.anim.app_name_animation)
+            this@PickActivity, R.anim.app_name_animation)
         val descriptionAnimation = AnimationUtils.loadAnimation(
-            this@StartActivity, R.anim.description_animation)
+            this@PickActivity, R.anim.description_animation)
         val buttonsAnimation = AnimationUtils.loadAnimation(
-            this@StartActivity, R.anim.buttons_animation)
+            this@PickActivity, R.anim.buttons_animation)
 
         // Apply animations to Views
         binding.startScreenAppName.startAnimation(appNameAnimation)
@@ -61,12 +61,12 @@ class StartActivity : AppCompatActivity() {
 
         binding.loginButton.setOnClickListener {
             Log.i(TAG, "Creating LoginActivity")
-            startActivity(Intent(this@StartActivity, LoginActivity::class.java))
+            startActivity(Intent(this@PickActivity, LoginActivity::class.java))
         }
 
         binding.registerButton.setOnClickListener {
             Log.i(TAG, "Creating RegisterActivity")
-            startActivity(Intent(this@StartActivity, RegisterActivity::class.java))
+            startActivity(Intent(this@PickActivity, RegisterActivity::class.java))
         }
 
         setContentView(binding.root)
