@@ -7,8 +7,7 @@ import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.application.vladcelona.eximeeting.MainActivity
-import com.application.vladcelona.eximeeting.R
+import com.application.vladcelona.eximeeting.*
 import com.application.vladcelona.eximeeting.databinding.ActivityPickBinding
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -61,12 +60,14 @@ class PickActivity : AppCompatActivity() {
 
         binding.loginButton.setOnClickListener {
             Log.i(TAG, "Creating LoginActivity")
-            startActivity(Intent(this@PickActivity, LoginActivity::class.java))
+            supportFragmentManager.beginTransaction().replace(R.id.pick_fragment_container,
+                LoginFragment.newInstance()).commit()
         }
 
         binding.registerButton.setOnClickListener {
             Log.i(TAG, "Creating RegisterActivity")
-            startActivity(Intent(this@PickActivity, RegisterActivity::class.java))
+            supportFragmentManager.beginTransaction().replace(R.id.pick_fragment_container,
+                RegisterFragment.newInstance()).commit()
         }
 
         setContentView(binding.root)

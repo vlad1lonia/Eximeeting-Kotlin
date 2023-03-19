@@ -65,12 +65,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
 
         setContentView(binding.root)
-
-//        val currentFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-//        if (currentFragment == null) {
-//            val fragment = EventListFragment.newInstance()
-//            supportFragmentManager.beginTransaction().add(R.id.fragment_container, fragment).commit()
-//        }
     }
 
 //    override fun onStop() {

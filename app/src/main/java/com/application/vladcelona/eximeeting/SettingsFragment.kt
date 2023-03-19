@@ -1,10 +1,14 @@
 package com.application.vladcelona.eximeeting
 
+import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +21,16 @@ import com.application.vladcelona.eximeeting.data_classes.User
 import com.application.vladcelona.eximeeting.login_register.PickActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.io.ByteArrayOutputStream
+import java.io.FileNotFoundException
+import android.util.*
+
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 private const val REQUEST_PHOTO = 100
+private const val TAG = "SettingsFragment"
 
 class SettingsFragment : Fragment() {
     // TODO: Rename and change types of parameters
@@ -40,7 +49,8 @@ class SettingsFragment : Fragment() {
     private lateinit var user: User
     private lateinit var uid: String
 
-    private lateinit var photoUri: Uri
+    private lateinit var imageUri: Uri
+    private lateinit var selectedImage: Bitmap
     private lateinit var databaseReference: DatabaseReference
 //    private lateinit var storageReference: StorageReference
 
@@ -69,6 +79,11 @@ class SettingsFragment : Fragment() {
 
         // TODO: Replace this with getting information from Firebase Realtime Database
         profilePicture.setImageResource(R.drawable.person_icon)
+        profilePicture.setOnClickListener {
+            val photoPickerIntent = Intent(Intent.ACTION_PICK)
+            photoPickerIntent.type = "image/*"
+            startActivityForResult(photoPickerIntent, REQUEST_PHOTO)
+        }
 
         usernameTextView = view.findViewById(R.id.username)
         companyNameTextView = view.findViewById(R.id.company_name)
@@ -99,6 +114,28 @@ class SettingsFragment : Fragment() {
         return view
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK) {
+            try {
+                imageUri = data!!.data!!
+                val imageStream = imageUri.let { activity?.contentResolver?.openInputStream(it) }
+                Log.i(TAG, "$imageStream")
+
+                selectedImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(imageStream),
+                    150, 150, false)
+                profilePicture.setImageBitmap(selectedImage)
+
+                uploadProfileData()
+            } catch (e: FileNotFoundException) {
+                Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(context, "You haven't picked Image", Toast.LENGTH_LONG).show()
+        }
+    }
     private fun getUserData() {
 
         databaseReference.child(uid).addValueEventListener(object : ValueEventListener {
@@ -107,6 +144,22 @@ class SettingsFragment : Fragment() {
                 user = snapshot.getValue(User::class.java)!!
                 usernameTextView.text = user.fullName
                 companyNameTextView.text = user.companyName
+
+                try {
+//                    val bitmapCharArray = Base64.getDecoder().decode(
+//                        user.profileImage.replace("data:image/png;base64,", "")
+//                            .replace("data:image/jpeg;base64,", ""))
+//                    val image = String(bitmapCharArray)
+//                    profilePicture.setImageBitmap(image)
+
+                    val imageBytes = Base64.decode(user.profileImage, 0)
+                    val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+
+                    profilePicture.setImageBitmap(image)
+
+                } catch (exception: Exception) {
+                    Log.i(TAG, user.toString())
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -114,6 +167,24 @@ class SettingsFragment : Fragment() {
                     Toast.LENGTH_SHORT).show()
             }
         })
+    }
+
+    private fun uploadProfileData() {
+        user.profileImage = bitmapToString()
+        val newUserValues: Map<String, Any> = user.toMap()
+
+        databaseReference.child(uid).updateChildren(newUserValues).addOnSuccessListener {
+                Toast.makeText(context, "Successfully updated information", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(context, "Unable to complete action", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun bitmapToString(): String {
+        val imageArray = ByteArrayOutputStream()
+        selectedImage.compress(Bitmap.CompressFormat.PNG, 100, imageArray)
+        val converted = imageArray.toByteArray()
+        return java.util.Base64.getEncoder().encodeToString(converted)
     }
 
     companion object {
