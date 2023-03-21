@@ -125,7 +125,7 @@ class SettingsFragment : Fragment() {
                 Log.i(TAG, "$imageStream")
 
                 selectedImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(imageStream),
-                    150, 150, false)
+                    640, 640, false)
                 profilePicture.setImageBitmap(selectedImage)
 
                 uploadProfileData()
@@ -146,12 +146,6 @@ class SettingsFragment : Fragment() {
                 companyNameTextView.text = user.companyName
 
                 try {
-//                    val bitmapCharArray = Base64.getDecoder().decode(
-//                        user.profileImage.replace("data:image/png;base64,", "")
-//                            .replace("data:image/jpeg;base64,", ""))
-//                    val image = String(bitmapCharArray)
-//                    profilePicture.setImageBitmap(image)
-
                     val imageBytes = Base64.decode(user.profileImage, 0)
                     val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 

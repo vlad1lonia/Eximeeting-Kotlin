@@ -13,4 +13,9 @@
     <string name="company_name_text">Company name</string>
     <string name="appearance_text">Appearance</string>
     <string name="birth_date_string">Birth date</string>
+    <string name="personal_information_string">Personal information</string>
+    <string name="edit_name_string">Edit name</string>
+    <string name="company_new_name_string">Company\nName</string>
+    <string name="edit_company_string">Edit company name</string>
+    <string name="update_information_string">Update information</string>
 </resources>

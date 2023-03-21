@@ -33,8 +33,8 @@ class LoginFragment : Fragment() {
 
     private lateinit var loginCompletedButton: Button
     
-    private lateinit var emailEdittext: EditText
-    private lateinit var passwordEdittext: EditText
+    private lateinit var emailEditText: EditText
+    private lateinit var passwordEditText: EditText
 
     private lateinit var email: String
     private lateinit var password: String
@@ -56,8 +56,8 @@ class LoginFragment : Fragment() {
 
         firebaseAuth = FirebaseAuth.getInstance()
         
-        emailEdittext = view.findViewById(R.id.email_edittext)
-        passwordEdittext = view.findViewById(R.id.password_edittext)
+        emailEditText = view.findViewById(R.id.email_edittext)
+        passwordEditText = view.findViewById(R.id.password_edittext)
 
         loginCompletedButton = view.findViewById(R.id.login_completed_button) as Button
         loginCompletedButton.setOnClickListener { userLogin() }
@@ -66,8 +66,8 @@ class LoginFragment : Fragment() {
     }
 
     private fun userLogin() {
-        email = emailEdittext.text!!.toString().trim()
-        password = passwordEdittext.text!!.toString().trim()
+        email = emailEditText.text!!.toString().trim()
+        password = passwordEditText.text!!.toString().trim()
 
         checkCredentials()
 
@@ -86,39 +86,39 @@ class LoginFragment : Fragment() {
 
     private fun checkCredentials() {
         if (email.isEmpty()) {
-            emailEdittext.error = "Email is required!"
-            emailEdittext.requestFocus()
+            emailEditText.error = "Email is required!"
+            emailEditText.requestFocus()
             return
         } else {
-            emailEdittext.error = null
-            emailEdittext.requestFocus()
+            emailEditText.error = null
+            emailEditText.requestFocus()
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailEdittext.error = "Please provide valid email!"
-            emailEdittext.requestFocus()
+            emailEditText.error = "Please provide valid email!"
+            emailEditText.requestFocus()
             return
         } else {
-            emailEdittext.error = null
-            emailEdittext.requestFocus()
+            emailEditText.error = null
+            emailEditText.requestFocus()
         }
 
         if (password.isEmpty()) {
-            passwordEdittext.error = "Password is required!"
-            passwordEdittext.requestFocus()
+            passwordEditText.error = "Password is required!"
+            passwordEditText.requestFocus()
             return
         } else {
-            passwordEdittext.error = null
-            passwordEdittext.requestFocus()
+            passwordEditText.error = null
+            passwordEditText.requestFocus()
         }
 
         if (password.length < 6) {
-            passwordEdittext.error = "Password should contain at least 6 characters"
-            passwordEdittext.requestFocus()
+            passwordEditText.error = "Password should contain at least 6 characters"
+            passwordEditText.requestFocus()
             return
         } else {
-            passwordEdittext.error = null
-            passwordEdittext.requestFocus()
+            passwordEditText.error = null
+            passwordEditText.requestFocus()
         }
     }
 

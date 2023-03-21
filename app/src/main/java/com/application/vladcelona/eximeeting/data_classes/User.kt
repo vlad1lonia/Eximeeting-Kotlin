@@ -8,9 +8,10 @@ import androidx.appcompat.app.AppCompatActivity
 
 import com.google.firebase.database.Exclude
 
-data class User(val fullName: String = "", val email: String = "",
-                val companyName: String = "", val birthDate: String = "",
-                var profileImage: String = "") {
+data class User(
+    var fullName: String = "", val email: String = "",
+    var companyName: String = "", val birthDate: String = "",
+    var profileImage: String = "") {
 
     @Exclude
     fun toMap(): Map<String, Any> {

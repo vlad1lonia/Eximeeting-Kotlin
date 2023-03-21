@@ -48,11 +48,11 @@ class RegisterFragment : Fragment() {
 
     private lateinit var profileImage: Bitmap
 
-    private lateinit var fullNameEdittext: EditText
-    private lateinit var companyNameEdittext: EditText
-    private lateinit var birthDateEdittext: EditText
-    private lateinit var emailEdittext: EditText
-    private lateinit var passwordEdittext: EditText
+    private lateinit var fullNameEditText: EditText
+    private lateinit var companyNameEditText: EditText
+    private lateinit var birthDateEditText: EditText
+    private lateinit var emailEditText: EditText
+    private lateinit var passwordEditText: EditText
 
     private lateinit var registerCompletedButton: Button
 
@@ -73,18 +73,18 @@ class RegisterFragment : Fragment() {
 
         firebaseAuth = FirebaseAuth.getInstance()
 
-        fullNameEdittext = view.findViewById(R.id.full_name_edittext) as EditText
-        companyNameEdittext = view.findViewById(R.id.company_name_edittext) as EditText
-        birthDateEdittext = view.findViewById(R.id.birth_date_edittext) as EditText
-        emailEdittext = view.findViewById(R.id.email_edittext) as EditText
-        passwordEdittext = view.findViewById(R.id.password_edittext) as EditText
+        fullNameEditText = view.findViewById(R.id.full_name_edittext) as EditText
+        companyNameEditText = view.findViewById(R.id.company_name_edittext) as EditText
+        birthDateEditText = view.findViewById(R.id.birth_date_edittext) as EditText
+        emailEditText = view.findViewById(R.id.email_edittext) as EditText
+        passwordEditText = view.findViewById(R.id.password_edittext) as EditText
 
         profileImage = context?.let {
             ContextCompat.getDrawable(it, R.drawable.completed_icon)?.toBitmap() }!!
 
         registerCompletedButton = view.findViewById(R.id.register_completed_button) as Button
 
-        birthDateEdittext.addTextChangedListener(object : TextWatcher {
+        birthDateEditText.addTextChangedListener(object : TextWatcher {
 
             private var currentString = ""
             private val dateFormat = "DDMMYYYY"
@@ -120,9 +120,8 @@ class RegisterFragment : Fragment() {
                         // ^ first set year for the line below to work correctly
                         // With leap years - otherwise, date e.g. 29/02/2012
                         // Would be automatically corrected to 28/02/2012
-                        day = if (day > calendar.getActualMaximum(Calendar.DATE)) calendar.getActualMaximum(
-                            Calendar.DATE
-                        ) else day
+                        day = if (day > calendar.getActualMaximum(Calendar.DATE))
+                            calendar.getActualMaximum(Calendar.DATE) else day
                         cleanString = String.format("%02d%02d%02d", day, month, year)
                     }
 
@@ -134,8 +133,8 @@ class RegisterFragment : Fragment() {
                     selection = if (selection < 0) 0 else selection
                     currentString = cleanString
 
-                    birthDateEdittext.setText(currentString)
-                    birthDateEdittext.setSelection(if (selection < currentString.length)
+                    birthDateEditText.setText(currentString)
+                    birthDateEditText.setSelection(if (selection < currentString.length)
                         selection else currentString.length)
                 }
             }
@@ -151,11 +150,11 @@ class RegisterFragment : Fragment() {
     }
 
     private fun registerUser() {
-        fullName = fullNameEdittext.text.toString().trim()
-        companyName = companyNameEdittext.text.toString().trim()
-        email = emailEdittext.text.toString().trim()
-        birthDate = birthDateEdittext.text.toString().trim()
-        password = passwordEdittext.text.toString().trim()
+        fullName = fullNameEditText.text.toString().trim()
+        companyName = companyNameEditText.text.toString().trim()
+        email = emailEditText.text.toString().trim()
+        birthDate = birthDateEditText.text.toString().trim()
+        password = passwordEditText.text.toString().trim()
 
         profileImageString = bitmapToString()
         checkCredentials()
@@ -163,66 +162,66 @@ class RegisterFragment : Fragment() {
 
     private fun checkCredentials() {
         if (fullName.isEmpty()) {
-            fullNameEdittext.error = "Full name is required!"
-            fullNameEdittext.requestFocus()
+            fullNameEditText.error = "Full name is required!"
+            fullNameEditText.requestFocus()
             return
         } else {
-            fullNameEdittext.error = null
-            fullNameEdittext.requestFocus()
+            fullNameEditText.error = null
+            fullNameEditText.requestFocus()
         }
 
         if (companyName.isEmpty()) {
-            companyNameEdittext.error = "Company name is required!"
-            companyNameEdittext.requestFocus()
+            companyNameEditText.error = "Company name is required!"
+            companyNameEditText.requestFocus()
             return
         } else {
-            companyNameEdittext.error = null
-            companyNameEdittext.requestFocus()
+            companyNameEditText.error = null
+            companyNameEditText.requestFocus()
         }
 
         if (birthDate.isEmpty()) {
-            birthDateEdittext.error = "birthDate is required!"
-            birthDateEdittext.requestFocus()
+            birthDateEditText.error = "birthDate is required!"
+            birthDateEditText.requestFocus()
             return
         } else {
-            birthDateEdittext.error = null
-            birthDateEdittext.requestFocus()
+            birthDateEditText.error = null
+            birthDateEditText.requestFocus()
         }
 
         if (email.isEmpty()) {
-            emailEdittext.error = "Email is required!"
-            emailEdittext.requestFocus()
+            emailEditText.error = "Email is required!"
+            emailEditText.requestFocus()
             return
         } else {
-            emailEdittext.error = null
-            emailEdittext.requestFocus()
+            emailEditText.error = null
+            emailEditText.requestFocus()
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailEdittext.error = "Please provide valid email!"
-            emailEdittext.requestFocus()
+            emailEditText.error = "Please provide valid email!"
+            emailEditText.requestFocus()
             return
         } else {
-            emailEdittext.error = null
-            emailEdittext.requestFocus()
+            emailEditText.error = null
+            emailEditText.requestFocus()
         }
 
         if (password.isEmpty()) {
-            passwordEdittext.error = "Password is required!"
-            passwordEdittext.requestFocus()
+            passwordEditText.error = "Password is required!"
+            passwordEditText.requestFocus()
             return
         } else {
-            passwordEdittext.error = null
-            passwordEdittext.requestFocus()
+            passwordEditText.error = null
+            passwordEditText.requestFocus()
         }
 
         if (password.length < 6) {
-            passwordEdittext.error = "Password should contain at least 6 characters"
-            passwordEdittext.requestFocus()
+            passwordEditText.error = "Password should contain at least 6 characters"
+            passwordEditText.requestFocus()
             return
         } else {
-            passwordEdittext.error = null
-            passwordEdittext.requestFocus()
+            passwordEditText.error = null
+            passwordEditText.requestFocus()
         }
 
         createAccount()
