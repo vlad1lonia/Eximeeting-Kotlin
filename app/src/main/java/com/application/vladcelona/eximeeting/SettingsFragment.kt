@@ -24,6 +24,7 @@ import com.google.firebase.database.*
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
 import android.util.*
+import android.widget.ProgressBar
 
 
 private const val ARG_PARAM1 = "param1"
@@ -37,14 +38,29 @@ class SettingsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
+    // Necessary Views
+
     private lateinit var signOutButton: Button
-    private lateinit var appearanceButton: Button
+
     private lateinit var personalButton: Button
+    private lateinit var appearanceButton: Button
+    private lateinit var middleButton2: Button
+    private lateinit var appInfoButton: Button
 
     private lateinit var profilePicture: ImageView
 
     private lateinit var usernameTextView: TextView
     private lateinit var companyNameTextView: TextView
+
+    private lateinit var progressBar: ProgressBar
+
+    // Unnecessary Views
+
+    private lateinit var splitButton1: Button
+    private lateinit var splitButton2: Button
+    private lateinit var splitButton3: Button
+
+    //
 
     private lateinit var user: User
     private lateinit var uid: String
@@ -56,10 +72,14 @@ class SettingsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
     }
 
     override fun onCreateView(
@@ -67,31 +87,30 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-//        return inflater.inflate(R.layout.fragment_settings, container, false)
-
         val view: View = inflater.inflate(R.layout.fragment_settings, container, false)
 
+        // Main View in fragment
+
+        progressBar = view.findViewById(R.id.progress_bar)
+
         signOutButton = view.findViewById(R.id.sign_out_button)
-        appearanceButton = view.findViewById(R.id.appearance_button)
+
         personalButton = view.findViewById(R.id.personal_button)
+        appearanceButton = view.findViewById(R.id.appearance_button)
+        middleButton2 = view.findViewById(R.id.middle_button_2)
+        appInfoButton = view.findViewById(R.id.app_information_button)
 
         profilePicture = view.findViewById(R.id.profile_picture)
 
-        // TODO: Replace this with getting information from Firebase Realtime Database
+        usernameTextView = view.findViewById(R.id.username)
+        companyNameTextView = view.findViewById(R.id.company_name)
+
         profilePicture.setImageResource(R.drawable.person_icon)
         profilePicture.setOnClickListener {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             startActivityForResult(photoPickerIntent, REQUEST_PHOTO)
         }
-
-        usernameTextView = view.findViewById(R.id.username)
-        companyNameTextView = view.findViewById(R.id.company_name)
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-        uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
-
-        if (uid.isNotEmpty()) { getUserData() }
 
         personalButton.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.replace(
@@ -110,6 +129,16 @@ class SettingsFragment : Fragment() {
 
             alertDialog.show()
         }
+
+        // Additional and unnecessary Views in fragment
+
+        splitButton1 = view.findViewById(R.id.split_button_1)
+        splitButton2 = view.findViewById(R.id.split_button_2)
+        splitButton3 = view.findViewById(R.id.split_button_3)
+
+        if (uid.isNotEmpty()) { getUserData() }
+
+        setViewVisibility(false)
 
         return view
     }
@@ -132,9 +161,9 @@ class SettingsFragment : Fragment() {
             } catch (e: FileNotFoundException) {
                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show()
             }
-        } else {
+        }  /* else {
             Toast.makeText(context, "You haven't picked Image", Toast.LENGTH_LONG).show()
-        }
+        } */
     }
     private fun getUserData() {
 
@@ -151,8 +180,13 @@ class SettingsFragment : Fragment() {
 
                     profilePicture.setImageBitmap(image)
 
+                    setViewVisibility(true)
+
                 } catch (exception: Exception) {
-                    Log.i(TAG, user.toString())
+                    Toast.makeText(context,
+                        "Failed to download image from database", Toast.LENGTH_SHORT).show()
+
+                    setViewVisibility(true)
                 }
             }
 
@@ -168,9 +202,11 @@ class SettingsFragment : Fragment() {
         val newUserValues: Map<String, Any> = user.toMap()
 
         databaseReference.child(uid).updateChildren(newUserValues).addOnSuccessListener {
-                Toast.makeText(context, "Successfully updated information", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Successfully updated information",
+                    Toast.LENGTH_SHORT).show()
             }.addOnFailureListener {
-                Toast.makeText(context, "Unable to complete action", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Unable to complete action",
+                    Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -179,6 +215,47 @@ class SettingsFragment : Fragment() {
         selectedImage.compress(Bitmap.CompressFormat.PNG, 100, imageArray)
         val converted = imageArray.toByteArray()
         return java.util.Base64.getEncoder().encodeToString(converted)
+    }
+
+    private fun setViewVisibility(visible: Boolean) {
+        when (visible) {
+            true -> {
+                signOutButton.visibility = View.VISIBLE
+
+                personalButton.visibility = View.VISIBLE
+                appearanceButton.visibility = View.VISIBLE
+                middleButton2.visibility = View.VISIBLE
+                appInfoButton.visibility = View.VISIBLE
+
+                profilePicture.visibility = View.VISIBLE
+                usernameTextView.visibility = View.VISIBLE
+                companyNameTextView.visibility = View.VISIBLE
+
+                splitButton1.visibility = View.VISIBLE
+                splitButton2.visibility = View.VISIBLE
+                splitButton3.visibility = View.VISIBLE
+
+                progressBar.visibility = View.INVISIBLE
+            }
+            false -> {
+                signOutButton.visibility = View.INVISIBLE
+
+                personalButton.visibility = View.INVISIBLE
+                appearanceButton.visibility = View.INVISIBLE
+                middleButton2.visibility = View.INVISIBLE
+                appInfoButton.visibility = View.INVISIBLE
+
+                profilePicture.visibility = View.INVISIBLE
+                usernameTextView.visibility = View.INVISIBLE
+                companyNameTextView.visibility = View.INVISIBLE
+
+                splitButton1.visibility = View.INVISIBLE
+                splitButton2.visibility = View.INVISIBLE
+                splitButton3.visibility = View.INVISIBLE
+
+                progressBar.visibility = View.VISIBLE
+            }
+        }
     }
 
     companion object {

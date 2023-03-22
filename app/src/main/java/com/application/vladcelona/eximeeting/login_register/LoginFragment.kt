@@ -41,10 +41,13 @@ class LoginFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+        firebaseAuth = FirebaseAuth.getInstance()
     }
 
     override fun onCreateView(
@@ -53,8 +56,6 @@ class LoginFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_login, container, false)
-
-        firebaseAuth = FirebaseAuth.getInstance()
         
         emailEditText = view.findViewById(R.id.email_edittext)
         passwordEditText = view.findViewById(R.id.password_edittext)
@@ -70,18 +71,6 @@ class LoginFragment : Fragment() {
         password = passwordEditText.text!!.toString().trim()
 
         checkCredentials()
-
-        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
-                task: Task<AuthResult?> ->
-            if (task.isSuccessful) {
-                Log.i(TAG, "Starting new Intent: MainActivity")
-                startActivity(Intent(context, MainActivity::class.java))
-            } else {
-                Toast.makeText(context,
-                    "Failed to login! Please check your credentials!",
-                    Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 
     private fun checkCredentials() {
@@ -119,6 +108,22 @@ class LoginFragment : Fragment() {
         } else {
             passwordEditText.error = null
             passwordEditText.requestFocus()
+        }
+
+        loginUser()
+    }
+
+    private fun loginUser() {
+        firebaseAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener {
+                task: Task<AuthResult?> ->
+            if (task.isSuccessful) {
+                Log.i(TAG, "Starting new Intent: MainActivity")
+                startActivity(Intent(context, MainActivity::class.java))
+            } else {
+                Toast.makeText(context,
+                    "Failed to login! Please check your credentials!",
+                    Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

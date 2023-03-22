@@ -21,4 +21,5 @@
     <string name="company_new_name_string">Company\nName</string>
     <string name="edit_company_string">Edit company name</string>
     <string name="update_information_string">Update information</string>
+    <string name="application_info_string">Application Info</string>
 </resources>

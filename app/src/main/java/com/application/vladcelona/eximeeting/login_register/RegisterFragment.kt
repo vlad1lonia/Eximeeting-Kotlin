@@ -58,10 +58,16 @@ class RegisterFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
+
+
+        firebaseAuth = FirebaseAuth.getInstance()
+        profileImage = context?.let {
+            ContextCompat.getDrawable(it, R.drawable.person_icon)?.toBitmap() }!!
     }
 
     override fun onCreateView(
@@ -71,16 +77,11 @@ class RegisterFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_register, container, false)
 
-        firebaseAuth = FirebaseAuth.getInstance()
-
         fullNameEditText = view.findViewById(R.id.full_name_edittext) as EditText
         companyNameEditText = view.findViewById(R.id.company_name_edittext) as EditText
         birthDateEditText = view.findViewById(R.id.birth_date_edittext) as EditText
         emailEditText = view.findViewById(R.id.email_edittext) as EditText
         passwordEditText = view.findViewById(R.id.password_edittext) as EditText
-
-        profileImage = context?.let {
-            ContextCompat.getDrawable(it, R.drawable.completed_icon)?.toBitmap() }!!
 
         registerCompletedButton = view.findViewById(R.id.register_completed_button) as Button
 
