@@ -84,24 +84,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.home -> {
 //                Toast.makeText(this@MainActivity,
 //                    "You clicked home icon!", Toast.LENGTH_SHORT).show()
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
-                    UpcomingFragment.newInstance()).commit()
+                supportFragmentManager.beginTransaction().hide(CompletedFragment.newInstance())
+                    .hide(SettingsFragment.newInstance()).add(R.id.fragment_container,
+                    UpcomingFragment.newInstance(), null).addToBackStack(null).commit()
 //                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
                 return true
             }
             R.id.ended -> {
 //                Toast.makeText(this@MainActivity,
 //                    "You clicked completed icon!", Toast.LENGTH_SHORT).show()
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
-                    CompletedFragment.newInstance()).commit()
+                supportFragmentManager.beginTransaction().hide(UpcomingFragment.newInstance())
+                    .hide(SettingsFragment.newInstance()).add(R.id.fragment_container,
+                    CompletedFragment.newInstance(), null).addToBackStack(null).commit()
 //                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
                 return true
             }
             R.id.settings -> {
 //                Toast.makeText(this@MainActivity,
 //                    "You clicked settings icon!", Toast.LENGTH_SHORT).show()
-                supportFragmentManager.beginTransaction().replace(R.id.fragment_container,
-                    SettingsFragment.newInstance()).commit()
+                supportFragmentManager.beginTransaction().hide(UpcomingFragment.newInstance())
+                    .hide(CompletedFragment.newInstance()).add(R.id.fragment_container,
+                    SettingsFragment.newInstance(), null).addToBackStack(null).commit()
 //                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
                 return true
             }

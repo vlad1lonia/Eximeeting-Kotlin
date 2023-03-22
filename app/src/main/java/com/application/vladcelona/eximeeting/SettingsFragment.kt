@@ -90,7 +90,6 @@ class SettingsFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_settings, container, false)
 
         // Main View in fragment
-
         progressBar = view.findViewById(R.id.progress_bar)
 
         signOutButton = view.findViewById(R.id.sign_out_button)
@@ -113,8 +112,16 @@ class SettingsFragment : Fragment() {
         }
 
         personalButton.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.replace(
-                R.id.fragment_container, PersonalFragment.newInstance())?.commit()
+            val allFragments = ArrayList<Any>()
+            for (fragment in activity?.supportFragmentManager?.fragments!!) {
+                allFragments.add(fragment.toString())
+            }
+
+            Log.i(TAG, allFragments.joinToString { ", " })
+
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.hide(this@SettingsFragment)?.add(R.id.fragment_container,
+                    PersonalFragment.newInstance(), null)?.addToBackStack(null)?.commit()
         }
 
         signOutButton.setOnClickListener {
@@ -131,7 +138,6 @@ class SettingsFragment : Fragment() {
         }
 
         // Additional and unnecessary Views in fragment
-
         splitButton1 = view.findViewById(R.id.split_button_1)
         splitButton2 = view.findViewById(R.id.split_button_2)
         splitButton3 = view.findViewById(R.id.split_button_3)

@@ -103,6 +103,7 @@ class PersonalFragment : Fragment() {
 
         databaseReference.child(uid).updateChildren(newUserValues).addOnSuccessListener {
             Toast.makeText(context, "Successfully updated information", Toast.LENGTH_SHORT).show()
+            fragmentManager?.popBackStack()
         }.addOnFailureListener {
             Toast.makeText(context, "Unable to complete action", Toast.LENGTH_SHORT).show()
         }

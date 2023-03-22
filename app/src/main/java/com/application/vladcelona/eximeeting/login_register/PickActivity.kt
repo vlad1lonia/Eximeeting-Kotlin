@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -29,12 +28,18 @@ class PickActivity : AppCompatActivity() {
         Log.i(TAG, "PickActivity created")
         binding = ActivityPickBinding.inflate(layoutInflater)
 
-        val uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         // Check if user has an account in firebase
-        if (uid.isNotEmpty()) {
-            Toast.makeText(this@PickActivity,
-                "You have been logged in successfully", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this@PickActivity, MainActivity::class.java))
+        FirebaseAuth.getInstance().currentUser.let { it?.let { it1 ->
+            databaseReference.child(it1.uid).get().addOnCompleteListener {
+                    task: Task<DataSnapshot> ->
+                if (task.isSuccessful && task.result.exists()) {
+                    Toast.makeText(this@PickActivity,
+                        "You have been logged in successfully", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@PickActivity, MainActivity::class.java))
+                }
+            }
+        }
         }
 
         // Set up animation for PickActivity Views
