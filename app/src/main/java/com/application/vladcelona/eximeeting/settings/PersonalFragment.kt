@@ -1,14 +1,22 @@
-package com.application.vladcelona.eximeeting
+package com.application.vladcelona.eximeeting.settings
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
+import androidx.constraintlayout.widget.ConstraintLayout
+import com.application.vladcelona.eximeeting.MainActivity
+import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.User
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -28,6 +36,14 @@ class PersonalFragment : Fragment() {
 
     private lateinit var fullNameEditText: EditText
     private lateinit var companyNameEditText: EditText
+
+    private lateinit var passwordResetTextView: TextView
+
+    private lateinit var oldPasswordGroup: ConstraintLayout
+    private lateinit var newPasswordGroup: ConstraintLayout
+
+    private lateinit var oldPasswordEditText: EditText
+    private lateinit var newPasswordEditText: EditText
 
     private lateinit var updateInformationButton: Button
 
@@ -59,11 +75,24 @@ class PersonalFragment : Fragment() {
         fullNameEditText = view.findViewById(R.id.full_name_edit_text)
         companyNameEditText = view.findViewById(R.id.company_name_edit_text)
 
+        passwordResetTextView = view.findViewById(R.id.password_reset_text_view)
+
+        oldPasswordGroup = view.findViewById(R.id.old_password_group)
+        newPasswordGroup = view.findViewById(R.id.new_password_group)
+
+        oldPasswordEditText = view.findViewById(R.id.old_password_edit_text)
+        newPasswordEditText = view.findViewById(R.id.new_password_edit_text)
+
         updateInformationButton = view.findViewById(R.id.update_information_button)
+
+        passwordResetTextView.setOnClickListener {
+            oldPasswordGroup.visibility = View.VISIBLE
+            newPasswordGroup.visibility = View.VISIBLE
+        }
 
         updateInformationButton.setOnClickListener { updateInformation() }
 
-        return view;
+        return view
     }
 
     private fun updateInformation() {
@@ -75,24 +104,41 @@ class PersonalFragment : Fragment() {
 
     private fun checkCredentials() {
         if (editedFullName.isEmpty()) {
-            fullNameEditText.error = "Full name is required!"
-            fullNameEditText.requestFocus()
-            return
-        } else {
-            fullNameEditText.error = null
-            fullNameEditText.requestFocus()
+            editedFullName = user.fullName
         }
 
         if (editedCompanyName.isEmpty()) {
-            companyNameEditText.error = "Company name is required!"
-            companyNameEditText.requestFocus()
-            return
-        } else {
-            companyNameEditText.error = null
-            companyNameEditText.requestFocus()
+            editedCompanyName = user.companyName
         }
 
-        updateFirebase()
+        if (oldPasswordGroup.visibility == View.INVISIBLE
+            && newPasswordGroup.visibility == View.INVISIBLE) {
+            updateFirebase()
+        } else {
+            checkPasswordReset()
+        }
+    }
+
+    private fun checkPasswordReset() {
+        val oldPassword = oldPasswordEditText.text.toString().trim()
+        val newPassword = newPasswordEditText.text.toString().trim()
+
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(user.email, oldPassword)
+            .addOnCompleteListener { task: Task<AuthResult?> ->
+            if (task.isSuccessful) {
+                FirebaseAuth.getInstance().currentUser?.updatePassword(newPassword)
+                    ?.addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Log.i(TAG, "Successfully updated password")
+                        updateFirebase()
+                    }
+                }
+            } else {
+                Toast.makeText(context,
+                    "Failed to login! Please check your credentials!",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun updateFirebase() {

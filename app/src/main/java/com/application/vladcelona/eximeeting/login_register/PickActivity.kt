@@ -1,12 +1,18 @@
 package com.application.vladcelona.eximeeting.login_register
 
 import android.annotation.SuppressLint
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.NotificationCompat
 import com.application.vladcelona.eximeeting.*
 import com.application.vladcelona.eximeeting.databinding.ActivityPickBinding
 import com.google.android.gms.tasks.Task
@@ -14,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 import java.util.*
+
 
 private const val TAG = "PickActivity"
 
@@ -36,6 +43,8 @@ class PickActivity : AppCompatActivity() {
                 if (task.isSuccessful && task.result.exists()) {
                     Toast.makeText(this@PickActivity,
                         "You have been logged in successfully", Toast.LENGTH_SHORT).show()
+                    showNotification()
+
                     startActivity(Intent(this@PickActivity, MainActivity::class.java))
                 }
             }
@@ -69,5 +78,26 @@ class PickActivity : AppCompatActivity() {
         }
 
         setContentView(binding.root)
+    }
+
+    private fun showNotification() {
+        val intent = Intent(applicationContext, MainActivity::class.java)
+        val CHANNEL_ID = "MYCHANNEL"
+
+        val notificationChannel =
+            NotificationChannel(CHANNEL_ID, "name", NotificationManager.IMPORTANCE_HIGH)
+
+        val pendingIntent = PendingIntent.getActivity(applicationContext, 1, intent, 0)
+
+        val notification: Notification = Notification.Builder(applicationContext, CHANNEL_ID)
+            .setContentText("You have been registered successfully")
+            .setContentTitle("Eximeeting").setContentIntent(pendingIntent)
+            .setSmallIcon(R.mipmap.ic_launcher).setChannelId(CHANNEL_ID)
+            .build()
+
+        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
+        notificationManager.createNotificationChannel(notificationChannel)
+
+        notificationManager.notify(1, notification)
     }
 }

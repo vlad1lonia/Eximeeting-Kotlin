@@ -19,4 +19,9 @@
     <string name="edit_company_string">Edit company name</string>
     <string name="update_information_string">Update information</string>
     <string name="application_info_string">Application Info</string>
+    <string name="app_version">Version 1.01</string>
+    <string name="old_npassword_string">Old\nPassword</string>
+    <string name="old_password_string">Old password</string>
+    <string name="new_npassword_string">New\nPassword</string>
+    <string name="new_password_string">New password</string>
 </resources>

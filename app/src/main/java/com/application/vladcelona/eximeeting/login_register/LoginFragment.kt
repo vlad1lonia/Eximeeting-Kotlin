@@ -1,5 +1,7 @@
 package com.application.vladcelona.eximeeting.login_register
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +10,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -61,7 +64,7 @@ class LoginFragment : Fragment() {
         passwordEditText = view.findViewById(R.id.password_edittext)
 
         loginCompletedButton = view.findViewById(R.id.login_completed_button) as Button
-        loginCompletedButton.setOnClickListener { userLogin() }
+        loginCompletedButton.setOnClickListener { it.hideKeyboard(); userLogin() }
 
         return view
     }
@@ -118,6 +121,7 @@ class LoginFragment : Fragment() {
                 task: Task<AuthResult?> ->
             if (task.isSuccessful) {
                 Log.i(TAG, "Starting new Intent: MainActivity")
+
                 startActivity(Intent(context, MainActivity::class.java))
             } else {
                 Toast.makeText(context,
@@ -125,6 +129,12 @@ class LoginFragment : Fragment() {
                     Toast.LENGTH_SHORT).show()
             }
         }
+    }
+
+    @SuppressLint("ServiceCast")
+    fun View.hideKeyboard() {
+        val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
     companion object {

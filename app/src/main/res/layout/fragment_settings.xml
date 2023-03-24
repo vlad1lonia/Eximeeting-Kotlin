@@ -19,14 +19,37 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/profile_picture"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/common_google_signin_btn_icon_dark"
+        <FrameLayout
+            android:id="@+id/profile_picture_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingBottom="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/profile_picture"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"
+                android:layout_gravity="bottom|center_horizontal"
+                android:src="@drawable/common_google_signin_btn_icon_dark"
+                app:shapeAppearance="@style/roundedImageViewRounded"
+                app:strokeColor="@color/personal_green"
+                app:strokeWidth="1dp" />
+
+            <ImageView
+                android:id="@+id/profile_image_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/edit_icon"
+                android:backgroundTint="@color/black"
+                android:layout_gravity="bottom|right"
+                android:contentDescription="Simple" />
+
+        </FrameLayout>
 
         <TextView
             android:id="@+id/username"
@@ -39,7 +62,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/profile_picture" />
+            app:layout_constraintTop_toBottomOf="@+id/profile_picture_layout" />
 
         <TextView
             android:id="@+id/company_name"

@@ -8,7 +8,7 @@
     android:gravity="center"
     android:padding="8dp"
     android:layout_marginBottom="?attr/actionBarSize"
-    tools:context=".PersonalFragment">
+    tools:context=".settings.PersonalFragment">
 
     <TextView
         android:id="@+id/personal_info_text_view"
@@ -30,7 +30,6 @@
         android:layout_height="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toBottomOf="@+id/personal_info_text_view">
 
         <TextView
@@ -110,6 +109,119 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:ignore="RtlSymmetry" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/password_reset_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/company_name_group">
+
+        <TextView
+            android:id="@+id/password_reset_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_regular"
+            android:paddingEnd="14dp"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:text="Password reset"
+            android:textColor="#386a20"
+            android:textSize="20sp"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:placeholderTextColor="@color/enabled_button"
+            tools:ignore="RtlSymmetry" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/old_password_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/password_reset_text_view">
+
+            <TextView
+                android:id="@+id/old_password_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingEnd="14dp"
+                android:text="@string/old_npassword_string"
+                android:textColor="#386a20"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/old_password_edit_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:placeholderTextColor="@color/enabled_button"
+                tools:ignore="RtlSymmetry" />
+
+            <EditText
+                android:id="@+id/old_password_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/old_password_string"
+                android:inputType="text"
+                android:paddingEnd="8dp"
+                android:textColor="#386a20"
+                android:textSize="20sp"
+                app:drawableEndCompat="@drawable/edit_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/old_password_text_view"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlSymmetry" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/new_password_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="invisible"
+            app:layout_constraintTop_toBottomOf="@+id/old_password_group">
+
+            <TextView
+                android:id="@+id/new_password_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:paddingEnd="14dp"
+                android:text="@string/new_npassword_string"
+                android:textColor="#386a20"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintHorizontal_chainStyle="spread"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/new_password_edit_text"
+                app:layout_constraintTop_toTopOf="parent"
+                app:placeholderTextColor="@color/enabled_button"
+                tools:ignore="RtlSymmetry" />
+
+            <EditText
+                android:id="@+id/new_password_edit_text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_regular"
+                android:hint="@string/new_password_string"
+                android:inputType="text"
+                android:paddingEnd="8dp"
+                android:textColor="#386a20"
+                android:textSize="20sp"
+                app:drawableEndCompat="@drawable/edit_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/new_password_text_view"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlSymmetry,TextFields" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

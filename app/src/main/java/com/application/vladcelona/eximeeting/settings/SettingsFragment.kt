@@ -1,6 +1,6 @@
-package com.application.vladcelona.eximeeting
+package com.application.vladcelona.eximeeting.settings
 
-import android.app.Activity.RESULT_OK
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -8,30 +8,27 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
+import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.User
 import com.application.vladcelona.eximeeting.login_register.PickActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
-import android.util.*
-import android.widget.ProgressBar
 
+private const val TAG = "SettingsFragment"
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-
 private const val REQUEST_PHOTO = 100
-private const val TAG = "SettingsFragment"
+private const val REQUEST_CROP_PHOTO = 200
 
 class SettingsFragment : Fragment() {
     // TODO: Rename and change types of parameters
@@ -48,6 +45,7 @@ class SettingsFragment : Fragment() {
     private lateinit var appInfoButton: Button
 
     private lateinit var profilePicture: ImageView
+    private lateinit var profileImageEdit: ImageView
 
     private lateinit var usernameTextView: TextView
     private lateinit var companyNameTextView: TextView
@@ -100,6 +98,7 @@ class SettingsFragment : Fragment() {
         appInfoButton = view.findViewById(R.id.app_information_button)
 
         profilePicture = view.findViewById(R.id.profile_picture)
+        profileImageEdit = view.findViewById(R.id.profile_image_edit)
 
         usernameTextView = view.findViewById(R.id.username)
         companyNameTextView = view.findViewById(R.id.company_name)
@@ -112,16 +111,40 @@ class SettingsFragment : Fragment() {
         }
 
         personalButton.setOnClickListener {
-            val allFragments = ArrayList<Any>()
+
             for (fragment in activity?.supportFragmentManager?.fragments!!) {
-                allFragments.add(fragment.toString())
+                activity?.supportFragmentManager?.beginTransaction()?.hide(fragment)?.commit()
             }
 
-            Log.i(TAG, allFragments.joinToString { ", " })
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.hide(this@SettingsFragment)?.add(
+                    R.id.fragment_container,
+                    PersonalFragment.newInstance(), null)?.addToBackStack(null)?.commit()
+        }
+
+        appearanceButton.setOnClickListener {
+            Toast.makeText(context, "Sorry, this button is currently unavailable!",
+                Toast.LENGTH_SHORT).show()
+        }
+
+        middleButton2.setOnClickListener {
+            Toast.makeText(context, "Sorry, this button is currently unavailable!",
+                Toast.LENGTH_SHORT).show()
+        }
+
+        appInfoButton.setOnClickListener {
+
+//            Toast.makeText(context, "Sorry, this button is currently unavailable!",
+//                Toast.LENGTH_SHORT).show()
+
+            for (fragment in activity?.supportFragmentManager?.fragments!!) {
+                activity?.supportFragmentManager?.beginTransaction()?.hide(fragment)?.commit()
+            }
 
             activity?.supportFragmentManager?.beginTransaction()
-                ?.hide(this@SettingsFragment)?.add(R.id.fragment_container,
-                    PersonalFragment.newInstance(), null)?.addToBackStack(null)?.commit()
+                ?.hide(this@SettingsFragment)?.add(
+                    R.id.fragment_container,
+                    AppInfoFragment.newInstance(), null)?.addToBackStack(null)?.commit()
         }
 
         signOutButton.setOnClickListener {
@@ -153,23 +176,29 @@ class SettingsFragment : Fragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             try {
                 imageUri = data!!.data!!
                 val imageStream = imageUri.let { activity?.contentResolver?.openInputStream(it) }
                 Log.i(TAG, "$imageStream")
 
-                selectedImage = Bitmap.createScaledBitmap(BitmapFactory.decodeStream(imageStream),
-                    640, 640, false)
+                val selectedImageBitmap = BitmapFactory.decodeStream(imageStream)
+                Log.i(TAG, "${selectedImageBitmap.height}, ${selectedImageBitmap.width}")
+
+                val width = 640
+                val height = (width / (selectedImageBitmap.width.toDouble() /
+                        selectedImageBitmap.height)).toInt()
+
+                selectedImage = Bitmap.createScaledBitmap(selectedImageBitmap, 640, height, false)
                 profilePicture.setImageBitmap(selectedImage)
 
                 uploadProfileData()
             } catch (e: FileNotFoundException) {
                 Toast.makeText(context, "Something went wrong", Toast.LENGTH_LONG).show()
             }
-        }  /* else {
+        } else {
             Toast.makeText(context, "You haven't picked Image", Toast.LENGTH_LONG).show()
-        } */
+        }
     }
     private fun getUserData() {
 
@@ -189,16 +218,20 @@ class SettingsFragment : Fragment() {
                     setViewVisibility(true)
 
                 } catch (exception: Exception) {
-                    Toast.makeText(context,
-                        "Failed to download image from database", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Failed to download image from database", Toast.LENGTH_SHORT
+                    ).show()
 
                     setViewVisibility(true)
                 }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(activity, "Failed to download data from Database",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    activity, "Failed to download data from Database",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
     }
@@ -208,11 +241,15 @@ class SettingsFragment : Fragment() {
         val newUserValues: Map<String, Any> = user.toMap()
 
         databaseReference.child(uid).updateChildren(newUserValues).addOnSuccessListener {
-                Toast.makeText(context, "Successfully updated information",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context, "Successfully updated information",
+                    Toast.LENGTH_SHORT
+                ).show()
             }.addOnFailureListener {
-                Toast.makeText(context, "Unable to complete action",
-                    Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context, "Unable to complete action",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
     }
 
@@ -234,6 +271,8 @@ class SettingsFragment : Fragment() {
                 appInfoButton.visibility = View.VISIBLE
 
                 profilePicture.visibility = View.VISIBLE
+                profileImageEdit.visibility = View.VISIBLE
+
                 usernameTextView.visibility = View.VISIBLE
                 companyNameTextView.visibility = View.VISIBLE
 
@@ -252,6 +291,8 @@ class SettingsFragment : Fragment() {
                 appInfoButton.visibility = View.INVISIBLE
 
                 profilePicture.visibility = View.INVISIBLE
+                profileImageEdit.visibility = View.INVISIBLE
+
                 usernameTextView.visibility = View.INVISIBLE
                 companyNameTextView.visibility = View.INVISIBLE
 
@@ -262,6 +303,18 @@ class SettingsFragment : Fragment() {
                 progressBar.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun cropToSquare(bitmap: Bitmap): Bitmap? {
+        val width = bitmap.width
+        val height = bitmap.height
+        val newWidth = if (height > width) width else height
+        val newHeight = if (height > width) height - (height - width) else height
+        var cropW = (width - height) / 2
+        cropW = if (cropW < 0) 0 else cropW
+        var cropH = (height - width) / 2
+        cropH = if (cropH < 0) 0 else cropH
+        return Bitmap.createBitmap(bitmap, cropW, cropH, newWidth, newHeight)
     }
 
     companion object {
