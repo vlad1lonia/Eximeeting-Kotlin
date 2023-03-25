@@ -88,20 +88,20 @@ class SettingsFragment : Fragment() {
         val view: View = inflater.inflate(R.layout.fragment_settings, container, false)
 
         // Main View in fragment
-        progressBar = view.findViewById(R.id.progress_bar)
+        progressBar = view.findViewById(R.id.progress_bar) as ProgressBar
 
-        signOutButton = view.findViewById(R.id.sign_out_button)
+        signOutButton = view.findViewById(R.id.sign_out_button) as Button
 
-        personalButton = view.findViewById(R.id.personal_button)
-        appearanceButton = view.findViewById(R.id.appearance_button)
-        middleButton2 = view.findViewById(R.id.middle_button_2)
-        appInfoButton = view.findViewById(R.id.app_information_button)
+        personalButton = view.findViewById(R.id.personal_button) as Button
+        appearanceButton = view.findViewById(R.id.appearance_button) as Button
+        middleButton2 = view.findViewById(R.id.middle_button_2) as Button
+        appInfoButton = view.findViewById(R.id.app_information_button) as Button
 
-        profilePicture = view.findViewById(R.id.profile_picture)
-        profileImageEdit = view.findViewById(R.id.profile_image_edit)
+        profilePicture = view.findViewById(R.id.profile_picture) as ImageView
+        profileImageEdit = view.findViewById(R.id.profile_image_edit) as ImageView
 
-        usernameTextView = view.findViewById(R.id.username)
-        companyNameTextView = view.findViewById(R.id.company_name)
+        usernameTextView = view.findViewById(R.id.username) as TextView
+        companyNameTextView = view.findViewById(R.id.company_name) as TextView
 
         profilePicture.setImageResource(R.drawable.person_icon)
         profilePicture.setOnClickListener {
@@ -153,7 +153,10 @@ class SettingsFragment : Fragment() {
 
             alertDialog.setPositiveButton("Sign out") { _: DialogInterface, _: Int ->
                 FirebaseAuth.getInstance().signOut()
-                startActivity(Intent(activity, PickActivity::class.java))
+                val intent = Intent(activity, PickActivity::class.java)
+                val bundle = Bundle(); bundle.putBoolean("login_state", false)
+                intent.putExtras(bundle)
+                startActivity(intent)
             }
             alertDialog.setNegativeButton("No", null)
 

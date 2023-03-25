@@ -9,6 +9,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -43,27 +44,29 @@ class PickActivity : AppCompatActivity() {
                 if (task.isSuccessful && task.result.exists()) {
                     Toast.makeText(this@PickActivity,
                         "You have been logged in successfully", Toast.LENGTH_SHORT).show()
-                    showNotification()
-
                     startActivity(Intent(this@PickActivity, MainActivity::class.java))
                 }
             }
         }
         }
 
-        // Set up animation for PickActivity Views
-        val appNameAnimation = AnimationUtils.loadAnimation(
-            this@PickActivity, R.anim.app_name_animation)
-        val descriptionAnimation = AnimationUtils.loadAnimation(
-            this@PickActivity, R.anim.description_animation)
-        val buttonsAnimation = AnimationUtils.loadAnimation(
-            this@PickActivity, R.anim.buttons_animation)
+        binding.startScreenAppName.visibility = View.VISIBLE
+        binding.startScreenDescription.visibility = View.VISIBLE
+        binding.buttonsGroup.visibility = View.VISIBLE
 
-        // Apply animations to Views
-        binding.startScreenAppName.startAnimation(appNameAnimation)
-        binding.startScreenDescription.startAnimation(descriptionAnimation)
-        binding.loginButton.startAnimation(buttonsAnimation)
-        binding.registerButton.startAnimation(buttonsAnimation)
+//        // Set up animation for PickActivity Views
+//        val appNameAnimation = AnimationUtils.loadAnimation(
+//            this@PickActivity, R.anim.app_name_animation)
+//        val descriptionAnimation = AnimationUtils.loadAnimation(
+//            this@PickActivity, R.anim.description_animation)
+//        val buttonsAnimation = AnimationUtils.loadAnimation(
+//            this@PickActivity, R.anim.buttons_animation)
+
+//        // Apply animations to Views
+//        binding.startScreenAppName.startAnimation(appNameAnimation)
+//        binding.startScreenDescription.startAnimation(descriptionAnimation)
+//        binding.loginButton.startAnimation(buttonsAnimation)
+//        binding.registerButton.startAnimation(buttonsAnimation)
 
         binding.loginButton.setOnClickListener {
             Log.i(TAG, "Creating LoginActivity")
@@ -78,26 +81,5 @@ class PickActivity : AppCompatActivity() {
         }
 
         setContentView(binding.root)
-    }
-
-    private fun showNotification() {
-        val intent = Intent(applicationContext, MainActivity::class.java)
-        val CHANNEL_ID = "MYCHANNEL"
-
-        val notificationChannel =
-            NotificationChannel(CHANNEL_ID, "name", NotificationManager.IMPORTANCE_HIGH)
-
-        val pendingIntent = PendingIntent.getActivity(applicationContext, 1, intent, 0)
-
-        val notification: Notification = Notification.Builder(applicationContext, CHANNEL_ID)
-            .setContentText("You have been registered successfully")
-            .setContentTitle("Eximeeting").setContentIntent(pendingIntent)
-            .setSmallIcon(R.mipmap.ic_launcher).setChannelId(CHANNEL_ID)
-            .build()
-
-        val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
-        notificationManager.createNotificationChannel(notificationChannel)
-
-        notificationManager.notify(1, notification)
     }
 }

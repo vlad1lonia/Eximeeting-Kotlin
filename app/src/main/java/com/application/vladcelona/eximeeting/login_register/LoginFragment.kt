@@ -60,8 +60,8 @@ class LoginFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_login, container, false)
         
-        emailEditText = view.findViewById(R.id.email_edittext)
-        passwordEditText = view.findViewById(R.id.password_edittext)
+        emailEditText = view.findViewById(R.id.email_edittext) as EditText
+        passwordEditText = view.findViewById(R.id.password_edittext) as EditText
 
         loginCompletedButton = view.findViewById(R.id.login_completed_button) as Button
         loginCompletedButton.setOnClickListener { it.hideKeyboard(); userLogin() }

@@ -47,7 +47,7 @@ class AppInfoFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_app_info, container, false)
 
-        appQRCode = view.findViewById(R.id.app_qr_code)
+        appQRCode = view.findViewById(R.id.app_qr_code) as ImageView
         setQRCode()
 
         return view

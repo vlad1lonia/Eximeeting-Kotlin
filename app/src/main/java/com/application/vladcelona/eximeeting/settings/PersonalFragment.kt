@@ -72,18 +72,18 @@ class PersonalFragment : Fragment() {
 
         if (uid.isNotEmpty()) { getUserData() }
 
-        fullNameEditText = view.findViewById(R.id.full_name_edit_text)
-        companyNameEditText = view.findViewById(R.id.company_name_edit_text)
+        fullNameEditText = view.findViewById(R.id.full_name_edit_text) as EditText
+        companyNameEditText = view.findViewById(R.id.company_name_edit_text) as EditText
 
-        passwordResetTextView = view.findViewById(R.id.password_reset_text_view)
+        passwordResetTextView = view.findViewById(R.id.password_reset_text_view) as TextView
 
-        oldPasswordGroup = view.findViewById(R.id.old_password_group)
-        newPasswordGroup = view.findViewById(R.id.new_password_group)
+        oldPasswordGroup = view.findViewById(R.id.old_password_group) as ConstraintLayout
+        newPasswordGroup = view.findViewById(R.id.new_password_group) as ConstraintLayout
 
-        oldPasswordEditText = view.findViewById(R.id.old_password_edit_text)
-        newPasswordEditText = view.findViewById(R.id.new_password_edit_text)
+        oldPasswordEditText = view.findViewById(R.id.old_password_edit_text) as EditText
+        newPasswordEditText = view.findViewById(R.id.new_password_edit_text) as EditText
 
-        updateInformationButton = view.findViewById(R.id.update_information_button)
+        updateInformationButton = view.findViewById(R.id.update_information_button) as Button
 
         passwordResetTextView.setOnClickListener {
             oldPasswordGroup.visibility = View.VISIBLE
