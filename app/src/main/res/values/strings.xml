@@ -27,4 +27,5 @@
     <string name="old_password_string">Old password</string>
     <string name="new_npassword_string">New\nPassword</string>
     <string name="new_password_string">New password</string>
+    <string name="visiting_card_string">Visiting card</string>
 </resources>
