@@ -20,7 +20,7 @@ data class Event(
             val moderators: ArrayList<String> = ArrayList(),
 
             // TODO: Add business programme and map (also add for pavilions if possible)
-){
+) {
 
     // Function for converting eventStatusCode to the String (Text)
     fun convertEventStatus(): String {
