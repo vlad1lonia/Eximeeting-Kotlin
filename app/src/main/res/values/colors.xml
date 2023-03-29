@@ -14,8 +14,9 @@
     <color name="disabled_button">#d9e7cb</color>
     <color name="sign_out_button">#AAAAAA</color>
 
-    <!--  When user logs in they/them can change their theme colors  -->
+    <!--  Then user logs in they/them can change their theme colors  -->
     <!--  Green color is selected by default  -->
+
     <color name="personal_red">#A52A2A</color>
     <color name="personal_light_red">#FAA0A0</color>
     <color name="personal_red_background">#FFE4E1</color>
