@@ -13,8 +13,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -22,6 +20,7 @@ import androidx.fragment.app.Fragment
 import com.application.vladcelona.eximeeting.MainActivity
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.User
+import com.application.vladcelona.eximeeting.databinding.FragmentRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.io.ByteArrayOutputStream
@@ -39,6 +38,8 @@ class RegisterFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    
+    private lateinit var binding: FragmentRegisterBinding
 
     private lateinit var firebaseAuth: FirebaseAuth
 
@@ -51,14 +52,6 @@ class RegisterFragment : Fragment() {
 
     private lateinit var profileImage: Bitmap
 
-    private lateinit var fullNameEditText: EditText
-    private lateinit var companyNameEditText: EditText
-    private lateinit var birthDateEditText: EditText
-    private lateinit var emailEditText: EditText
-    private lateinit var passwordEditText: EditText
-
-    private lateinit var registerCompletedButton: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -66,8 +59,7 @@ class RegisterFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-
-
+        
         firebaseAuth = FirebaseAuth.getInstance()
         profileImage = context?.let {
             ContextCompat.getDrawable(it, R.drawable.person_icon)?.toBitmap() }!!
@@ -76,19 +68,11 @@ class RegisterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_register, container, false)
+        binding = FragmentRegisterBinding.inflate(inflater, container, false)
 
-        fullNameEditText = view.findViewById(R.id.full_name_edittext) as EditText
-        companyNameEditText = view.findViewById(R.id.company_name_edittext) as EditText
-        birthDateEditText = view.findViewById(R.id.birth_date_edittext) as EditText
-        emailEditText = view.findViewById(R.id.email_edittext) as EditText
-        passwordEditText = view.findViewById(R.id.password_edittext) as EditText
-
-        registerCompletedButton = view.findViewById(R.id.register_completed_button) as Button
-
-        birthDateEditText.addTextChangedListener(object : TextWatcher {
+        binding.birthDateEditText.addTextChangedListener(object : TextWatcher {
 
             private var currentString = ""
             private val dateFormat = "DDMMYYYY"
@@ -137,8 +121,8 @@ class RegisterFragment : Fragment() {
                     selection = if (selection < 0) 0 else selection
                     currentString = cleanString
 
-                    birthDateEditText.setText(currentString)
-                    birthDateEditText.setSelection(if (selection < currentString.length)
+                    binding.birthDateEditText.setText(currentString)
+                    binding.birthDateEditText.setSelection(if (selection < currentString.length)
                         selection else currentString.length)
                 }
             }
@@ -148,17 +132,17 @@ class RegisterFragment : Fragment() {
             override fun afterTextChanged(sequence: Editable) {}
         })
 
-        registerCompletedButton.setOnClickListener { it.hideKeyboard(); registerUser() }
+        binding.registerCompletedButton.setOnClickListener { it.hideKeyboard(); registerUser() }
 
-        return view
+        return binding.root
     }
 
     private fun registerUser() {
-        fullName = fullNameEditText.text.toString().trim()
-        companyName = companyNameEditText.text.toString().trim()
-        email = emailEditText.text.toString().trim()
-        birthDate = birthDateEditText.text.toString().trim()
-        password = passwordEditText.text.toString().trim()
+        fullName = binding.fullNameEditText.text.toString().trim()
+        companyName = binding.companyNameEditText.text.toString().trim()
+        email = binding.emailEditText.text.toString().trim()
+        birthDate = binding.birthDateEditText.text.toString().trim()
+        password = binding.passwordEditText.text.toString().trim()
 
         profileImageString = bitmapToString()
         checkCredentials()
@@ -166,66 +150,66 @@ class RegisterFragment : Fragment() {
 
     private fun checkCredentials() {
         if (fullName.isEmpty()) {
-            fullNameEditText.error = "Full name is required!"
-            fullNameEditText.requestFocus()
+            binding.fullNameEditText.error = "Full name is required!"
+            binding.fullNameEditText.requestFocus()
             return
         } else {
-            fullNameEditText.error = null
-            fullNameEditText.requestFocus()
+            binding.fullNameEditText.error = null
+            binding.fullNameEditText.requestFocus()
         }
 
         if (companyName.isEmpty()) {
-            companyNameEditText.error = "Company name is required!"
-            companyNameEditText.requestFocus()
+            binding.companyNameEditText.error = "Company name is required!"
+            binding.companyNameEditText.requestFocus()
             return
         } else {
-            companyNameEditText.error = null
-            companyNameEditText.requestFocus()
+            binding.companyNameEditText.error = null
+            binding.companyNameEditText.requestFocus()
         }
 
         if (birthDate.isEmpty()) {
-            birthDateEditText.error = "birthDate is required!"
-            birthDateEditText.requestFocus()
+            binding.birthDateEditText.error = "birthDate is required!"
+            binding.birthDateEditText.requestFocus()
             return
         } else {
-            birthDateEditText.error = null
-            birthDateEditText.requestFocus()
+            binding.birthDateEditText.error = null
+            binding.birthDateEditText.requestFocus()
         }
 
         if (email.isEmpty()) {
-            emailEditText.error = "Email is required!"
-            emailEditText.requestFocus()
+            binding.emailEditText.error = "Email is required!"
+            binding.emailEditText.requestFocus()
             return
         } else {
-            emailEditText.error = null
-            emailEditText.requestFocus()
+            binding.emailEditText.error = null
+            binding.emailEditText.requestFocus()
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailEditText.error = "Please provide valid email!"
-            emailEditText.requestFocus()
+            binding.emailEditText.error = "Provide valid email!"
+            binding.emailEditText.requestFocus()
             return
         } else {
-            emailEditText.error = null
-            emailEditText.requestFocus()
+            binding.emailEditText.error = null
+            binding.emailEditText.requestFocus()
         }
 
         if (password.isEmpty()) {
-            passwordEditText.error = "Password is required!"
-            passwordEditText.requestFocus()
+            binding.passwordEditText.error = "Password is required!"
+            binding.passwordEditText.requestFocus()
             return
         } else {
-            passwordEditText.error = null
-            passwordEditText.requestFocus()
+            binding.passwordEditText.error = null
+            binding.passwordEditText.requestFocus()
         }
 
         if (password.length < 6) {
-            passwordEditText.error = "Password should contain at least 6 characters"
-            passwordEditText.requestFocus()
+            binding.passwordEditText.error = "Password should contain at least 6 characters"
+            binding.passwordEditText.requestFocus()
             return
         } else {
-            passwordEditText.error = null
-            passwordEditText.requestFocus()
+            binding.passwordEditText.error = null
+            binding.passwordEditText.requestFocus()
         }
 
         createAccount()

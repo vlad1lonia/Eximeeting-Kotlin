@@ -5,8 +5,8 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.application.vladcelona.eximeeting.databinding.ActivityMainBinding
 import com.application.vladcelona.eximeeting.settings.SettingsFragment
 import com.google.android.material.navigation.NavigationView
@@ -17,25 +17,14 @@ private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var layout: ConstraintLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         val firebaseDatabase = FirebaseDatabase.getInstance()
-        val databaseReference = firebaseDatabase.getReference("Users")
+        firebaseDatabase.getReference("Users")
 
         setContent()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        Log.i(TAG, "Activity onStart")
-    }
-
-    override fun onRestart() {
-        super.onRestart()
-        Log.i(TAG, "Activity onRestart")
     }
 
     private fun setContent() {
@@ -77,33 +66,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.home -> {
-//                Toast.makeText(this@MainActivity,
-//                    "You clicked home icon!", Toast.LENGTH_SHORT).show()
-                supportFragmentManager.beginTransaction().hide(CompletedFragment.newInstance())
-                    .hide(SettingsFragment.newInstance()).add(R.id.fragment_container,
-                    UpcomingFragment.newInstance(), null).addToBackStack(null).commit()
-//                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
+                onItemPressed(UpcomingFragment.newInstance(),
+                    CompletedFragment.newInstance(), SettingsFragment.newInstance())
                 return true
             }
             R.id.ended -> {
-//                Toast.makeText(this@MainActivity,
-//                    "You clicked completed icon!", Toast.LENGTH_SHORT).show()
-                supportFragmentManager.beginTransaction().hide(UpcomingFragment.newInstance())
-                    .hide(SettingsFragment.newInstance()).add(R.id.fragment_container,
-                    CompletedFragment.newInstance(), null).addToBackStack(null).commit()
-//                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
+                onItemPressed(CompletedFragment.newInstance(),
+                    UpcomingFragment.newInstance(), SettingsFragment.newInstance())
                 return true
             }
             R.id.settings -> {
-//                Toast.makeText(this@MainActivity,
-//                    "You clicked settings icon!", Toast.LENGTH_SHORT).show()
-                supportFragmentManager.beginTransaction().hide(UpcomingFragment.newInstance())
-                    .hide(CompletedFragment.newInstance()).add(R.id.fragment_container,
-                    SettingsFragment.newInstance(), null).addToBackStack(null).commit()
-//                binding.bottomNavigationBar.getOrCreateBadge(item.itemId).number++
+                onItemPressed(SettingsFragment.newInstance(),
+                    UpcomingFragment.newInstance(), CompletedFragment.newInstance())
                 return true
             }
             else -> return false
         }
+    }
+
+    private fun onItemPressed(chosenFragment: Fragment, hideFirstFragment: Fragment,
+                              hideSecondFragment: Fragment) {
+        supportFragmentManager.beginTransaction().hide(hideFirstFragment).hide(hideSecondFragment)
+            .add(R.id.fragment_container, chosenFragment, null).addToBackStack(null).commit()
     }
 }

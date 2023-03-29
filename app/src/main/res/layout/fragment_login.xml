@@ -48,7 +48,7 @@
 
             <!--this is the actual edit text which takes the input-->
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_edittext"
+                android:id="@+id/email_edit_text"
                 android:singleLine="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
@@ -74,7 +74,7 @@
 
             <!--this is the actual edit text which takes the input-->
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password_edittext"
+                android:id="@+id/password_edit_text"
                 android:singleLine="true"
                 android:inputType="textPassword"
                 android:layout_width="match_parent"

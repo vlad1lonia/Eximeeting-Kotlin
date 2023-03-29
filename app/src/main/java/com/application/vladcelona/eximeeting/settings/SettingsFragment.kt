@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
@@ -17,6 +18,7 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.User
+import com.application.vladcelona.eximeeting.databinding.FragmentSettingsBinding
 import com.application.vladcelona.eximeeting.login_register.PickActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -35,30 +37,7 @@ class SettingsFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    // Necessary Views
-
-    private lateinit var signOutButton: Button
-
-    private lateinit var personalButton: Button
-    private lateinit var appearanceButton: Button
-    private lateinit var middleButton2: Button
-    private lateinit var appInfoButton: Button
-
-    private lateinit var profilePicture: ImageView
-    private lateinit var profileImageEdit: ImageView
-
-    private lateinit var usernameTextView: TextView
-    private lateinit var companyNameTextView: TextView
-
-    private lateinit var progressBar: ProgressBar
-
-    // Unnecessary Views
-
-    private lateinit var splitButton1: Button
-    private lateinit var splitButton2: Button
-    private lateinit var splitButton3: Button
-
-    //
+    private lateinit var binding: FragmentSettingsBinding
 
     private lateinit var user: User
     private lateinit var uid: String
@@ -70,6 +49,8 @@ class SettingsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
 
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)
@@ -85,69 +66,32 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        val view: View = inflater.inflate(R.layout.fragment_settings, container, false)
+        binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
-        // Main View in fragment
-        progressBar = view.findViewById(R.id.progress_bar) as ProgressBar
-
-        signOutButton = view.findViewById(R.id.sign_out_button) as Button
-
-        personalButton = view.findViewById(R.id.personal_button) as Button
-        appearanceButton = view.findViewById(R.id.appearance_button) as Button
-        middleButton2 = view.findViewById(R.id.middle_button_2) as Button
-        appInfoButton = view.findViewById(R.id.app_information_button) as Button
-
-        profilePicture = view.findViewById(R.id.profile_picture) as ImageView
-        profileImageEdit = view.findViewById(R.id.profile_image_edit) as ImageView
-
-        usernameTextView = view.findViewById(R.id.username) as TextView
-        companyNameTextView = view.findViewById(R.id.company_name) as TextView
-
-        profilePicture.setImageResource(R.drawable.person_icon)
-        profilePicture.setOnClickListener {
+        binding.profilePicture.setImageResource(R.drawable.person_icon)
+        binding.profilePicture.setOnClickListener {
             val photoPickerIntent = Intent(Intent.ACTION_PICK)
             photoPickerIntent.type = "image/*"
             startActivityForResult(photoPickerIntent, REQUEST_PHOTO)
         }
 
-        personalButton.setOnClickListener {
-
-            for (fragment in activity?.supportFragmentManager?.fragments!!) {
-                activity?.supportFragmentManager?.beginTransaction()?.hide(fragment)?.commit()
-            }
-
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.hide(this@SettingsFragment)?.add(
-                    R.id.fragment_container,
-                    PersonalFragment.newInstance(), null)?.addToBackStack(null)?.commit()
+        binding.personalButton.setOnClickListener {
+            moveToFragment(PersonalFragment.newInstance(), true)
         }
 
-        appearanceButton.setOnClickListener {
-            Toast.makeText(context, "Sorry, this button is currently unavailable!",
-                Toast.LENGTH_SHORT).show()
+        binding.appearanceButton.setOnClickListener {
+            moveToFragment(AppearanceFragment.newInstance(), false)
         }
 
-        middleButton2.setOnClickListener {
-            Toast.makeText(context, "Sorry, this button is currently unavailable!",
-                Toast.LENGTH_SHORT).show()
+        binding.businessCardButton.setOnClickListener {
+            moveToFragment(BusinessCardFragment.newInstance(), true)
         }
 
-        appInfoButton.setOnClickListener {
-
-//            Toast.makeText(context, "Sorry, this button is currently unavailable!",
-//                Toast.LENGTH_SHORT).show()
-
-            for (fragment in activity?.supportFragmentManager?.fragments!!) {
-                activity?.supportFragmentManager?.beginTransaction()?.hide(fragment)?.commit()
-            }
-
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.hide(this@SettingsFragment)?.add(
-                    R.id.fragment_container,
-                    AppInfoFragment.newInstance(), null)?.addToBackStack(null)?.commit()
+        binding.appInformationButton.setOnClickListener {
+            moveToFragment(AppInfoFragment.newInstance(), true)
         }
 
-        signOutButton.setOnClickListener {
+        binding.signOutButton.setOnClickListener {
             val alertDialog = AlertDialog.Builder(activity, R.style.AlertDialogTheme)
             alertDialog.setTitle("Are you sure you want to sign out?")
 
@@ -163,16 +107,10 @@ class SettingsFragment : Fragment() {
             alertDialog.show()
         }
 
-        // Additional and unnecessary Views in fragment
-        splitButton1 = view.findViewById(R.id.split_button_1)
-        splitButton2 = view.findViewById(R.id.split_button_2)
-        splitButton3 = view.findViewById(R.id.split_button_3)
-
         if (uid.isNotEmpty()) { getUserData() }
-
         setViewVisibility(false)
 
-        return view
+        return binding.root
     }
 
     @Deprecated("Deprecated in Java")
@@ -193,7 +131,7 @@ class SettingsFragment : Fragment() {
                         selectedImageBitmap.height)).toInt()
 
                 selectedImage = Bitmap.createScaledBitmap(selectedImageBitmap, 640, height, false)
-                profilePicture.setImageBitmap(selectedImage)
+                binding.profilePicture.setImageBitmap(selectedImage)
 
                 uploadProfileData()
             } catch (e: FileNotFoundException) {
@@ -203,20 +141,21 @@ class SettingsFragment : Fragment() {
             Toast.makeText(context, "You haven't picked Image", Toast.LENGTH_LONG).show()
         }
     }
+
     private fun getUserData() {
 
         databaseReference.child(uid).addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
                 user = snapshot.getValue(User::class.java)!!
-                usernameTextView.text = user.fullName
-                companyNameTextView.text = user.companyName
+                binding.usernameTextView.text = user.fullName
+                binding.companyNameTextView.text = user.companyName
 
                 try {
                     val imageBytes = Base64.decode(user.profileImage, 0)
                     val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 
-                    profilePicture.setImageBitmap(image)
+                    binding.profilePicture.setImageBitmap(image)
 
                     setViewVisibility(true)
 
@@ -244,16 +183,16 @@ class SettingsFragment : Fragment() {
         val newUserValues: Map<String, Any> = user.toMap()
 
         databaseReference.child(uid).updateChildren(newUserValues).addOnSuccessListener {
-                Toast.makeText(
-                    context, "Successfully updated information",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }.addOnFailureListener {
-                Toast.makeText(
-                    context, "Unable to complete action",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+            Toast.makeText(
+                context, "Successfully updated information",
+                Toast.LENGTH_SHORT
+            ).show()
+        }.addOnFailureListener {
+            Toast.makeText(
+                context, "Unable to complete action",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
     }
 
     private fun bitmapToString(): String {
@@ -266,58 +205,64 @@ class SettingsFragment : Fragment() {
     private fun setViewVisibility(visible: Boolean) {
         when (visible) {
             true -> {
-                signOutButton.visibility = View.VISIBLE
+                binding.signOutButton.visibility = View.VISIBLE
 
-                personalButton.visibility = View.VISIBLE
-                appearanceButton.visibility = View.VISIBLE
-                middleButton2.visibility = View.VISIBLE
-                appInfoButton.visibility = View.VISIBLE
+                binding.personalButton.visibility = View.VISIBLE
+                binding.appearanceButton.visibility = View.VISIBLE
+                binding.businessCardButton.visibility = View.VISIBLE
+                binding.appInformationButton.visibility = View.VISIBLE
+                binding.profilePicture.visibility = View.VISIBLE
+                binding.profileImageEdit.visibility = View.VISIBLE
 
-                profilePicture.visibility = View.VISIBLE
-                profileImageEdit.visibility = View.VISIBLE
+                binding.usernameTextView.visibility = View.VISIBLE
+                binding.companyNameTextView.visibility = View.VISIBLE
 
-                usernameTextView.visibility = View.VISIBLE
-                companyNameTextView.visibility = View.VISIBLE
+                binding.splitButton1.visibility = View.VISIBLE
+                binding.splitButton2.visibility = View.VISIBLE
+                binding.splitButton3.visibility = View.VISIBLE
 
-                splitButton1.visibility = View.VISIBLE
-                splitButton2.visibility = View.VISIBLE
-                splitButton3.visibility = View.VISIBLE
-
-                progressBar.visibility = View.INVISIBLE
+                binding.progressBar.visibility = View.INVISIBLE
             }
             false -> {
-                signOutButton.visibility = View.INVISIBLE
+                binding.signOutButton.visibility = View.INVISIBLE
 
-                personalButton.visibility = View.INVISIBLE
-                appearanceButton.visibility = View.INVISIBLE
-                middleButton2.visibility = View.INVISIBLE
-                appInfoButton.visibility = View.INVISIBLE
+                binding.personalButton.visibility = View.INVISIBLE
+                binding.appearanceButton.visibility = View.INVISIBLE
+                binding.businessCardButton.visibility = View.INVISIBLE
+                binding.appInformationButton.visibility = View.INVISIBLE
 
-                profilePicture.visibility = View.INVISIBLE
-                profileImageEdit.visibility = View.INVISIBLE
+                binding.profilePicture.visibility = View.INVISIBLE
+                binding.profileImageEdit.visibility = View.INVISIBLE
 
-                usernameTextView.visibility = View.INVISIBLE
-                companyNameTextView.visibility = View.INVISIBLE
+                binding.usernameTextView.visibility = View.INVISIBLE
+                binding.companyNameTextView.visibility = View.INVISIBLE
 
-                splitButton1.visibility = View.INVISIBLE
-                splitButton2.visibility = View.INVISIBLE
-                splitButton3.visibility = View.INVISIBLE
+                binding.splitButton1.visibility = View.INVISIBLE
+                binding.splitButton2.visibility = View.INVISIBLE
+                binding.splitButton3.visibility = View.INVISIBLE
 
-                progressBar.visibility = View.VISIBLE
+                binding.progressBar.visibility = View.VISIBLE
             }
         }
     }
 
-    private fun cropToSquare(bitmap: Bitmap): Bitmap? {
-        val width = bitmap.width
-        val height = bitmap.height
-        val newWidth = if (height > width) width else height
-        val newHeight = if (height > width) height - (height - width) else height
-        var cropW = (width - height) / 2
-        cropW = if (cropW < 0) 0 else cropW
-        var cropH = (height - width) / 2
-        cropH = if (cropH < 0) 0 else cropH
-        return Bitmap.createBitmap(bitmap, cropW, cropH, newWidth, newHeight)
+    private fun moveToFragment(nextFragment: Fragment, available: Boolean) {
+        when (available) {
+            true -> {
+                for (fragment in activity?.supportFragmentManager?.fragments!!) {
+                    activity?.supportFragmentManager?.beginTransaction()?.hide(fragment)?.commit()
+                }
+
+                activity?.supportFragmentManager?.beginTransaction()
+                    ?.hide(this@SettingsFragment)?.add(
+                        R.id.fragment_container, nextFragment, null
+                    )?.addToBackStack(null)?.commit()
+            }
+            false -> {
+                Toast.makeText(context, "Sorry, this button is currently unavailable!",
+                    Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     companion object {

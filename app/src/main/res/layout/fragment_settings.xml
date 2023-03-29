@@ -52,7 +52,7 @@
         </FrameLayout>
 
         <TextView
-            android:id="@+id/username"
+            android:id="@+id/username_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -65,7 +65,7 @@
             app:layout_constraintTop_toBottomOf="@+id/profile_picture_layout" />
 
         <TextView
-            android:id="@+id/company_name"
+            android:id="@+id/company_name_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -76,7 +76,7 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/username" />
+            app:layout_constraintTop_toBottomOf="@+id/username_text_view" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/personal_button"
@@ -88,7 +88,7 @@
             android:text="@string/personal_information"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/company_name" />
+            app:layout_constraintTop_toBottomOf="@+id/company_name_text_view" />
 
         <Button
             android:id="@+id/split_button_1"
@@ -123,12 +123,12 @@
             app:layout_constraintTop_toBottomOf="@+id/appearance_button" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/middle_button_2"
+            android:id="@+id/business_card_button"
             android:layout_width="match_parent"
             android:layout_height="60dp"
             android:fontFamily="@font/roboto_regular"
             android:textSize="18sp"
-            android:text="@string/visiting_card_string"
+            android:text="@string/business_card_string"
             android:background="@drawable/middle_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -142,7 +142,7 @@
             android:enabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/middle_button_2" />
+            app:layout_constraintTop_toBottomOf="@+id/business_card_button" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/app_information_button"

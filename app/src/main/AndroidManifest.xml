@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Eximeeting"
         android:requestLegacyExternalStorage="true"
+        android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
         <activity
             android:screenOrientation="portrait"

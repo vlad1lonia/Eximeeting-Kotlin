@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/register_textview"
+            android:id="@+id/register_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -46,13 +46,13 @@
             app:layout_constraintBottom_toTopOf="@+id/company_name_input_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/register_textview">
+            app:layout_constraintTop_toBottomOf="@+id/register_text_view">
 
             <!--this is the actual edit text which takes the input-->
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/full_name_edittext"
+                android:id="@+id/full_name_edit_text"
                 android:singleLine="true"
-                android:nextFocusForward="@+id/company_name_edittext"
+                android:nextFocusForward="@+id/company_name_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -77,9 +77,9 @@
 
             <!--this is the actual edit text which takes the input-->
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/company_name_edittext"
+                android:id="@+id/company_name_edit_text"
                 android:singleLine="true"
-                android:nextFocusForward="@+id/birth_date_edittext"
+                android:nextFocusForward="@+id/birth_date_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -104,10 +104,10 @@
 
             <!--this is the actual edit text which takes the input-->
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/birth_date_edittext"
+                android:id="@+id/birth_date_edit_text"
                 android:singleLine="true"
                 android:inputType="date"
-                android:nextFocusForward="@+id/email_edittext"
+                android:nextFocusForward="@+id/email_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -132,9 +132,9 @@
 
             <!--this is the actual edit text which takes the input-->
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/email_edittext"
+                android:id="@+id/email_edit_text"
                 android:singleLine="true"
-                android:nextFocusForward="@+id/password_edittext"
+                android:nextFocusForward="@+id/password_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -160,7 +160,7 @@
 
             <!--this is the actual edit text which takes the input-->
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/password_edittext"
+                android:id="@+id/password_edit_text"
                 android:singleLine="true"
                 android:inputType="textPassword"
                 android:layout_width="match_parent"

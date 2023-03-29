@@ -10,6 +10,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.application.vladcelona.eximeeting.R
+import com.application.vladcelona.eximeeting.databinding.FragmentAppInfoBinding
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.WriterException
 import com.google.zxing.common.BitMatrix
@@ -32,6 +33,8 @@ class AppInfoFragment : Fragment() {
     private val link: String = "https://github.com/vladcelona/Eximeeting_Samsung/releases/" +
             "download/Test_Release/app-debug.apk"
 
+    private lateinit var binding: FragmentAppInfoBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -43,14 +46,12 @@ class AppInfoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_app_info, container, false)
-
-        appQRCode = view.findViewById(R.id.app_qr_code) as ImageView
+        binding = FragmentAppInfoBinding.inflate(inflater, container, false)
         setQRCode()
 
-        return view
+        return binding.root
     }
 
     private fun setQRCode() {
@@ -69,7 +70,7 @@ class AppInfoFragment : Fragment() {
                 }
             }
 
-            appQRCode.setImageBitmap(bitmap)
+            binding.appQrCode.setImageBitmap(bitmap)
         } catch (e: WriterException) {
             Toast.makeText(context, "Failed to generate QR-code", Toast.LENGTH_SHORT).show()
             e.printStackTrace()

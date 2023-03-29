@@ -6,16 +6,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.util.Patterns
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.application.vladcelona.eximeeting.MainActivity
-import com.application.vladcelona.eximeeting.R
+import com.application.vladcelona.eximeeting.databinding.FragmentLoginBinding
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -31,13 +29,10 @@ class LoginFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    
+    private lateinit var binding: FragmentLoginBinding
 
     private lateinit var firebaseAuth: FirebaseAuth
-
-    private lateinit var loginCompletedButton: Button
-    
-    private lateinit var emailEditText: EditText
-    private lateinit var passwordEditText: EditText
 
     private lateinit var email: String
     private lateinit var password: String
@@ -56,61 +51,56 @@ class LoginFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         // Inflate the layout for this fragment
-        val view = inflater.inflate(R.layout.fragment_login, container, false)
-        
-        emailEditText = view.findViewById(R.id.email_edittext) as EditText
-        passwordEditText = view.findViewById(R.id.password_edittext) as EditText
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
+        binding.loginCompletedButton.setOnClickListener { it.hideKeyboard(); userLogin() }
 
-        loginCompletedButton = view.findViewById(R.id.login_completed_button) as Button
-        loginCompletedButton.setOnClickListener { it.hideKeyboard(); userLogin() }
-
-        return view
+        return binding.root
     }
 
     private fun userLogin() {
-        email = emailEditText.text!!.toString().trim()
-        password = passwordEditText.text!!.toString().trim()
+        email = binding.emailEditText.text!!.toString().trim()
+        password = binding.passwordEditText.text!!.toString().trim()
 
         checkCredentials()
     }
 
     private fun checkCredentials() {
         if (email.isEmpty()) {
-            emailEditText.error = "Email is required!"
-            emailEditText.requestFocus()
+            binding.emailEditText.error = "Email is required!"
+            binding.emailEditText.requestFocus()
             return
         } else {
-            emailEditText.error = null
-            emailEditText.requestFocus()
+            binding.emailEditText.error = null
+            binding.emailEditText.requestFocus()
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            emailEditText.error = "Please provide valid email!"
-            emailEditText.requestFocus()
+            binding.emailEditText.error = "Please provide valid email!"
+            binding.emailEditText.requestFocus()
             return
         } else {
-            emailEditText.error = null
-            emailEditText.requestFocus()
+            binding.emailEditText.error = null
+            binding.emailEditText.requestFocus()
         }
 
         if (password.isEmpty()) {
-            passwordEditText.error = "Password is required!"
-            passwordEditText.requestFocus()
+            binding.passwordEditText.error = "Password is required!"
+            binding.passwordEditText.requestFocus()
             return
         } else {
-            passwordEditText.error = null
-            passwordEditText.requestFocus()
+            binding.passwordEditText.error = null
+            binding.passwordEditText.requestFocus()
         }
 
         if (password.length < 6) {
-            passwordEditText.error = "Password should contain at least 6 characters"
-            passwordEditText.requestFocus()
+            binding.passwordEditText.error = "Password should contain at least 6 characters"
+            binding.passwordEditText.requestFocus()
             return
         } else {
-            passwordEditText.error = null
-            passwordEditText.requestFocus()
+            binding.passwordEditText.error = null
+            binding.passwordEditText.requestFocus()
         }
 
         loginUser()
