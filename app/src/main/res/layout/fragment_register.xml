@@ -58,6 +58,8 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!-- TODO: Modify company_name_edit_text so it handles the onClickListener
+                and pops up the list of available companies -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/company_name_input_text"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
