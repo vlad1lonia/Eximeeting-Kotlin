@@ -49,15 +49,17 @@ dependencies {
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
+    implementation 'androidx.fragment:fragment-ktx:1.5.7'
+
+    // Firebase
+
     implementation 'com.google.firebase:firebase-auth-ktx:21.3.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.2.0'
     implementation 'com.google.firebase:firebase-firestore-ktx:24.5.0'
     implementation 'com.google.firebase:firebase-auth:21.3.0'
     implementation 'com.google.firebase:firebase-storage-ktx:20.1.0'
 
-    implementation 'androidx.fragment:fragment-ktx:1.5.7'
-
-    // Navigation component part
+    // Navigation component
 
     implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
@@ -73,9 +75,11 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
-    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
-
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
+
+    // QR-code creation
+
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
 
     implementation 'androidx.room:room-runtime:2.1.0-alpha04'
     annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha04'
