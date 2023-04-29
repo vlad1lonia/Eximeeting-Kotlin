@@ -19,6 +19,7 @@
         android:requestLegacyExternalStorage="true"
         android:enableOnBackInvokedCallback="true"
         tools:targetApi="31">
+
         <activity
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize"
@@ -29,6 +30,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible|adjustResize"
@@ -39,5 +41,7 @@
                 <category android:name="android.intent.category.ALTERNATIVE" />
             </intent-filter>
         </activity>
+
     </application>
+
 </manifest>
