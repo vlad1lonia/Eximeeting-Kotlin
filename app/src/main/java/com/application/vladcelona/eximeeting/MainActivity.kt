@@ -7,8 +7,10 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.application.vladcelona.eximeeting.completed.CompletedListFragment
 import com.application.vladcelona.eximeeting.databinding.ActivityMainBinding
 import com.application.vladcelona.eximeeting.settings.SettingsFragment
+import com.application.vladcelona.eximeeting.upcoming.UpcomingListFragment
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.database.FirebaseDatabase
 
@@ -35,7 +37,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val startFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
         if (startFragment == null) {
             supportFragmentManager.beginTransaction().add(R.id.fragment_container,
-                UpcomingFragment.newInstance()).commit()
+                UpcomingListFragment.newInstance()).commit()
         }
 
         binding.bottomNavigationBar.background = ContextCompat
@@ -66,18 +68,20 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.home -> {
-                onItemPressed(UpcomingFragment.newInstance(),
-                    CompletedFragment.newInstance(), SettingsFragment.newInstance())
+                onItemPressed(
+                    UpcomingListFragment.newInstance(),
+                    CompletedListFragment.newInstance(), SettingsFragment.newInstance())
                 return true
             }
             R.id.ended -> {
-                onItemPressed(CompletedFragment.newInstance(),
-                    UpcomingFragment.newInstance(), SettingsFragment.newInstance())
+                onItemPressed(
+                    CompletedListFragment.newInstance(),
+                    UpcomingListFragment.newInstance(), SettingsFragment.newInstance())
                 return true
             }
             R.id.settings -> {
                 onItemPressed(SettingsFragment.newInstance(),
-                    UpcomingFragment.newInstance(), CompletedFragment.newInstance())
+                    UpcomingListFragment.newInstance(), CompletedListFragment.newInstance())
                 return true
             }
             else -> return false
