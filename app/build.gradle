@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -9,13 +10,13 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.application.vladcelona.eximeeting"
+        applicationId 'com.application.vladcelona.eximeeting'
         minSdk 29
         targetSdk 33
         versionCode 1
-        versionName "1.0"
+        versionName '1.0'
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     buildTypes {
