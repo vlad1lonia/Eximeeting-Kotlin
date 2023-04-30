@@ -1,4 +1,4 @@
-package com.application.vladcelona.eximeeting.settings
+package com.application.vladcelona.eximeeting.navigation
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -16,14 +16,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.User
 import com.application.vladcelona.eximeeting.databinding.FragmentSettingsBinding
-import com.application.vladcelona.eximeeting.login_register.PickActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
+
 
 private const val TAG = "SettingsFragment"
 
@@ -31,6 +33,7 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 private const val REQUEST_PHOTO = 100
 private const val REQUEST_CROP_PHOTO = 200
+
 
 class SettingsFragment : Fragment() {
     // TODO: Rename and change types of parameters
@@ -76,19 +79,19 @@ class SettingsFragment : Fragment() {
         }
 
         binding.personalButton.setOnClickListener {
-            moveToFragment(PersonalFragment.newInstance(), true)
+            findNavController().navigate(R.id.personalInfoFragment)
         }
 
         binding.appearanceButton.setOnClickListener {
-            moveToFragment(AppearanceFragment.newInstance(), false)
+            findNavController().navigate(R.id.appearanceFragment)
         }
 
         binding.businessCardButton.setOnClickListener {
-            moveToFragment(BusinessCardFragment.newInstance(), true)
+            findNavController().navigate(R.id.businessCardFragment)
         }
 
         binding.appInformationButton.setOnClickListener {
-            moveToFragment(AppInfoFragment.newInstance(), true)
+            findNavController().navigate(R.id.appInfoFragment)
         }
 
         binding.signOutButton.setOnClickListener {
@@ -97,10 +100,11 @@ class SettingsFragment : Fragment() {
 
             alertDialog.setPositiveButton("Sign out") { _: DialogInterface, _: Int ->
                 FirebaseAuth.getInstance().signOut()
-                val intent = Intent(activity, PickActivity::class.java)
-                val bundle = Bundle(); bundle.putBoolean("login_state", false)
-                intent.putExtras(bundle)
-                startActivity(intent)
+
+                val navView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+                navView?.visibility = View.INVISIBLE
+                findNavController().navigateUp()
+                findNavController().navigate(R.id.action_settingsFragment_to_startFragment)
             }
             alertDialog.setNegativeButton("No", null)
 
@@ -161,8 +165,7 @@ class SettingsFragment : Fragment() {
 
                 } catch (exception: Exception) {
                     Toast.makeText(
-                        context,
-                        "Failed to download image from database", Toast.LENGTH_SHORT
+                        context, "Failed to download image from database", Toast.LENGTH_SHORT
                     ).show()
 
                     setViewVisibility(true)
@@ -246,29 +249,23 @@ class SettingsFragment : Fragment() {
         }
     }
 
-    private fun moveToFragment(nextFragment: Fragment, available: Boolean) {
-        when (available) {
-            true -> {
-                for (fragment in activity?.supportFragmentManager?.fragments!!) {
-                    activity?.supportFragmentManager?.beginTransaction()?.hide(fragment)?.commit()
-                }
-
-                activity?.supportFragmentManager?.beginTransaction()
-                    ?.hide(this@SettingsFragment)?.add(
-                        R.id.fragment_container, nextFragment, null
-                    )?.addToBackStack(null)?.commit()
-            }
-            false -> {
-                Toast.makeText(context, "Sorry, this button is currently unavailable!",
-                    Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
     companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment SettingsFragment.
+         */
+        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(): SettingsFragment {
-            return SettingsFragment()
-        }
+        fun newInstance(param1: String, param2: String) =
+            SettingsFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
     }
 }

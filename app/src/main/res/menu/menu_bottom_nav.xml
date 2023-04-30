@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <item
-        android:id="@+id/home"
+        android:id="@id/upcomingEventListFragment"
         android:icon="@drawable/home_selector"
-        android:title="Upcoming"  />
+        android:title="Upcoming" />
+
     <item
-        android:id="@+id/ended"
+        android:id="@id/completedEventListFragment"
         android:icon="@drawable/completed_selector"
-        android:title="Ended" />
+        android:title="Completed" />
+
     <item
-        android:id="@+id/settings"
+        android:id="@id/settingsFragment"
         android:icon="@drawable/person_selector"
         android:title="Settings" />
+
 </menu>

@@ -1,4 +1,4 @@
-package com.application.vladcelona.eximeeting.login_register
+package com.application.vladcelona.eximeeting.account_access
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -17,15 +17,16 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.application.vladcelona.eximeeting.MainActivity
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.User
 import com.application.vladcelona.eximeeting.databinding.FragmentRegisterBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import java.io.ByteArrayOutputStream
 import java.util.*
-
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -38,7 +39,7 @@ class RegisterFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    
+
     private lateinit var binding: FragmentRegisterBinding
 
     private lateinit var firebaseAuth: FirebaseAuth
@@ -59,7 +60,7 @@ class RegisterFragment : Fragment() {
             param1 = it.getString(ARG_PARAM1)
             param2 = it.getString(ARG_PARAM2)
         }
-        
+
         firebaseAuth = FirebaseAuth.getInstance()
         profileImage = context?.let {
             ContextCompat.getDrawable(it, R.drawable.person_icon)?.toBitmap() }!!
@@ -229,10 +230,12 @@ class RegisterFragment : Fragment() {
                                         "Account is created successfully!",
                                         Toast.LENGTH_SHORT).show()
                                     Log.i(TAG, "Creating ActivityMain")
-                                    startActivity(
-                                        Intent(context,
-                                        MainActivity::class.java)
-                                    )
+
+                                    val navView = activity?.
+                                            findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+                                    navView?.visibility = View.VISIBLE
+                                    findNavController()
+                                        .navigate(R.id.action_loginFragment_to_upcomingEventsListFragment)
 //                                    packageManager.setComponentEnabledSetting()
                                 } else {
                                     Toast.makeText(context,
@@ -264,9 +267,22 @@ class RegisterFragment : Fragment() {
     }
 
     companion object {
+        /**
+         * Use this factory method to create a new instance of
+         * this fragment using the provided parameters.
+         *
+         * @param param1 Parameter 1.
+         * @param param2 Parameter 2.
+         * @return A new instance of fragment RegisterFragment.
+         */
+        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(): RegisterFragment {
-            return RegisterFragment()
-        }
+        fun newInstance(param1: String, param2: String) =
+            RegisterFragment().apply {
+                arguments = Bundle().apply {
+                    putString(ARG_PARAM1, param1)
+                    putString(ARG_PARAM2, param2)
+                }
+            }
     }
 }

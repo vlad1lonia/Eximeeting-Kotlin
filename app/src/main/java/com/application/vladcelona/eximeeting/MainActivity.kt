@@ -1,92 +1,56 @@
 package com.application.vladcelona.eximeeting
 
-import android.os.Bundle
-import android.util.Log
-import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.Fragment
+import android.os.Bundle
+import android.view.View
+import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.application.vladcelona.eximeeting.databinding.ActivityMainBinding
-import com.application.vladcelona.eximeeting.settings.SettingsFragment
-import com.google.android.material.navigation.NavigationView
+import com.google.android.gms.tasks.Task
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
 
-private const val TAG = "MainActivity"
+class MainActivity : AppCompatActivity() {
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
-    private lateinit var binding: ActivityMainBinding
+//    lateinit var mainBinding: ActivityMainBinding
+    private lateinit var navView: BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
 
-        val firebaseDatabase = FirebaseDatabase.getInstance()
-        firebaseDatabase.getReference("Users")
+//        mainBinding = ActivityMainBinding.inflate(layoutInflater)
+        val navController = this.findNavController(R.id.nav_host_fragment)
 
-        setContent()
-    }
+        // Find reference to bottom navigation view
+        navView = findViewById(R.id.bottom_nav_view)
 
-    private fun setContent() {
-        Log.i(TAG, "$TAG created")
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        binding.mainActivityText.visibility = View.INVISIBLE
+        // Hook your navigation controller to bottom navigation view
+        navView.setupWithNavController(navController)
+        navView.visibility = View.INVISIBLE
 
-        val startFragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
-        if (startFragment == null) {
-            supportFragmentManager.beginTransaction().add(R.id.fragment_container,
-                UpcomingFragment.newInstance()).commit()
-        }
+        val navOptions = NavOptions.Builder().setPopUpTo(R.id.startFragment, true).build()
 
-        binding.bottomNavigationBar.background = ContextCompat
-            .getDrawable(this@MainActivity, R.color.personal_green_background)
-
-        val badge = binding.bottomNavigationBar.getOrCreateBadge(R.id.home)
-        badge.isVisible = true
-
-        binding.bottomNavigationBar.setOnItemSelectedListener { item ->
-            onNavigationItemSelected(item)
-        }
-
-        setContentView(binding.root)
-    }
-
-//    override fun onStop() {
-//        super.onStop()
-//        Log.i(TAG, "Activity onStop")
-//        startActivity(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME))
-//    }
-//
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        Log.i(TAG, "Activity onDestroy")
-//        startActivity(Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_HOME))
-//    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.home -> {
-                onItemPressed(UpcomingFragment.newInstance(),
-                    CompletedFragment.newInstance(), SettingsFragment.newInstance())
-                return true
+        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        // Check if user has an account in firebase
+        FirebaseAuth.getInstance().currentUser.let { it?.let { it1 ->
+            databaseReference.child(it1.uid).get().addOnCompleteListener {
+                    task: Task<DataSnapshot> ->
+                if (task.isSuccessful && task.result.exists()) {
+                    Toast.makeText(this@MainActivity,
+                        "You have been logged in successfully", Toast.LENGTH_SHORT).show()
+                    navController.navigate(R.id.action_startFragment_to_upcomingEventsListFragment,
+                        bundleOf(), navOptions)
+                    navView.visibility = View.VISIBLE
+                }
             }
-            R.id.ended -> {
-                onItemPressed(CompletedFragment.newInstance(),
-                    UpcomingFragment.newInstance(), SettingsFragment.newInstance())
-                return true
-            }
-            R.id.settings -> {
-                onItemPressed(SettingsFragment.newInstance(),
-                    UpcomingFragment.newInstance(), CompletedFragment.newInstance())
-                return true
-            }
-            else -> return false
         }
-    }
-
-    private fun onItemPressed(chosenFragment: Fragment, hideFirstFragment: Fragment,
-                              hideSecondFragment: Fragment) {
-        supportFragmentManager.beginTransaction().hide(hideFirstFragment).hide(hideSecondFragment)
-            .add(R.id.fragment_container, chosenFragment, null).addToBackStack(null).commit()
+        }
     }
 }
