@@ -26,9 +26,9 @@
         tools:layout="@layout/fragment_login">
 
         <action
-            android:id="@+id/action_loginFragment_to_upcomingEventsListFragment"
+            android:id="@+id/action_startFragment_to_upcomingEventsListFragment"
             app:destination="@id/upcomingEventListFragment"
-            app:popUpTo="@id/loginFragment"
+            app:popUpTo="@id/startFragment"
             app:popUpToInclusive="true" />
 
     </fragment>
@@ -40,9 +40,9 @@
         tools:layout="@layout/fragment_register">
 
         <action
-            android:id="@+id/action_registerFragment_to_upcomingEventsListFragment"
+            android:id="@+id/action_startFragment_to_upcomingEventsListFragment"
             app:destination="@id/upcomingEventListFragment"
-            app:popUpTo="@id/registerFragment"
+            app:popUpTo="@id/startFragment"
             app:popUpToInclusive="true" />
 
     </fragment>

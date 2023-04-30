@@ -12,7 +12,6 @@ import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
-import com.application.vladcelona.eximeeting.MainActivity
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.databinding.FragmentLoginBinding
 import com.google.android.gms.tasks.Task
@@ -117,7 +116,7 @@ class LoginFragment : Fragment() {
                 val navView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav_view)
                 navView?.visibility = View.VISIBLE
                 findNavController()
-                    .navigate(R.id.action_registerFragment_to_upcomingEventsListFragment)
+                    .navigate(R.id.action_startFragment_to_upcomingEventsListFragment)
             } else {
                 Toast.makeText(context,
                     "Failed to login! Please check your credentials!",

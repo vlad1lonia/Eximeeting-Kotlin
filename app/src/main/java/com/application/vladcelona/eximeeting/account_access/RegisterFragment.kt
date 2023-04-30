@@ -235,7 +235,7 @@ class RegisterFragment : Fragment() {
                                             findViewById<BottomNavigationView>(R.id.bottom_nav_view)
                                     navView?.visibility = View.VISIBLE
                                     findNavController()
-                                        .navigate(R.id.action_loginFragment_to_upcomingEventsListFragment)
+                                        .navigate(R.id.action_startFragment_to_upcomingEventsListFragment)
 //                                    packageManager.setComponentEnabledSetting()
                                 } else {
                                     Toast.makeText(context,
