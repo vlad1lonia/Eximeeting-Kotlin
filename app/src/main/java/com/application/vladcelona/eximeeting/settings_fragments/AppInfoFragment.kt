@@ -31,7 +31,7 @@ class AppInfoFragment : Fragment() {
 
     private lateinit var appQRCode: ImageView
     private val link: String = "https://github.com/vladcelona/Eximeeting_Samsung/releases/" +
-            "download/Test_Release/app-debug.apk"
+            "download/Pre-release/app-debug.apk"
 
     private lateinit var binding: FragmentAppInfoBinding
 
