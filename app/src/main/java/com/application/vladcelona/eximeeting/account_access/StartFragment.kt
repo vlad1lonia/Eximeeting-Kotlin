@@ -32,6 +32,7 @@ class StartFragment : Fragment() {
     override fun onStart() {
         super.onStart()
 
+//        findNavController().popBackStack()
 //        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
 //        // Check if user has an account in firebase
 //        FirebaseAuth.getInstance().currentUser.let { it?.let { it1 ->

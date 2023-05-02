@@ -105,9 +105,8 @@ class SettingsFragment : Fragment() {
 
                 val navView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav_view)
                 navView?.visibility = View.INVISIBLE
-//                findNavController().navigateUp()
                 val navOptions = NavOptions.Builder()
-                    .setPopUpTo(R.id.upcomingEventListFragment, true).build()
+                    .setPopUpTo(R.id.startFragment, true).build()
                 findNavController().navigate(R.id.action_settingsFragment_to_startFragment,
                     bundleOf(), navOptions)
             }
