@@ -13,7 +13,7 @@ import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.event_managment.EventListAdapter
 import com.application.vladcelona.eximeeting.event_managment.EventViewModel
 import com.application.vladcelona.eximeeting.event_managment.EventViewModelFactory
-import com.application.vladcelona.eximeeting.event_managment.EximeetingApplication
+import com.application.vladcelona.eximeeting.EximeetingApplication
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

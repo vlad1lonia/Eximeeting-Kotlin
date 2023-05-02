@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@color/personal_green_background"
     android:padding="8dp"
     android:layout_marginBottom="?attr/actionBarSize"
     tools:context=".settings_fragments.AppInfoFragment">
