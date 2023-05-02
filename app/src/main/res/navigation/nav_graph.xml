@@ -97,4 +97,10 @@
         android:label="BusinessCard"
         tools:layout="@layout/fragment_business_card" />
 
+    <fragment
+        android:id="@+id/eventFragment"
+        android:name="com.application.vladcelona.eximeeting.event_managment.EventFragment"
+        android:label="Event"
+        tools:layout="@layout/fragment_event" />
+
 </navigation>

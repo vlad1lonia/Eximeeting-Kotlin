@@ -15,7 +15,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.User
@@ -104,7 +106,10 @@ class SettingsFragment : Fragment() {
                 val navView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav_view)
                 navView?.visibility = View.INVISIBLE
 //                findNavController().navigateUp()
-                findNavController().navigate(R.id.action_settingsFragment_to_startFragment)
+                val navOptions = NavOptions.Builder()
+                    .setPopUpTo(R.id.upcomingEventListFragment, true).build()
+                findNavController().navigate(R.id.action_settingsFragment_to_startFragment,
+                    bundleOf(), navOptions)
             }
             alertDialog.setNegativeButton("No", null)
 
