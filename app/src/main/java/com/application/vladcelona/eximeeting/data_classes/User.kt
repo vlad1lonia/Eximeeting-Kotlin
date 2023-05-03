@@ -15,7 +15,10 @@ import com.google.firebase.ktx.Firebase
 
 data class User(
     var fullName: String = "", val email: String = "",
-    var companyName: String = "", val birthDate: String = "", var profileImage: String = "") {
+    var companyName: String = "", val birthDate: String = "", var profileImage: String = "",
+    val position: String = "Not mentioned",
+    val phoneNumber: String = "Not mentioned",
+    val website: String = "Not mentioned") {
 
     @Exclude
     fun toMap(): Map<String, Any> {
@@ -25,6 +28,9 @@ data class User(
         result["companyName"] = companyName
         result["birthDate"] = birthDate
         result["profileImage"] = profileImage
+        result["position"] = position
+        result["phoneNumber"] = phoneNumber
+        result["website"] = website
 
         return result
     }

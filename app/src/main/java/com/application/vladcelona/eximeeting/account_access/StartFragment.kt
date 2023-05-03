@@ -29,25 +29,6 @@ class StartFragment : Fragment() {
 
     private lateinit var binding: FragmentStartBinding
 
-    override fun onStart() {
-        super.onStart()
-
-//        findNavController().popBackStack()
-//        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-//        // Check if user has an account in firebase
-//        FirebaseAuth.getInstance().currentUser.let { it?.let { it1 ->
-//            databaseReference.child(it1.uid).get().addOnCompleteListener {
-//                    task: Task<DataSnapshot> ->
-//                if (task.isSuccessful && task.result.exists()) {
-//                    Toast.makeText(context,
-//                        "You have been logged in successfully", Toast.LENGTH_SHORT).show()
-//                    findNavController().navigate(R.id.upcomingEventListFragment)
-//                }
-//            }
-//        }
-//        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {

@@ -232,7 +232,7 @@ class RegisterFragment : Fragment() {
                                     Log.i(TAG, "Creating ActivityMain")
 
                                     val navView = activity?.
-                                            findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+                                    findViewById<BottomNavigationView>(R.id.bottom_nav_view)
                                     navView?.visibility = View.VISIBLE
                                     findNavController()
                                         .navigate(R.id.action_startFragment_to_upcomingEventsListFragment)

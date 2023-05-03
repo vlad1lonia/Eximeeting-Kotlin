@@ -1,56 +1,181 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/personal_green_background"
-    tools:context=".event_managment.EventFragment">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/fragment_event_name"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Event name"
-        android:textSize="32dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:background="@color/personal_green_background"
+        tools:context=".event_managment.EventFragment">
 
-    <TextView
-        android:id="@+id/fragment_event_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event date"
-        android:textSize="24dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/fragment_event_name"
-        app:layout_constraintStart_toStartOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragment_name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_marginBottom="32dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/fragment_event_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event location"
-        android:textSize="24dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/fragment_event_date"
-        app:layout_constraintStart_toStartOf="parent" />
+            <ImageView
+                android:id="@+id/fragment_event_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_launcher_background"
+                android:scaleType="fitXY" />
 
-    <TextView
-        android:id="@+id/fragment_event_status"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Event status"
-        android:textSize="24dp"
-        android:textStyle="bold"
-        android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/fragment_event_location"
-        app:layout_constraintStart_toStartOf="parent" />
+            <TextView
+                android:id="@+id/fragment_event_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event name"
+                android:textColor="@color/black"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                android:paddingStart="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@+id/fragment_name_layout"
+            android:padding="16dp"
+            tools:layout_editor_absoluteX="16dp">
+
+            <TextView
+                android:id="@+id/fragment_event_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Event date"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/fragment_event_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event location"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_event_date" />
+
+            <TextView
+                android:id="@+id/fragment_event_organizer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event organizer"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_event_location" />
+
+            <TextView
+                android:id="@+id/fragment_event_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event address"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_event_organizer" />
+
+            <TextView
+                android:id="@+id/fragment_event_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Event status"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_event_address" />
+
+            <TextView
+                android:id="@+id/description_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_event_status" />
+
+            <TextView
+                android:id="@+id/fragment_event_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description text"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:paddingTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/description_text" />
+
+            <TextView
+                android:id="@+id/speakers_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Speakers"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_event_description" />
+
+            <TextView
+                android:id="@+id/fragment_event_speakers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Speakers text"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:paddingTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/speakers_text" />
+
+            <TextView
+                android:id="@+id/moderators_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Moderators"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingTop="16dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_event_speakers" />
+
+            <TextView
+                android:id="@+id/fragment_event_moderators"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Moderators text"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                android:paddingTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/moderators_text" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

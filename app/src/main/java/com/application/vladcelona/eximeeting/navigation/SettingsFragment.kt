@@ -189,17 +189,21 @@ class SettingsFragment : Fragment() {
         user.profileImage = bitmapToString()
         val newUserValues: Map<String, Any> = user.toMap()
 
-        databaseReference.child(uid).updateChildren(newUserValues).addOnSuccessListener {
-            Toast.makeText(
-                context, "Successfully updated information",
-                Toast.LENGTH_SHORT
-            ).show()
-        }.addOnFailureListener {
-            Toast.makeText(
-                context, "Unable to complete action",
-                Toast.LENGTH_SHORT
-            ).show()
+        try {
+            databaseReference.child(uid).updateChildren(newUserValues).addOnSuccessListener {
+                Toast.makeText(context, "Successfully updated information",
+                    Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener {
+                Toast.makeText(context, "Unable to complete action",
+                    Toast.LENGTH_SHORT).show()
+            }
+        } catch (exception: Exception) {
+            Log.e(TAG, "Failed to commit update to teh database")
+            Toast.makeText(context, "Failed to commit to the database",
+                Toast.LENGTH_SHORT).show()
         }
+
+        Thread.sleep(1000)
     }
 
     private fun bitmapToString(): String {
@@ -210,6 +214,7 @@ class SettingsFragment : Fragment() {
     }
 
     private fun setViewVisibility(visible: Boolean) {
+
         when (visible) {
             true -> {
                 binding.signOutButton.visibility = View.VISIBLE

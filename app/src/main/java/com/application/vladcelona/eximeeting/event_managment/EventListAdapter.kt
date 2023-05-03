@@ -25,12 +25,7 @@ class EventListAdapter(private val onClickListener: OnClickListener) :
         holder.itemView.setOnClickListener {
             onClickListener.onClick(current)
             holder.itemView.findNavController().navigate(R.id.eventFragment,
-                bundleOf(
-                    "name" to current.name,
-                    "date" to "${current.fromDate} - ${current.toDate}",
-                    "location" to current.location,
-                    "status" to current.convertStatusCode()
-                ))
+                current.toBundle())
         }
         holder.bind(current)
     }
