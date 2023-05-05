@@ -2,15 +2,6 @@ package com.application.vladcelona.eximeeting.data_classes
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.util.Log
-import android.view.View
-import android.widget.Toast
-import androidx.navigation.fragment.findNavController
-import com.application.vladcelona.eximeeting.R
-import com.google.android.gms.tasks.Task
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.Exclude
 import com.google.firebase.ktx.Firebase
@@ -45,6 +36,10 @@ data class User(
         return result
     }
 
+    /**
+     * Method for converting the User url link into QR-code
+     * @return A new instance of Bitmap which contains the QR-code of the url
+     */
     fun convertToQRCode(): Bitmap {
         val writer = QRCodeWriter()
 

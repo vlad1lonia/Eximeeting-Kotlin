@@ -15,15 +15,12 @@ import com.application.vladcelona.eximeeting.event_managment.EventViewModel
 import com.application.vladcelona.eximeeting.event_managment.EventViewModelFactory
 import com.application.vladcelona.eximeeting.EximeetingApplication
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 private const val TAG = "CompletedEventListFragment"
 
 class CompletedEventListFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 

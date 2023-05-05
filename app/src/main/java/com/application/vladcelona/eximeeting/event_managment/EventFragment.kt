@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.application.vladcelona.eximeeting.databinding.FragmentEventBinding
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val TAG = "EventFragment"
 private const val ARG_EVENT_ID = "event_id"
 

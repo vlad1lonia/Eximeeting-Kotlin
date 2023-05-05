@@ -14,7 +14,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
-//    lateinit var mainBinding: ActivityMainBinding
     private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
 
@@ -22,13 +21,12 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-//        mainBinding = ActivityMainBinding.inflate(layoutInflater)
         navController = this.findNavController(R.id.nav_host_fragment)
 
         // Find reference to bottom navigation view
         navView = findViewById(R.id.bottom_nav_view)
 
-        // Hook your navigation controller to bottom navigation view
+        // Hook navigation controller to bottom navigation view
         navView.setupWithNavController(navController)
         navView.visibility = View.INVISIBLE
 

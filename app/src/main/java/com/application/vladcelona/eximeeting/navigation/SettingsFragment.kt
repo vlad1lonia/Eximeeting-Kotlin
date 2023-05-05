@@ -38,7 +38,6 @@ private const val REQUEST_CROP_PHOTO = 200
 
 
 class SettingsFragment : Fragment() {
-    // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
@@ -50,7 +49,6 @@ class SettingsFragment : Fragment() {
     private lateinit var imageUri: Uri
     private lateinit var selectedImage: Bitmap
     private lateinit var databaseReference: DatabaseReference
-//    private lateinit var storageReference: StorageReference
 
     override fun onResume() {
         super.onResume()
@@ -266,15 +264,6 @@ class SettingsFragment : Fragment() {
     }
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SettingsFragment.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
             SettingsFragment().apply {

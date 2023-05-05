@@ -20,15 +20,15 @@ class EximeetingFirebase {
 
     companion object {
 
-        fun getUserData(): User? {
-            var user: User? = null
+        fun getUserData(): User {
+            var user: User = User()
 
             val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
             val uid: String = FirebaseAuth.getInstance().currentUser?.uid.toString()
 
             databaseReference.child(uid).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    user = snapshot.getValue(User::class.java)
+                    user = snapshot.getValue(User::class.java)!!
                 }
 
                 override fun onCancelled(error: DatabaseError) {
