@@ -30,15 +30,17 @@ data class Event(
 
     // Data shown when user presses on a certain event
     @ColumnInfo(name = "description") val description: String = "",
-    @ColumnInfo(name = "speakers") val speakers: ArrayList<String> = ArrayList(),
-    @ColumnInfo(name = "moderators") val moderators: ArrayList<String> = ArrayList(),
-    // TODO: Add business programme and map (also add for pavilions if possible)
+    @ColumnInfo(name = "speakers") val speakers: ArrayList<String?>? = ArrayList(),
+    @ColumnInfo(name = "moderators") val moderators: ArrayList<String?>? = ArrayList(),
     @ColumnInfo(name = "businessProgramme")
-    val businessProgramme: Map<String, ArrayList<String>> = HashMap(),
-    @ColumnInfo(name = "maps") val maps: ArrayList<String> = ArrayList()
+    val businessProgramme: Map<String, ArrayList<String?>?>? = HashMap(),
+    @ColumnInfo(name = "maps") val maps: ArrayList<String?>? = ArrayList()
 ) {
 
-    // Function for converting statusCode to the String (Text)
+    /**
+     * Method for converting statusCode field into the String
+     * @return A new instance of String
+     */
     fun convertStatusCode(): String {
         return when (statusCode) {
             0 -> "Starts soon" // If the event starts within a week
@@ -48,11 +50,15 @@ data class Event(
             4 -> "Ended"
             else -> {
                 Log.i(TAG, "Error while getting statusCode")
-                ""
+                "Not mentioned"
             }
         }
     }
 
+    /**
+     * Method for converting teh data class into teh Bundle for displaying
+     * @return A new instance of Bundle
+     */
     fun toBundle(): Bundle {
         return bundleOf(
             "name" to name, "date" to "$fromDate - $toDate", "location" to location,

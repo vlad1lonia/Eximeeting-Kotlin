@@ -52,10 +52,17 @@ class SettingsFragment : Fragment() {
     private lateinit var databaseReference: DatabaseReference
 //    private lateinit var storageReference: StorageReference
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun onResume() {
+        super.onResume()
 
         activity?.requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_USER_PORTRAIT
+
+        val bottomNavView = activity?.findViewById(R.id.bottom_nav_view) as BottomNavigationView
+        bottomNavView.visibility = View.VISIBLE
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         arguments?.let {
             param1 = it.getString(ARG_PARAM1)

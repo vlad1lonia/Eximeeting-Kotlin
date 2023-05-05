@@ -26,6 +26,7 @@ class EventFragment : Fragment() {
         binding.fragmentEventDate.text = arguments?.getString("date")
         binding.fragmentEventLocation.text = arguments?.getString("location")
         binding.fragmentEventStatus.text = arguments?.getString("status")
+        binding.fragmentEventDescription.text = arguments?.getString("description")
 
         return binding.root
     }
