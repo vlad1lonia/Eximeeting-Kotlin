@@ -23,17 +23,17 @@ data class User(
      */
     @Exclude
     fun toMap(): Map<String, Any> {
-        val result: HashMap<String, Any> = HashMap()
-        result["fullName"] = fullName
-        result["email"] = email
-        result["companyName"] = companyName
-        result["birthDate"] = birthDate
-        result["profileImage"] = profileImage
-        result["position"] = position
-        result["phoneNumber"] = phoneNumber
-        result["website"] = website
+        val convertedUser: HashMap<String, Any> = HashMap()
+        convertedUser["fullName"] = fullName
+        convertedUser["email"] = email
+        convertedUser["companyName"] = companyName
+        convertedUser["birthDate"] = birthDate
+        convertedUser["profileImage"] = profileImage
+        convertedUser["position"] = position
+        convertedUser["phoneNumber"] = phoneNumber
+        convertedUser["website"] = website
 
-        return result
+        return convertedUser
     }
 
     /**
@@ -58,6 +58,11 @@ data class User(
     }
 
     companion object {
+
+        /**
+         * Method for check if user has been logged in on a certain device before
+         * @return A new instance of Boolean
+         */
         fun checkAccess(): Boolean {
             return when (Firebase.auth.currentUser) {
                 null -> false

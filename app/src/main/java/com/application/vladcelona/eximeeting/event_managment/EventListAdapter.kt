@@ -42,9 +42,11 @@ class EventListAdapter(private val onClickListener: OnClickListener) :
         @SuppressLint("SetTextI18n")
         fun bind(event: Event?) {
             eventName.text = event?.name
-            eventDate.text = "${event?.fromDate} - ${event?.toDate}"
+            eventDate.text = "${Event.dateToString(event?.fromDate)} - " +
+                    "${Event.dateToString(event?.toDate)}"
             eventLocation.text = event?.location
             eventStatus.text = event?.convertStatusCode()
+            event?.getStatusCodeColor()?.let { eventStatus.setTextColor(it) }
         }
 
         companion object {

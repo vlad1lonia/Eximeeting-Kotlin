@@ -10,12 +10,18 @@ import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.application.vladcelona.eximeeting.data_classes.User
+import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
+
+    override fun onStart() {
+        super.onStart()
+        EximeetingFirebase.pushEventData()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +44,7 @@ class MainActivity : AppCompatActivity() {
             navController.navigate(R.id.action_startFragment_to_upcomingEventsListFragment,
                 bundleOf(), navOptions)
             navView.visibility = View.VISIBLE
+//            EximeetingFirebase.getEvents()
         }
     }
 }

@@ -14,6 +14,7 @@ import com.application.vladcelona.eximeeting.event_managment.EventListAdapter
 import com.application.vladcelona.eximeeting.event_managment.EventViewModel
 import com.application.vladcelona.eximeeting.event_managment.EventViewModelFactory
 import com.application.vladcelona.eximeeting.EximeetingApplication
+import com.application.vladcelona.eximeeting.data_classes.Event
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -53,7 +54,8 @@ class CompletedEventListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         eventViewModel.events.observe(viewLifecycleOwner) { events ->
-            events?.let { adapter.submitList(it) }
+            val completedEvents = events.filterIndexed { _, event -> event.getStatusCode() == 4 }
+            completedEvents.let { adapter.submitList(it) }
         }
 
         return view

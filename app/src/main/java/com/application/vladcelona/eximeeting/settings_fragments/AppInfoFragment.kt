@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.application.vladcelona.eximeeting.BuildConfig
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.databinding.FragmentAppInfoBinding
 import com.google.zxing.BarcodeFormat
@@ -20,12 +21,12 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 private const val TAG = "AppInfoFragment"
+private const val versionName = BuildConfig.VERSION_NAME
 
 class AppInfoFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
 
-    private lateinit var appQRCode: ImageView
     private val link: String = "https://github.com/vladcelona/Eximeeting_Samsung/releases/" +
             "download/Pre-release/app-debug.apk"
 
@@ -45,6 +46,8 @@ class AppInfoFragment : Fragment() {
     ): View {
         // Inflate the layout for this fragment
         binding = FragmentAppInfoBinding.inflate(inflater, container, false)
+
+        binding.appVersion.text = versionName
         setQRCode()
 
         return binding.root

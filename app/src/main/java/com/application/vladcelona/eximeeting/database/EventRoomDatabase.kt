@@ -7,7 +7,9 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.sqlite.db.SupportSQLiteDatabase
+import com.application.vladcelona.eximeeting.BuildConfig
 import com.application.vladcelona.eximeeting.data_classes.Event
+import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -16,7 +18,7 @@ import kotlin.random.Random
 private const val TAG = "EventRoomDatabase"
 private const val DATABASE_NAME = "event_database"
 
-@Database(entities = [Event::class], version = 1, exportSchema = false)
+@Database(entities = [Event::class], version = BuildConfig.VERSION_CODE, exportSchema = false)
 @TypeConverters(EventConverters::class)
 abstract class EventRoomDatabase : RoomDatabase() {
 
@@ -55,38 +57,43 @@ Whether you're an aspiring entrepreneur, a seasoned executive, or a business ent
 
 Don't miss this opportunity to join the conversation and be part of the business revolution. Reserve your spot at the Business Innovation Summit today and unlock new possibilities for growth, innovation, and success."""
 
-            var event = Event(Random.nextInt(), "First Conference", "02/05/2023",
-                "10/05/2023", "Moscow, Russia", "117892, Random Street",
-                "Eximeeting", 1, descriptionText)
-            eventDao.insert(event)
-            event =  Event(Random.nextInt(), "Second Conference", "02/01/2023",
-                "10/01/2023", "Washington D.C., USA", "Random Square",
-                "Eximeeting", 0, descriptionText)
-            eventDao.insert(event)
-            event =  Event(Random.nextInt(), "Third Conference", "12/12/2021",
-                "15/12/2023", "Madrid, Spain", "Random Square",
-                "Eximeeting", 4, descriptionText)
-            eventDao.insert(event)
-            event =  Event(Random.nextInt(), "Fourth Conference", "02/01/2023",
-                "10/01/2023", "Casablanca, Morocco", "Random Square",
-                "Eximeeting", 2, descriptionText)
-            eventDao.insert(event)
-            event =  Event(Random.nextInt(), "Fifth Conference", "02/09/2023",
-                "10/09/2023", "Minsk, Belarus", "Random Drive",
-                "Eximeeting", 3, descriptionText)
-            eventDao.insert(event)
-            event =  Event(Random.nextInt(), "Sixth Conference", "02/01/2023",
-                "10/01/2023", "Los Angeles, CA, USA", "Random Roas",
-                "Eximeeting", 1, descriptionText)
-            eventDao.insert(event)
-            event =  Event(Random.nextInt(), "Seventh Conference", "02/01/2023",
-                "10/01/2023", "Washington D.C., USA", "Random Event",
-                "Eximeeting", 0, descriptionText)
-            eventDao.insert(event)
-            event =  Event(Random.nextInt(), "Eighth Conference", "02/11/2023",
-                "10/11/2023", "Seattle, WA, USA", "Random Street",
-                "Eximeeting", 3, descriptionText)
-            eventDao.insert(event)
+            val events = EximeetingFirebase.getEvents()
+            for (event in events) {
+                if (event != null) { eventDao.insert(event) }
+            }
+
+//            var event = Event(Random.nextInt(), "First Conference", Event.randomDate(),
+//                Event.randomDate(), "Moscow, Russia", "117892, Random Street",
+//                "Eximeeting", descriptionText)
+//            eventDao.insert(event)
+//            event =  Event(Random.nextInt(), "Second Conference", Event.randomDate(),
+//                Event.randomDate(), "Washington D.C., USA", "Random Square",
+//                "Eximeeting", descriptionText)
+//            eventDao.insert(event)
+//            event =  Event(Random.nextInt(), "Third Conference", Event.randomDate(),
+//                Event.randomDate(), "Madrid, Spain", "Random Square",
+//                "Eximeeting", descriptionText)
+//            eventDao.insert(event)
+//            event =  Event(Random.nextInt(), "Fourth Conference", Event.randomDate(),
+//                Event.randomDate(), "Casablanca, Morocco", "Random Square",
+//                "Eximeeting", descriptionText)
+//            eventDao.insert(event)
+//            event =  Event(Random.nextInt(), "Fifth Conference", Event.randomDate(),
+//                Event.randomDate(), "Minsk, Belarus", "Random Drive",
+//                "Eximeeting", descriptionText)
+//            eventDao.insert(event)
+//            event =  Event(Random.nextInt(), "Sixth Conference", Event.randomDate(),
+//                Event.randomDate(), "Los Angeles, CA, USA", "Random Roas",
+//                "Eximeeting", descriptionText)
+//            eventDao.insert(event)
+//            event =  Event(Random.nextInt(), "Seventh Conference", Event.randomDate(),
+//                Event.randomDate(), "Washington D.C., USA", "Random Event",
+//                "Eximeeting", descriptionText)
+//            eventDao.insert(event)
+//            event =  Event(Random.nextInt(), "Eighth Conference", Event.randomDate(),
+//                Event.randomDate(), "Seattle, WA, USA", "Random Street",
+//                "Eximeeting", descriptionText)
+//            eventDao.insert(event)
         }
     }
 

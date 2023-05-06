@@ -54,7 +54,8 @@ class UpcomingEventListFragment : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         eventViewModel.events.observe(viewLifecycleOwner) { events ->
-            events?.let { adapter.submitList(it) }
+            val upcomingEvents = events.filterIndexed { _, event -> event.getStatusCode() != 4 }
+            upcomingEvents.let { adapter.submitList(it) }
         }
 
         return view
