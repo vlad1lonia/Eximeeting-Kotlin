@@ -20,7 +20,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        EximeetingFirebase.pushEventData()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

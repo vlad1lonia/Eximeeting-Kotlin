@@ -18,7 +18,7 @@ data class User(
 ) {
 
     /**
-     * Method for converting the User data class object into the Map
+     * Method for converting the [User] data class object into the Map
      * @return A new instance of Map with String type key and Any type object
      */
     @Exclude
@@ -37,7 +37,7 @@ data class User(
     }
 
     /**
-     * Method for converting the User url link into QR-code
+     * Method for converting the [User] url link into QR-code
      * @return A new instance of Bitmap which contains the QR-code of the url
      */
     fun convertToQRCode(): Bitmap {

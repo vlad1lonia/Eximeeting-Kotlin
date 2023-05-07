@@ -8,9 +8,13 @@ import androidx.core.os.bundleOf
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.application.vladcelona.eximeeting.firebase.FirebaseEvent
+import com.google.firebase.database.Exclude
+import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
+import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 import kotlin.math.abs
 import kotlin.random.Random
@@ -24,8 +28,8 @@ data class Event(
 
     // Data shown in Event RecyclerView
     @ColumnInfo(name = "name") val name: String = "",
-    @ColumnInfo(name = "fromDate") val fromDate: Date = Date(),
-    @ColumnInfo(name = "toDate") val toDate: Date = Date(),
+    @Exclude @ColumnInfo(name = "fromDate") val fromDate: Date = Date(),
+    @Exclude @ColumnInfo(name = "toDate") val toDate: Date = Date(),
     @ColumnInfo(name = "location") val location: String = "",
     @ColumnInfo(name = "address") val address: String = "",
     @ColumnInfo(name = "organizer") val organizer: String = "",
@@ -116,13 +120,13 @@ data class Event(
     }
 
     /**
-     * Method for converting Event class object to Map object with key of String
+     * Method for converting [Event] class object to Map object with key of String
      * @return A new instance of Map
      */
-
     fun toMap(): Map<String, Any> {
         val convertedEvent: HashMap<String, Any> = HashMap()
 
+        convertedEvent["id"] = id
         convertedEvent["name"] = name
         convertedEvent["fromDate"] = fromDate
         convertedEvent["toDate"] = toDate
@@ -136,6 +140,28 @@ data class Event(
         convertedEvent["maps"] = maps.toString()
 
         return convertedEvent
+    }
+
+    /**
+     * Method for converting [Event] object into [FirebaseEvent] class object
+     * @return A new instance of [FirebaseEvent]
+     */
+    fun convertToFirebase(): FirebaseEvent {
+
+        return FirebaseEvent(
+            id = id,
+            name = name,
+            fromDate = dateToString(fromDate)!!,
+            toDate = dateToString(toDate)!!,
+            location = location,
+            address = address,
+            organizer = organizer,
+            description = description,
+            speakers = speakers.toString(),
+            moderators = moderators.toString(),
+            businessProgramme = Gson().toJson(businessProgramme),
+            maps = maps.toString()
+        )
     }
 
     companion object {
@@ -167,7 +193,7 @@ data class Event(
         }
 
         /**
-         * Method for converting statusCode field into the String
+         * Method for converting [statusCode] field into the String
          * @return A new instance of String
          */
         fun convertStatusCode(statusCode: Int?): String {
@@ -185,7 +211,7 @@ data class Event(
         }
 
         /**
-         * Method for getting the color for a certain statusCode value
+         * Method for getting the color for a certain [statusCode] value
          * @return A new instance of Int (Code of Color)
          */
         fun getStatusCodeColor(statusCode: Int?): Int {
@@ -200,6 +226,28 @@ data class Event(
                     Color.BLACK
                 }
             }
+        }
+
+        /**
+         * Method for converting String object into an ArrayList object
+         * @return A new instance of ArrayList
+         */
+        fun stringToArrayList(inputString: String): ArrayList<String?>? {
+            val arrayList: ArrayList<String?>? = ArrayList()
+            for (element in inputString.substring(1, inputString.length - 1).split(", ")) {
+                arrayList?.add(element)
+            }
+
+            return arrayList
+        }
+
+        /**
+         * Method for converting String object into an HashMap object
+         * @return A new instance of HashMap
+         */
+        fun stringToMap(inputString: String): HashMap<String, ArrayList<String?>?>? {
+            return Gson().fromJson(
+                inputString, HashMap::class.java) as HashMap<String, ArrayList<String?>?>?
         }
     }
 }

@@ -30,47 +30,47 @@ Whether you're an aspiring entrepreneur, a seasoned executive, or a business ent
 
 Don't miss this opportunity to join the conversation and be part of the business revolution. Reserve your spot at the Business Innovation Summit today and unlock new possibilities for growth, innovation, and success."""
 
-            val events: ArrayList<Event> = ArrayList()
+            val events: ArrayList<FirebaseEvent> = ArrayList()
 
             var event = Event(
                 Random.nextInt(), "First Conference", Event.randomDate(),
                 Event.randomDate(), "Moscow, Russia", "117892, Random Street",
-                "Eximeeting", descriptionText)
+                "Eximeeting", descriptionText).convertToFirebase()
             events.add(event)
-            event =  Event(
+            event = Event(
                 Random.nextInt(), "Second Conference", Event.randomDate(),
                 Event.randomDate(), "Washington D.C., USA", "Random Square",
-                "Eximeeting", descriptionText)
+                "Eximeeting", descriptionText).convertToFirebase()
             events.add(event)
-            event =  Event(
+            event = Event(
                 Random.nextInt(), "Third Conference", Event.randomDate(),
                 Event.randomDate(), "Madrid, Spain", "Random Square",
-                "Eximeeting", descriptionText)
+                "Eximeeting", descriptionText).convertToFirebase()
             events.add(event)
-            event =  Event(
+            event = Event(
                 Random.nextInt(), "Fourth Conference", Event.randomDate(),
                 Event.randomDate(), "Casablanca, Morocco", "Random Square",
-                "Eximeeting", descriptionText)
+                "Eximeeting", descriptionText).convertToFirebase()
             events.add(event)
-            event =  Event(
+            event = Event(
                 Random.nextInt(), "Fifth Conference", Event.randomDate(),
                 Event.randomDate(), "Minsk, Belarus", "Random Drive",
-                "Eximeeting", descriptionText)
+                "Eximeeting", descriptionText).convertToFirebase()
             events.add(event)
-            event =  Event(
+            event = Event(
                 Random.nextInt(), "Sixth Conference", Event.randomDate(),
                 Event.randomDate(), "Los Angeles, CA, USA", "Random Roas",
-                "Eximeeting", descriptionText)
+                "Eximeeting", descriptionText).convertToFirebase()
             events.add(event)
-            event =  Event(
+            event = Event(
                 Random.nextInt(), "Seventh Conference", Event.randomDate(),
                 Event.randomDate(), "Washington D.C., USA", "Random Event",
-                "Eximeeting", descriptionText)
+                "Eximeeting", descriptionText).convertToFirebase()
             events.add(event)
-            event =  Event(
+            event = Event(
                 Random.nextInt(), "Eighth Conference", Event.randomDate(),
                 Event.randomDate(), "Seattle, WA, USA", "Random Street",
-                "Eximeeting", descriptionText)
+                "Eximeeting", descriptionText).convertToFirebase()
             events.add(event)
 
             val databaseReference = FirebaseDatabase.getInstance().getReference("Events")
@@ -96,33 +96,6 @@ Don't miss this opportunity to join the conversation and be part of the business
             })
 
             return user
-        }
-
-        fun getEvents(): ArrayList<Event?> {
-            val firebaseEvents: ArrayList<Event?> = ArrayList()
-
-            val databaseReference = FirebaseDatabase.getInstance()
-                .getReference("Events")
-
-            databaseReference.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for (postSnapshot in snapshot.children) {
-                        Log.i(TAG, postSnapshot.getValue(Event::class.java).toString())
-//                        firebaseEvents.add(postSnapshot.getValue(Event::class.java))
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e(TAG, "Error while trying to get data from Firebase")
-                }
-
-            })
-
-            for (firebaseEvent in firebaseEvents) {
-                Log.i(TAG, firebaseEvent.toString())
-            }
-
-            return firebaseEvents
         }
     }
 }

@@ -10,6 +10,8 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.application.vladcelona.eximeeting.BuildConfig
 import com.application.vladcelona.eximeeting.data_classes.Event
 import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase
+import com.application.vladcelona.eximeeting.firebase.FirebaseEvent
+import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import java.io.File
@@ -57,9 +59,26 @@ Whether you're an aspiring entrepreneur, a seasoned executive, or a business ent
 
 Don't miss this opportunity to join the conversation and be part of the business revolution. Reserve your spot at the Business Innovation Summit today and unlock new possibilities for growth, innovation, and success."""
 
-            val events = EximeetingFirebase.getEvents()
+            val events: ArrayList<Event> = arrayListOf()
+
+            val databaseReference: DatabaseReference = FirebaseDatabase.getInstance()
+                .getReference("Events")
+            databaseReference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (eventSnapshot in snapshot.children) {
+                        val event: Event = eventSnapshot.getValue(FirebaseEvent::class.java)!!.convertToEvent()
+                        events.add(event)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(TAG, "Could not get data from Firebase")
+                }
+
+            })
+
             for (event in events) {
-                if (event != null) { eventDao.insert(event) }
+                eventDao.insert(event)
             }
 
 //            var event = Event(Random.nextInt(), "First Conference", Event.randomDate(),
