@@ -7,10 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.databinding.FragmentStartBinding
 import com.google.android.gms.tasks.Task
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.FirebaseDatabase
@@ -25,6 +28,31 @@ class StartFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var binding: FragmentStartBinding
+
+    override fun onStart() {
+        super.onStart()
+
+        val navView = activity?.findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+        val navOptions = NavOptions.Builder()
+            .setPopUpTo(R.id.startFragment, true).build()
+
+        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        FirebaseAuth.getInstance().currentUser.let { it?.let {it1 ->
+            databaseReference.child(it1.uid)
+                .get().addOnCompleteListener {task: Task<DataSnapshot> ->
+                    if (task.isSuccessful && task.result.exists()) {
+                        Toast.makeText(context, "You have been logged in successfully",
+                            Toast.LENGTH_SHORT).show()
+                        navView?.visibility = View.VISIBLE
+                        findNavController()
+                            .navigate(
+                                R.id.action_startFragment_to_upcomingEventsListFragment,
+                                bundleOf(), navOptions
+                            )
+                    }
+            }
+        } }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

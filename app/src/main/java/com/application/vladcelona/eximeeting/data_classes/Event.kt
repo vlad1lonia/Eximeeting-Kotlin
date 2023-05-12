@@ -8,7 +8,6 @@ import androidx.core.os.bundleOf
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.application.vladcelona.eximeeting.firebase.FirebaseEvent
 import com.google.firebase.database.Exclude
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
@@ -34,7 +33,7 @@ data class Event(
     @ColumnInfo(name = "address") val address: String = "",
     @ColumnInfo(name = "organizer") val organizer: String = "",
 
-    // Data shown when user presses on a certain event
+    // Additional data shown in the [EventFragment.kt]
     @ColumnInfo(name = "description") val description: String = "",
     @ColumnInfo(name = "speakers") val speakers: ArrayList<String?>? = ArrayList(),
     @ColumnInfo(name = "moderators") val moderators: ArrayList<String?>? = ArrayList(),
@@ -119,54 +118,9 @@ data class Event(
         )
     }
 
-    /**
-     * Method for converting [Event] class object to Map object with key of String
-     * @return A new instance of Map
-     */
-    fun toMap(): Map<String, Any> {
-        val convertedEvent: HashMap<String, Any> = HashMap()
-
-        convertedEvent["id"] = id
-        convertedEvent["name"] = name
-        convertedEvent["fromDate"] = fromDate
-        convertedEvent["toDate"] = toDate
-        convertedEvent["location"] = location
-        convertedEvent["address"] = address
-        convertedEvent["organizer"] = organizer
-        convertedEvent["description"] = description
-        convertedEvent["speakers"] = speakers.toString()
-        convertedEvent["moderators"] = moderators.toString()
-        convertedEvent["businessProgramme"] = businessProgramme.toString()
-        convertedEvent["maps"] = maps.toString()
-
-        return convertedEvent
-    }
-
-    /**
-     * Method for converting [Event] object into [FirebaseEvent] class object
-     * @return A new instance of [FirebaseEvent]
-     */
-    fun convertToFirebase(): FirebaseEvent {
-
-        return FirebaseEvent(
-            id = id,
-            name = name,
-            fromDate = dateToString(fromDate)!!,
-            toDate = dateToString(toDate)!!,
-            location = location,
-            address = address,
-            organizer = organizer,
-            description = description,
-            speakers = speakers.toString(),
-            moderators = moderators.toString(),
-            businessProgramme = Gson().toJson(businessProgramme),
-            maps = maps.toString()
-        )
-    }
-
     companion object {
         fun randomDate(): Date {
-            return Date(Random.nextLong(1672520400000L, 1685566800000L))
+            return Date(Random.nextLong(1682520400000L, 1685566800000L))
         }
 
         @SuppressLint("SimpleDateFormat")

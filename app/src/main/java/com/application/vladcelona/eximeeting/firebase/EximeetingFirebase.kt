@@ -1,18 +1,11 @@
 package com.application.vladcelona.eximeeting.firebase
 
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.util.Log
 import com.application.vladcelona.eximeeting.data_classes.Event
 import com.application.vladcelona.eximeeting.data_classes.User
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.zxing.BarcodeFormat
-import com.google.zxing.common.BitMatrix
-import com.google.zxing.qrcode.QRCodeWriter
+import com.google.firebase.database.*
+import com.google.gson.Gson
 import kotlin.random.Random
 
 private const val TAG = "EximeetingFirebase"
@@ -30,72 +23,88 @@ Whether you're an aspiring entrepreneur, a seasoned executive, or a business ent
 
 Don't miss this opportunity to join the conversation and be part of the business revolution. Reserve your spot at the Business Innovation Summit today and unlock new possibilities for growth, innovation, and success."""
 
-            val events: ArrayList<FirebaseEvent> = ArrayList()
+            val events: ArrayList<Event> = ArrayList()
 
             var event = Event(
                 Random.nextInt(), "First Conference", Event.randomDate(),
                 Event.randomDate(), "Moscow, Russia", "117892, Random Street",
-                "Eximeeting", descriptionText).convertToFirebase()
+                "Eximeeting", descriptionText)
             events.add(event)
             event = Event(
                 Random.nextInt(), "Second Conference", Event.randomDate(),
                 Event.randomDate(), "Washington D.C., USA", "Random Square",
-                "Eximeeting", descriptionText).convertToFirebase()
+                "Eximeeting", descriptionText)
             events.add(event)
             event = Event(
                 Random.nextInt(), "Third Conference", Event.randomDate(),
                 Event.randomDate(), "Madrid, Spain", "Random Square",
-                "Eximeeting", descriptionText).convertToFirebase()
+                "Eximeeting", descriptionText)
             events.add(event)
             event = Event(
                 Random.nextInt(), "Fourth Conference", Event.randomDate(),
                 Event.randomDate(), "Casablanca, Morocco", "Random Square",
-                "Eximeeting", descriptionText).convertToFirebase()
+                "Eximeeting", descriptionText)
             events.add(event)
             event = Event(
                 Random.nextInt(), "Fifth Conference", Event.randomDate(),
                 Event.randomDate(), "Minsk, Belarus", "Random Drive",
-                "Eximeeting", descriptionText).convertToFirebase()
+                "Eximeeting", descriptionText)
             events.add(event)
             event = Event(
                 Random.nextInt(), "Sixth Conference", Event.randomDate(),
-                Event.randomDate(), "Los Angeles, CA, USA", "Random Roas",
-                "Eximeeting", descriptionText).convertToFirebase()
+                Event.randomDate(), "Los Angeles, CA, USA", "Random Road",
+                "Eximeeting", descriptionText)
             events.add(event)
             event = Event(
                 Random.nextInt(), "Seventh Conference", Event.randomDate(),
                 Event.randomDate(), "Washington D.C., USA", "Random Event",
-                "Eximeeting", descriptionText).convertToFirebase()
+                "Eximeeting", descriptionText)
             events.add(event)
             event = Event(
                 Random.nextInt(), "Eighth Conference", Event.randomDate(),
                 Event.randomDate(), "Seattle, WA, USA", "Random Street",
-                "Eximeeting", descriptionText).convertToFirebase()
+                "Eximeeting", descriptionText)
+            events.add(event)
+            event = Event(
+                Random.nextInt(), "Ninth Conference", Event.randomDate(),
+                Event.randomDate(), "New York, NY, USA", "Random Square",
+                "Eximeeting", descriptionText)
+            events.add(event)
+            event = Event(
+                Random.nextInt(), "Tenth Conference", Event.randomDate(),
+                Event.randomDate(), "Albany, NY, USA", "Random Road",
+                "Eximeeting", descriptionText)
             events.add(event)
 
-            val databaseReference = FirebaseDatabase.getInstance().getReference("Events")
+            val databaseReference = FirebaseDatabase
+                .getInstance().getReference("Events")
             for (element in events) {
-                databaseReference.child(element.id.toString()).setValue(element)
+                databaseReference.child(element.id.toString()).setValue(Gson().toJson(element))
             }
         }
 
-        fun getUserData(): User {
-            var user: User = User()
+        fun getEventData(): List<Event> {
+            val events: ArrayList<Event> = ArrayList()
 
-            val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-            val uid: String = FirebaseAuth.getInstance().currentUser?.uid.toString()
-
-            databaseReference.child(uid).addValueEventListener(object : ValueEventListener {
+            val databaseReference: DatabaseReference = FirebaseDatabase
+                .getInstance().getReference("Events")
+            databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    user = snapshot.getValue(User::class.java)!!
+                    for (eventSnapshot in snapshot.children) {
+                        val jsonEvent: String? = eventSnapshot.getValue(String::class.java)
+                        if (jsonEvent != null) {
+                            events.add(Gson().fromJson(jsonEvent, Event::class.java))
+                        }
+                    }
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    Log.e(TAG, "Error while trying to get data from Firebase")
+                    Log.w(TAG, "The load of Events has been cancelled")
                 }
+
             })
 
-            return user
+            return events
         }
     }
 }

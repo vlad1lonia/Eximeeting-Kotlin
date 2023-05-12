@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+        EximeetingFirebase.pushEventData()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,14 +37,6 @@ class MainActivity : AppCompatActivity() {
         navView.visibility = View.INVISIBLE
 
         val navOptions = NavOptions.Builder().setPopUpTo(R.id.startFragment, true).build()
-
-        if (User.checkAccess()) {
-            Toast.makeText(this@MainActivity,
-                "You have been logged in successfully", Toast.LENGTH_SHORT).show()
-            navController.navigate(R.id.action_startFragment_to_upcomingEventsListFragment,
-                bundleOf(), navOptions)
-            navView.visibility = View.VISIBLE
-//            EximeetingFirebase.getEvents()
-        }
+        navController.navigate(R.id.startFragment, bundleOf(), navOptions)
     }
 }
