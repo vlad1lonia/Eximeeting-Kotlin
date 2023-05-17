@@ -38,7 +38,7 @@ data class Event(
     @ColumnInfo(name = "speakers") val speakers: ArrayList<String?>? = ArrayList(),
     @ColumnInfo(name = "moderators") val moderators: ArrayList<String?>? = ArrayList(),
     @ColumnInfo(name = "businessProgramme")
-    val businessProgramme: Map<String, ArrayList<String?>?>? = HashMap(),
+    val businessProgramme: LinkedHashMap<String, ArrayList<String?>?>? = LinkedHashMap(),
     @ColumnInfo(name = "maps") val maps: ArrayList<String?>? = ArrayList()
 ) {
 
@@ -66,7 +66,7 @@ data class Event(
      */
     fun getStatusCodeColor(): Int {
         return when (getStatusCode()) {
-            0 -> Color.YELLOW
+            0 -> Color.BLUE
             1 -> Color.GREEN
             2 -> Color.GREEN
             3 -> Color.rgb(255,140,0)
@@ -171,7 +171,7 @@ data class Event(
          */
         fun getStatusCodeColor(statusCode: Int?): Int {
             return when (statusCode) {
-                0 -> Color.YELLOW
+                0 -> Color.BLUE
                 1 -> Color.GREEN
                 2 -> Color.GREEN
                 3 -> Color.rgb(255,140,0)
@@ -200,9 +200,9 @@ data class Event(
          * Method for converting String object into an HashMap object
          * @return A new instance of HashMap
          */
-        fun stringToMap(inputString: String): HashMap<String, ArrayList<String?>?>? {
+        fun stringToMap(inputString: String): LinkedHashMap<String, ArrayList<String?>?>? {
             return Gson().fromJson(
-                inputString, HashMap::class.java) as HashMap<String, ArrayList<String?>?>?
+                inputString, HashMap::class.java) as LinkedHashMap<String, ArrayList<String?>?>?
         }
 
         fun arrayListToString(inputArrayList: ArrayList<String?>?): String {

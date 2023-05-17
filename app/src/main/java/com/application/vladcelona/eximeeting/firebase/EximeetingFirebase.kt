@@ -23,7 +23,7 @@ Whether you're an aspiring entrepreneur, a seasoned executive, or a business ent
 
 Don't miss this opportunity to join the conversation and be part of the business revolution. Reserve your spot at the Business Innovation Summit today and unlock new possibilities for growth, innovation, and success."""
 
-            val businessProgramme: HashMap<String, ArrayList<String?>?>? = HashMap()
+            val businessProgramme: LinkedHashMap<String, ArrayList<String?>?>? = LinkedHashMap()
             businessProgramme?.set("Monday", """9:00 AM - 10:30 AM: Financial Analysis Meeting
 10:30 AM - 11:30 AM: Sales Training Session
 11:30 AM - 12:30 PM: Brainstorming Session

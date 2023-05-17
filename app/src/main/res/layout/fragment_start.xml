@@ -91,7 +91,7 @@
             android:textAllCaps="false"
             android:backgroundTint="#d9e7cb"
             android:fontFamily="@font/roboto_regular"
-            android:textSize="21sp"
+            android:textSize="24sp"
             android:textColor="#386a20"
             android:layout_marginStart="4dp"
             android:layout_marginEnd="8dp"

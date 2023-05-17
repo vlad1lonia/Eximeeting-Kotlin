@@ -34,13 +34,13 @@ class EventConverters {
     }
 
     @TypeConverter
-    fun fromStringToMap(value: String?): Map<String, ArrayList<String?>?> {
-        val type = object : TypeToken<Map<String, ArrayList<String?>?>?>() {}.type
+    fun fromStringToMap(value: String?): LinkedHashMap<String, ArrayList<String?>?> {
+        val type = object : TypeToken<LinkedHashMap<String, ArrayList<String?>?>?>() {}.type
         return Gson().fromJson(value, type)
     }
 
     @TypeConverter
-    fun fromMap(value: Map<String, ArrayList<String?>?>?): String? {
+    fun fromMap(value: LinkedHashMap<String, ArrayList<String?>?>?): String? {
         return Gson().toJson(value)
     }
 

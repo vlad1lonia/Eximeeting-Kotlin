@@ -4,16 +4,19 @@
     <item
         android:id="@id/upcomingEventListFragment"
         android:icon="@drawable/home_selector"
+        android:fontFamily="@font/roboto_regular"
         android:title="Upcoming" />
 
     <item
         android:id="@id/completedEventListFragment"
         android:icon="@drawable/completed_selector"
+        android:fontFamily="@font/roboto_regular"
         android:title="Completed" />
 
     <item
         android:id="@id/settingsFragment"
         android:icon="@drawable/person_selector"
+        android:fontFamily="@font/roboto_regular"
         android:title="Settings" />
 
 </menu>

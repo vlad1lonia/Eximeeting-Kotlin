@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.application.vladcelona.eximeeting.R
@@ -35,7 +36,8 @@ class EventFragment : Fragment() {
             (arguments?.getInt("status")))
 
         binding.businessProgrammeButton.setOnClickListener {
-            findNavController().navigate(R.id.businessProgrammeFragment)
+            findNavController().navigate(R.id.businessProgrammeFragment,
+            bundleOf("businessProgramme" to arguments?.getSerializable("businessProgramme")))
         }
 
         return binding.root

@@ -6,6 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/personal_green_background"
     android:layout_marginBottom="?attr/actionBarSize">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -31,6 +32,7 @@
                 android:textColor="@color/black"
                 android:textSize="40sp"
                 android:textStyle="bold"
+                android:fontFamily="@font/roboto_regular"
                 android:paddingStart="16dp"
                 app:layout_constraintBottom_toTopOf="@id/business_programme_stroke"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -59,6 +61,7 @@
 
                 android:textColor="@color/black"
                 android:textSize="18sp"
+                android:fontFamily="@font/roboto_regular"
                 android:paddingTop="8dp"
 
                 app:layout_constraintTop_toTopOf="parent"
