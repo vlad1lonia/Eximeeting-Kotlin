@@ -113,8 +113,9 @@ data class Event(
         return bundleOf(
             "name" to name, "date" to "${dateToString(fromDate)} - \n${dateToString(toDate)}",
             "location" to location, "address" to address, "organizer" to organizer,
-            "status" to getStatusCode(), "description" to description, "speakers" to speakers,
-            "moderators" to moderators, "businessProgramme" to businessProgramme, "maps" to maps
+            "status" to getStatusCode(), "description" to description,
+            "speakers" to arrayListToString(speakers), "moderators" to arrayListToString(moderators),
+            "businessProgramme" to businessProgramme, "maps" to maps
         )
     }
 
@@ -202,6 +203,28 @@ data class Event(
         fun stringToMap(inputString: String): HashMap<String, ArrayList<String?>?>? {
             return Gson().fromJson(
                 inputString, HashMap::class.java) as HashMap<String, ArrayList<String?>?>?
+        }
+
+        fun arrayListToString(inputArrayList: ArrayList<String?>?): String {
+            val arrayString: String = inputArrayList.toString()
+            return arrayString.substring(1, arrayString.length - 1)
+        }
+
+        fun randomSpeakers(): ArrayList<String?>? {
+            val speakersList: ArrayList<String?> =
+                arrayListOf("Vladislav Balandin", "Leonid Sheshukov", "Stepan Ivanov",
+                    "Andrey Androsov", "Evgeniy Maksimilianov", "Vladimir Poddubniy",
+                    "Pavel Maksimov", "Nikita Evgeniev")
+
+            return speakersList.asSequence().shuffled().take(3).toList() as ArrayList<String?>?
+        }
+
+        fun randomModerators(): ArrayList<String?>? {
+            val moderatorsList: ArrayList<String?> =
+                arrayListOf("Aleksandr Aleksandrov", "Mark Rublev", "Eduard Kazakov",
+                    "Roman Belousov", "Georgy Nikitov", "Vladislav Aleksandrov")
+
+            return moderatorsList.asSequence().shuffled().take(3).toList() as ArrayList<String?>?
         }
     }
 }

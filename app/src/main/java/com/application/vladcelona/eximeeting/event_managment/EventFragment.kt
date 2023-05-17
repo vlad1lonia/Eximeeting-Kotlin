@@ -5,6 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
+import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.Event
 import com.application.vladcelona.eximeeting.databinding.FragmentEventBinding
 
@@ -26,9 +28,15 @@ class EventFragment : Fragment() {
         binding.fragmentEventLocation.text = arguments?.getString("location")
         binding.fragmentEventStatus.text = Event.convertStatusCode(arguments?.getInt("status"))
         binding.fragmentEventDescription.text = arguments?.getString("description")
+        binding.fragmentEventSpeakers.text = arguments?.getString("speakers")
+        binding.fragmentEventModerators.text = arguments?.getString("moderators")
 
         binding.fragmentEventStatus.setTextColor(Event.getStatusCodeColor
             (arguments?.getInt("status")))
+
+        binding.businessProgrammeButton.setOnClickListener {
+            findNavController().navigate(R.id.businessProgrammeFragment)
+        }
 
         return binding.root
     }

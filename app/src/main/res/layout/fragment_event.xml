@@ -218,6 +218,36 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/moderators_text" />
 
+            <TextView
+                android:id="@+id/business_programme_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Business programme"
+                android:textColor="@color/black"
+
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:paddingTop="16dp"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/fragment_event_moderators" />
+
+            <com.google.android.material.button.MaterialButton
+                android:background="@drawable/sign_out_button"
+                android:id="@+id/business_programme_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="Click to view the business programme"
+                android:textSize="21sp"
+                android:fontFamily="@font/roboto_regular"
+                android:textAllCaps="false"
+                android:layout_marginTop="16dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/business_programme_text"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -103,4 +103,10 @@
         android:label="Event"
         tools:layout="@layout/fragment_event" />
 
+    <fragment
+        android:id="@+id/businessProgrammeFragment"
+        android:name="com.application.vladcelona.eximeeting.event_managment.BusinessProgrammeFragment"
+        android:label="BusinessProgramme"
+        tools:layout="@layout/fragment_business_programme" />
+
 </navigation>
