@@ -38,7 +38,8 @@ class BusinessProgrammeFragment : Fragment() {
         if (receivedBusinessProgramme != null) {
             for ((key, value) in receivedBusinessProgramme) {
                 businessProgrammeText.append("<b>${key}</b>\n")
-                businessProgrammeText.append("<p>${value}\n\n</p>")
+                businessProgrammeText.append("<p>${value.toString()
+                    .substring(1, value.toString().length - 1)}\n\n</p>")
             }
         }
 

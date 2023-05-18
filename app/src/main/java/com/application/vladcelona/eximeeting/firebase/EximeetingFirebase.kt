@@ -146,7 +146,39 @@ Don't miss this opportunity to join the conversation and be part of the business
 
             })
 
+            val eventsId: HashMap<String, Boolean> = HashMap()
+            for (event in events) {
+                eventsId[event.id.toString()] = false
+            }
+
+            Log.i(TAG, Gson().toJson(eventsId))
+
             return events
+        }
+
+        fun defaultVisitedMap(): HashMap<String, Boolean> {
+
+            val defaultMap: HashMap<String, Boolean> = HashMap()
+
+            val databaseReference: DatabaseReference = FirebaseDatabase
+                .getInstance().getReference("Events")
+
+            databaseReference.addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (eventSnapshot in snapshot.children) {
+                        defaultMap[eventSnapshot.key!!] = false
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w(TAG, "The load of Events has been cancelled")
+                }
+
+            })
+
+            Thread.sleep(1500)
+
+            return defaultMap
         }
     }
 }

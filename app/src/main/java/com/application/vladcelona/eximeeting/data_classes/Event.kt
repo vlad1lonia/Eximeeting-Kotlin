@@ -115,7 +115,7 @@ data class Event(
             "location" to location, "address" to address, "organizer" to organizer,
             "status" to getStatusCode(), "description" to description,
             "speakers" to arrayListToString(speakers), "moderators" to arrayListToString(moderators),
-            "businessProgramme" to businessProgramme, "maps" to maps
+            "businessProgramme" to businessProgramme, "maps" to maps, "id" to id
         )
     }
 

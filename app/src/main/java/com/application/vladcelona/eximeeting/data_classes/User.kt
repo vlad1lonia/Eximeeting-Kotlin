@@ -2,19 +2,25 @@ package com.application.vladcelona.eximeeting.data_classes
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import com.application.vladcelona.eximeeting.MainActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.Exclude
 import com.google.firebase.ktx.Firebase
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
+import java.io.BufferedReader
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.Reader
+import java.io.StringWriter
+import java.io.Writer
 
 data class User(
     var fullName: String = "", val email: String = "",
     var companyName: String = "", val birthDate: String = "", var profileImage: String = "",
-    val position: String = "Not mentioned",
-    val phoneNumber: String = "Not mentioned",
-    val website: String = "https://vk.com/vladcelona"
+    var position: String = "Not mentioned", var phoneNumber: String = "Not mentioned",
+    var website: String = "https://t.me/vladcel0na", var visitedEvents: String = ""
 ) {
 
     /**
@@ -32,6 +38,7 @@ data class User(
         convertedUser["position"] = position
         convertedUser["phoneNumber"] = phoneNumber
         convertedUser["website"] = website
+        convertedUser["visitedEvents"] = visitedEvents
 
         return convertedUser
     }

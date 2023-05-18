@@ -115,6 +115,7 @@ class SettingsFragment : Fragment() {
                 findNavController().navigate(R.id.action_settingsFragment_to_startFragment,
                     bundleOf(), navOptions)
             }
+
             alertDialog.setNegativeButton("No", null)
 
             alertDialog.show()

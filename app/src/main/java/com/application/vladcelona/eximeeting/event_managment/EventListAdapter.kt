@@ -1,6 +1,7 @@
 package com.application.vladcelona.eximeeting.event_managment
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ class EventListAdapter(private val onClickListener: OnClickListener) :
             onClickListener.onClick(current)
             holder.itemView.findNavController().navigate(R.id.eventFragment,
                 current.toBundle())
+            Log.i("RANDOM TAG", current.toBundle().toString())
         }
         holder.bind(current)
     }

@@ -2,7 +2,6 @@ package com.application.vladcelona.eximeeting.account_access
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Editable
@@ -18,14 +17,21 @@ import androidx.core.content.ContextCompat
 import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
-import com.application.vladcelona.eximeeting.MainActivity
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.User
 import com.application.vladcelona.eximeeting.databinding.FragmentRegisterBinding
+import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.gson.Gson
+import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
+import java.io.InputStream
+import java.io.InputStreamReader
+import java.io.Reader
+import java.io.StringWriter
+import java.io.Writer
 import java.util.*
 
 private const val ARG_PARAM1 = "param1"
@@ -34,6 +40,7 @@ private const val ARG_PARAM2 = "param2"
 private const val TAG = "RegisterFragment"
 
 class RegisterFragment : Fragment() {
+
     private var param1: String? = null
     private var param2: String? = null
 
@@ -49,6 +56,8 @@ class RegisterFragment : Fragment() {
     private lateinit var profileImageString: String
 
     private lateinit var profileImage: Bitmap
+
+    private lateinit var defaultMap: HashMap<String, Boolean>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -218,7 +227,9 @@ class RegisterFragment : Fragment() {
                 task ->
             run {
                 if (task.isSuccessful) {
-                    val user = User(fullName, email, companyName, birthDate, profileImageString)
+
+                    val user = User(fullName, email, companyName, birthDate,
+                        profileImageString, visitedEvents = readJsonFromFile())
                     FirebaseAuth.getInstance().currentUser.let { it?.let { it1 ->
                         FirebaseDatabase.getInstance().getReference("Users")
                             .child(it1.uid).setValue(user).addOnCompleteListener { task1 ->
@@ -261,6 +272,29 @@ class RegisterFragment : Fragment() {
     fun View.hideKeyboard() {
         val inputManager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         inputManager.hideSoftInputFromWindow(windowToken, 0)
+    }
+
+    /**
+     * A method for reading a json file with default information about the events visited by user
+     * This file is used only once when user creates an account
+     * @return A new instance of String
+     */
+    fun readJsonFromFile(): String {
+        val inputStream: InputStream = resources.openRawResource(R.raw.events_visit_status)
+        val writer: Writer = StringWriter()
+        val bufferArray: CharArray = CharArray(1024)
+
+        inputStream.use { inputStream ->
+            val reader: Reader = BufferedReader(InputStreamReader(inputStream, "UTF-8"))
+            var status: Int = reader.read(bufferArray)
+
+            while (status != -1) {
+                writer.write(bufferArray, 0, status)
+                status = reader.read(bufferArray)
+            }
+        }
+
+        return writer.toString()
     }
 
     companion object {
