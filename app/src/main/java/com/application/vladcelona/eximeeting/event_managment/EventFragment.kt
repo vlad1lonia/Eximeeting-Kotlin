@@ -32,18 +32,16 @@ class EventFragment : Fragment() {
 
     private lateinit var binding: FragmentEventBinding
 
+    private lateinit var databaseReference: DatabaseReference
     private lateinit var user: User
     private lateinit var uid: String
     private lateinit var eventId: String
-    private lateinit var databaseReference: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
-
-
     }
 
     override fun onCreateView(
@@ -92,6 +90,10 @@ class EventFragment : Fragment() {
                 Log.i(TAG, "$eventId: " + visitedEvents[eventId].toString())
 
                 binding.eventVisitedButton.apply {
+
+                    if (arguments?.getInt("status") == 0) {
+                        visibility = View.INVISIBLE
+                    }
 
                     setOnClickListener {
 
