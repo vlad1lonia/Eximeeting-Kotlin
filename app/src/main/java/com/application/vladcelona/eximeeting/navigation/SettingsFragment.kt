@@ -114,6 +114,8 @@ class SettingsFragment : Fragment() {
                     .setPopUpTo(R.id.startFragment, true).build()
                 findNavController().navigate(R.id.action_settingsFragment_to_startFragment,
                     bundleOf(), navOptions)
+
+                activity?.finish()
             }
 
             alertDialog.setNegativeButton("No", null)
@@ -121,7 +123,7 @@ class SettingsFragment : Fragment() {
             alertDialog.show()
         }
 
-        if (uid.isNotEmpty()) { getUserData() }
+        if (uid.isNotEmpty() && FirebaseAuth.getInstance().currentUser != null) { getUserData() }
         setViewVisibility(false)
 
         return binding.root
@@ -183,10 +185,7 @@ class SettingsFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    activity, "Failed to download data from Database",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Log.w(TAG, "Failed to download data from Firebase Realtime Database")
             }
         })
     }
