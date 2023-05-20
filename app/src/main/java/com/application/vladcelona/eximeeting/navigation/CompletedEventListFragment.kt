@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -36,6 +37,7 @@ class CompletedEventListFragment : Fragment() {
     private var param2: String? = null
 
     private lateinit var recyclerView: RecyclerView
+    private lateinit var notVisitedTextView: TextView
 
     private lateinit var databaseReference: DatabaseReference
     private lateinit var visitedEvents: HashMap<String, Boolean>
@@ -84,6 +86,8 @@ class CompletedEventListFragment : Fragment() {
             container, false)
         
         recyclerView = view.findViewById(R.id.completed_recyclerview)
+        notVisitedTextView = view.findViewById(R.id.not_visited_text)
+
         val adapter = EventListAdapter(EventListAdapter.OnClickListener {
             Log.i(TAG, "Clicked an item")
         })
@@ -100,6 +104,10 @@ class CompletedEventListFragment : Fragment() {
             val completedEvents = events.filterIndexed { _, event ->
                 visitedEvents[event.id.toString()]!!
                         && Locale.getDefault().language == event.language
+            }
+
+            if (completedEvents.isNotEmpty()) {
+                notVisitedTextView.visibility = View.INVISIBLE
             }
 
             completedEvents.let { adapter.submitList(it) }
@@ -127,6 +135,10 @@ class CompletedEventListFragment : Fragment() {
             val completedEvents = events.filterIndexed { _, event ->
                 visitedEvents[event.id.toString()]!!
                         && Locale.getDefault().language == event.language
+            }
+
+            if (completedEvents.isNotEmpty()) {
+                notVisitedTextView.visibility = View.INVISIBLE
             }
 
             completedEvents.let { adapter.submitList(it) }

@@ -20,20 +20,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
 
-    override fun onStart() {
-        super.onStart()
-//        EximeetingFirebase.pushEventData()
-//        EximeetingFirebase.getEventData()
-//
-//        val filesDir: File = File("/data/data/com.application.vladcelona.eximeeting/databases")
-//        for (file in filesDir.listFiles()!!) {
-//            file.delete()
-//            Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show()
-//        }
-//
-//        filesDir.parentFile?.createNewFile()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

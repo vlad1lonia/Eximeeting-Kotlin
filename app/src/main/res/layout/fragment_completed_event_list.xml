@@ -8,6 +8,21 @@
     android:layout_marginBottom="?attr/actionBarSize"
     tools:context=".navigation.CompletedEventListFragment">
 
+    <TextView
+        android:id="@+id/not_visited_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:fontFamily="@font/roboto_regular"
+        android:lineSpacingMultiplier="1.15"
+        android:text="@string/you_haven_t_visited_any_event_yet"
+        android:textSize="28sp"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/completed_recyclerview"
         android:layout_width="0dp"
