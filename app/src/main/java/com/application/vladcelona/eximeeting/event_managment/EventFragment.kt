@@ -1,15 +1,10 @@
 package com.application.vladcelona.eximeeting.event_managment
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.net.Uri
 import android.os.Bundle
-import android.util.Base64
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -24,6 +19,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
+import com.yandex.mapkit.Animation
+import com.yandex.mapkit.MapKitFactory
+import com.yandex.mapkit.geometry.Point
+import com.yandex.mapkit.map.CameraPosition
+import kotlin.random.Random
 
 private const val TAG = "EventFragment"
 private const val ARG_EVENT_ID = "event_id"
@@ -70,6 +70,16 @@ class EventFragment : Fragment() {
                 bundleOf("businessProgramme" to arguments
                     ?.getSerializable("businessProgramme")))
         }
+
+        val randomPoint: Point = Point(Random.nextDouble(52.751574, 64.751574),
+            Random.nextDouble(30.573856, 120.573856))
+
+        binding.fragmentEventLocationMap.map.move(
+            CameraPosition(randomPoint, 11.0f, 0.0f, 0.0f),
+            Animation(Animation.Type.SMOOTH, 0F), null
+        )
+
+        binding.fragmentEventLocationMap.map.mapObjects.addPlacemark(randomPoint)
 
         if (uid.isNotEmpty()) {
             setFloatingButton()
@@ -123,5 +133,4 @@ class EventFragment : Fragment() {
             }
         })
     }
-
 }

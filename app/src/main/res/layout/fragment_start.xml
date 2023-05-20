@@ -93,7 +93,7 @@
             android:fontFamily="@font/roboto_regular"
             android:autoSizeTextType="uniform"
             android:autoSizeMinTextSize="12sp"
-            android:autoSizeMaxTextSize="100sp"
+            android:autoSizeMaxTextSize="24sp"
             android:textSize="24sp"
             android:textColor="#386a20"
             android:layout_marginStart="4dp"

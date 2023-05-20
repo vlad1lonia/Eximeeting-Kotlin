@@ -1,5 +1,6 @@
 package com.application.vladcelona.eximeeting
 
+import android.content.Context
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -13,12 +14,19 @@ import androidx.navigation.ui.setupWithNavController
 import com.application.vladcelona.eximeeting.data_classes.User
 import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.yandex.mapkit.MapKitFactory
 import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
+
+    override fun onStart() {
+        super.onStart()
+
+        MapKitInitializer.initialize("eb50f8b7-3004-48a1-aff6-da437619b1b8", this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,5 +43,25 @@ class MainActivity : AppCompatActivity() {
 
         val navOptions = NavOptions.Builder().setPopUpTo(R.id.startFragment, true).build()
         navController.navigate(R.id.startFragment, bundleOf(), navOptions)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        MapKitFactory.getInstance().onStop()
+    }
+
+    object MapKitInitializer {
+
+        private var initialized = false
+
+        fun initialize(apiKey: String, context: Context) {
+            if (initialized) {
+                return
+            }
+
+            MapKitFactory.setApiKey(apiKey)
+            MapKitFactory.initialize(context)
+            initialized = true
+        }
     }
 }

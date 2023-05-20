@@ -19,7 +19,7 @@ private const val DATABASE_NAME = "event_database"
 
 private const val appVersion = BuildConfig.VERSION_CODE
 
-@Database(entities = [Event::class], version = appVersion, exportSchema = false)
+@Database(entities = [Event::class], version = 1, exportSchema = false)
 @TypeConverters(EventConverters::class)
 abstract class EventRoomDatabase : RoomDatabase() {
 
