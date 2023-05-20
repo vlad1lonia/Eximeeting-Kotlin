@@ -53,6 +53,8 @@ class EventFragment : Fragment() {
         binding.fragmentEventName.text = arguments?.getString("name")
         binding.fragmentEventDate.text = arguments?.getString("date")
         binding.fragmentEventLocation.text = arguments?.getString("location")
+        binding.fragmentEventOrganizer.text = arguments?.getString("organizer")
+        binding.fragmentEventAddress.text = arguments?.getString("address")
         binding.fragmentEventStatus.text = Event.convertStatusCode(arguments?.getInt("status"))
         binding.fragmentEventDescription.text = arguments?.getString("description")
         binding.fragmentEventSpeakers.text = arguments?.getString("speakers")
@@ -95,14 +97,14 @@ class EventFragment : Fragment() {
                         visibility = View.INVISIBLE
                     }
 
-                    setOnClickListener {
+                    if (visitedEvents[eventId]!!) {
+                        isClickable = false
+                        setImageResource(R.drawable.completed_icon)
+                    } else {
+                        setImageResource(R.drawable.completed_icon_outlined)
+                    }
 
-                        if (visitedEvents[eventId]!!) {
-                            isClickable = false
-                            setImageResource(R.drawable.completed_icon)
-                        } else {
-                            setImageResource(R.drawable.completed_icon_outlined)
-                        }
+                    setOnClickListener {
 
                         if (!visitedEvents[eventId]!!) {
                             visitedEvents[eventId] = true
@@ -117,10 +119,7 @@ class EventFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    activity, "Failed to download data from Database",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Log.w(TAG, "Failed to download data from Database")
             }
         })
     }

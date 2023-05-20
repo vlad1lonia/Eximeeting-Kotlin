@@ -26,6 +26,7 @@ data class Event(
     @PrimaryKey val id: Int = Random.nextInt(Int.MIN_VALUE, Int.MAX_VALUE),
 
     // Data shown in Event RecyclerView
+    @ColumnInfo(name = "language") val language: String = "",
     @ColumnInfo(name = "name") val name: String = "",
     @Exclude @ColumnInfo(name = "fromDate") val fromDate: Date = Date(),
     @Exclude @ColumnInfo(name = "toDate") val toDate: Date = Date(),
@@ -47,15 +48,29 @@ data class Event(
      * @return A new instance of String
      */
     fun convertStatusCode(): String {
-        return when (getStatusCode()) {
-            0 -> "Starts soon" // If the event starts within a week
-            1 -> "First day"
-            2 -> "Ongoing" // If it is not the first or last day of the event
-            3 -> "Last day"
-            4 -> "Ended"
-            else -> {
-                Log.i(TAG, "Error while getting statusCode")
-                "Not mentioned"
+        if (Locale.getDefault().language == "en") {
+            return when (getStatusCode()) {
+                0 -> "Starts soon" // If the event starts within a week
+                1 -> "First day"
+                2 -> "Ongoing" // If it is not the first or last day of the event
+                3 -> "Last day"
+                4 -> "Ended"
+                else -> {
+                    Log.i(TAG, "Error while getting statusCode")
+                    "Not mentioned"
+                }
+            }
+        } else {
+            return when (getStatusCode()) {
+                0 -> "Скоро начало" // If the event starts within a week
+                1 -> "Первый день"
+                2 -> "Проходит" // If it is not the first or last day of the event
+                3 -> "Последний день"
+                4 -> "Завершён"
+                else -> {
+                    Log.i(TAG, "Error while getting statusCode")
+                    "Не уточнено"
+                }
             }
         }
     }
@@ -111,7 +126,8 @@ data class Event(
      */
     fun toBundle(): Bundle {
         return bundleOf(
-            "name" to name, "date" to "${dateToString(fromDate)} - \n${dateToString(toDate)}",
+            "name" to name, "language" to language,
+            "date" to "${dateToString(fromDate)} - \n${dateToString(toDate)}",
             "location" to location, "address" to address, "organizer" to organizer,
             "status" to getStatusCode(), "description" to description,
             "speakers" to arrayListToString(speakers), "moderators" to arrayListToString(moderators),
@@ -152,15 +168,29 @@ data class Event(
          * @return A new instance of String
          */
         fun convertStatusCode(statusCode: Int?): String {
-            return when (statusCode) {
-                0 -> "Starts soon" // If the event starts within a week
-                1 -> "First day"
-                2 -> "Ongoing" // If it is not the first or last day of the event
-                3 -> "Last day"
-                4 -> "Ended"
-                else -> {
-                    Log.i(TAG, "Error while getting statusCode")
-                    "Not mentioned"
+            if (Locale.getDefault().language == "en") {
+                return when (statusCode) {
+                    0 -> "Starts soon" // If the event starts within a week
+                    1 -> "First day"
+                    2 -> "Ongoing" // If it is not the first or last day of the event
+                    3 -> "Last day"
+                    4 -> "Ended"
+                    else -> {
+                        Log.i(TAG, "Error while getting statusCode")
+                        "Not mentioned"
+                    }
+                }
+            } else {
+                return when (statusCode) {
+                    0 -> "Скоро начало" // If the event starts within a week
+                    1 -> "Первый день"
+                    2 -> "Проходит" // If it is not the first or last day of the event
+                    3 -> "Последний день"
+                    4 -> "Завершён"
+                    else -> {
+                        Log.i(TAG, "Error while getting statusCode")
+                        "Не уточнено"
+                    }
                 }
             }
         }
@@ -219,10 +249,27 @@ data class Event(
             return speakersList.asSequence().shuffled().take(3).toList() as ArrayList<String?>?
         }
 
+        fun randomSpeakersRu(): ArrayList<String?>? {
+            val speakersList: ArrayList<String?> =
+                arrayListOf("Владислав Баландин", "Леонид Шешуков", "Степан Иванов",
+                    "Андрей Андросов", "Евгений Максимилианов", "Владимир Поддубный",
+                    "Павел Максимов", "Никита Евгеньев")
+
+            return speakersList.asSequence().shuffled().take(3).toList() as ArrayList<String?>?
+        }
+
         fun randomModerators(): ArrayList<String?>? {
             val moderatorsList: ArrayList<String?> =
                 arrayListOf("Aleksandr Aleksandrov", "Mark Rublev", "Eduard Kazakov",
                     "Roman Belousov", "Georgy Nikitov", "Vladislav Aleksandrov")
+
+            return moderatorsList.asSequence().shuffled().take(3).toList() as ArrayList<String?>?
+        }
+
+        fun randomModeratorsRu(): ArrayList<String?>? {
+            val moderatorsList: ArrayList<String?> =
+                arrayListOf("Александр Александров", "Марк Рублев", "Эдуард Казаков",
+                    "Роман Белоусов", "Георгий Никитов", "Владислав Александров")
 
             return moderatorsList.asSequence().shuffled().take(3).toList() as ArrayList<String?>?
         }

@@ -19,7 +19,7 @@ import java.io.Writer
 data class User(
     var fullName: String = "", val email: String = "",
     var companyName: String = "", val birthDate: String = "", var profileImage: String = "",
-    var position: String = "Not mentioned", var phoneNumber: String = "Not mentioned",
+    var position: String = "The CEO", var phoneNumber: String = "+7 (985) 162-36-99",
     var website: String = "https://t.me/vladcel0na", var visitedEvents: String = ""
 ) {
 

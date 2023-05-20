@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import java.io.ByteArrayOutputStream
 import java.io.FileNotFoundException
+import java.util.Locale
 
 
 private const val TAG = "SettingsFragment"
@@ -89,10 +90,6 @@ class SettingsFragment : Fragment() {
             findNavController().navigate(R.id.personalInfoFragment)
         }
 
-        binding.appearanceButton.setOnClickListener {
-            findNavController().navigate(R.id.appearanceFragment)
-        }
-
         binding.businessCardButton.setOnClickListener {
             findNavController().navigate(R.id.businessCardFragment)
         }
@@ -103,7 +100,11 @@ class SettingsFragment : Fragment() {
 
         binding.signOutButton.setOnClickListener {
             val alertDialog = AlertDialog.Builder(activity, R.style.AlertDialogTheme)
-            alertDialog.setTitle("Are you sure you want to sign out?")
+            if (Locale.getDefault().language == "en") {
+                alertDialog.setTitle("Are you sure you want to sign out?")
+            } else {
+                alertDialog.setTitle("Вы уверены, что хотите выйти из аккаунта?")
+            }
 
             alertDialog.setPositiveButton("Sign out") { _: DialogInterface, _: Int ->
                 FirebaseAuth.getInstance().signOut()
@@ -114,8 +115,6 @@ class SettingsFragment : Fragment() {
                     .setPopUpTo(R.id.startFragment, true).build()
                 findNavController().navigate(R.id.action_settingsFragment_to_startFragment,
                     bundleOf(), navOptions)
-
-                activity?.finish()
             }
 
             alertDialog.setNegativeButton("No", null)
@@ -176,9 +175,6 @@ class SettingsFragment : Fragment() {
                     setViewVisibility(true)
 
                 } catch (exception: Exception) {
-                    Toast.makeText(
-                        context, "Failed to download image from database", Toast.LENGTH_SHORT
-                    ).show()
 
                     setViewVisibility(true)
                 }
@@ -204,8 +200,6 @@ class SettingsFragment : Fragment() {
             }
         } catch (exception: Exception) {
             Log.e(TAG, "Failed to commit update to teh database")
-            Toast.makeText(context, "Failed to commit to the database",
-                Toast.LENGTH_SHORT).show()
         }
 
         Thread.sleep(1000)
@@ -225,7 +219,6 @@ class SettingsFragment : Fragment() {
                 binding.signOutButton.visibility = View.VISIBLE
 
                 binding.personalButton.visibility = View.VISIBLE
-                binding.appearanceButton.visibility = View.VISIBLE
                 binding.businessCardButton.visibility = View.VISIBLE
                 binding.appInformationButton.visibility = View.VISIBLE
                 binding.profilePicture.visibility = View.VISIBLE
@@ -235,7 +228,6 @@ class SettingsFragment : Fragment() {
                 binding.companyNameTextView.visibility = View.VISIBLE
 
                 binding.splitButton1.visibility = View.VISIBLE
-                binding.splitButton2.visibility = View.VISIBLE
                 binding.splitButton3.visibility = View.VISIBLE
 
                 binding.progressBar.visibility = View.INVISIBLE
@@ -244,7 +236,6 @@ class SettingsFragment : Fragment() {
                 binding.signOutButton.visibility = View.INVISIBLE
 
                 binding.personalButton.visibility = View.INVISIBLE
-                binding.appearanceButton.visibility = View.INVISIBLE
                 binding.businessCardButton.visibility = View.INVISIBLE
                 binding.appInformationButton.visibility = View.INVISIBLE
 
@@ -255,7 +246,6 @@ class SettingsFragment : Fragment() {
                 binding.companyNameTextView.visibility = View.INVISIBLE
 
                 binding.splitButton1.visibility = View.INVISIBLE
-                binding.splitButton2.visibility = View.INVISIBLE
                 binding.splitButton3.visibility = View.INVISIBLE
 
                 binding.progressBar.visibility = View.VISIBLE

@@ -2,6 +2,7 @@ package com.application.vladcelona.eximeeting.settings_fragments
 
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +18,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.util.Locale
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -59,15 +61,19 @@ class BusinessCardFragment : Fragment() {
                 binding.businessCardFullName.text = user.fullName
                 binding.businessCardEmail.text = user.email
                 binding.businessCardPhoneNumber.text = user.phoneNumber
-                binding.businessCardPosition.text = user.position
                 binding.businessCardWebsite.text = user.website
+
+                if (Locale.getDefault().language == "en") {
+                    binding.businessCardPosition.text = user.position
+                } else {
+                    binding.businessCardPosition.text = "Генеральный директор"
+                }
 
                 binding.businessCardWebsiteQrCode.setImageBitmap(user.convertToQRCode())
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(context, "Failed to get data from Firebase",
-                    Toast.LENGTH_SHORT).show()
+                Log.w(TAG, "Failed to upload data from Firebase")
             }
         })
 

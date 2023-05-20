@@ -2,20 +2,19 @@ package com.application.vladcelona.eximeeting.navigation
 
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.application.vladcelona.eximeeting.EximeetingApplication
 import com.application.vladcelona.eximeeting.R
+import com.application.vladcelona.eximeeting.data_classes.User
 import com.application.vladcelona.eximeeting.event_managment.EventListAdapter
 import com.application.vladcelona.eximeeting.event_managment.EventViewModel
 import com.application.vladcelona.eximeeting.event_managment.EventViewModelFactory
-import com.application.vladcelona.eximeeting.EximeetingApplication
-import com.application.vladcelona.eximeeting.data_classes.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -23,6 +22,7 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
+import java.util.Locale
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -61,10 +61,7 @@ class UpcomingEventListFragment : Fragment() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(
-                    activity, "Failed to download data from Database",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Log.w(TAG, "Failed to download data from Database")
             }
         })
     }
@@ -96,7 +93,8 @@ class UpcomingEventListFragment : Fragment() {
 
         eventViewModel.events.observe(viewLifecycleOwner) { events ->
             val upcomingEvents = events.filterIndexed { _, event ->
-                event.getStatusCode() != 4 && !visitedEvents[event.id.toString()]!!
+                event.getStatusCode() != 4
+                        && Locale.getDefault().language == event.language
             }
 
             upcomingEvents.let { adapter.submitList(it) }
@@ -117,7 +115,8 @@ class UpcomingEventListFragment : Fragment() {
 
         eventViewModel.events.observe(viewLifecycleOwner) { events ->
             val upcomingEvents = events.filterIndexed { _, event ->
-                event.getStatusCode() != 4 && !visitedEvents[event.id.toString()]!!
+                event.getStatusCode() != 4
+                        && Locale.getDefault().language == event.language
             }
 
             upcomingEvents.let { adapter.submitList(it) }

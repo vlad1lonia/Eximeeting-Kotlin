@@ -28,7 +28,7 @@
                 android:id="@+id/business_fragment_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Business\nProgramme"
+                android:text="@string/business_nprogramme"
                 android:textColor="@color/black"
                 android:textSize="40sp"
                 android:textStyle="bold"

@@ -13,6 +13,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.application.vladcelona.eximeeting.data_classes.User
 import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.io.File
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +24,14 @@ class MainActivity : AppCompatActivity() {
         super.onStart()
 //        EximeetingFirebase.pushEventData()
 //        EximeetingFirebase.getEventData()
+//
+//        val filesDir: File = File("/data/data/com.application.vladcelona.eximeeting/databases")
+//        for (file in filesDir.listFiles()!!) {
+//            file.delete()
+//            Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show()
+//        }
+//
+//        filesDir.parentFile?.createNewFile()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

@@ -68,58 +68,176 @@ Don't miss this opportunity to join the conversation and be part of the business
             val events: ArrayList<Event> = ArrayList()
 
             var event = Event(
-                Random.nextInt(), "First Conference", Event.randomDate(),
+                Random.nextInt(), "en", "First Conference", Event.randomDate(),
                 Event.randomDate(), "Moscow, Russia", "117892, Random Street",
                 "Eximeeting", descriptionText, Event.randomSpeakers(), Event.randomModerators(), businessProgramme)
             events.add(event)
             event = Event(
-                Random.nextInt(), "Second Conference", Event.randomDate(),
+                Random.nextInt(), "en", "Second Conference", Event.randomDate(),
                 Event.randomDate(), "Washington D.C., USA", "Random Square",
                 "Eximeeting", descriptionText, Event.randomSpeakers(), Event.randomModerators(), businessProgramme)
             events.add(event)
             event = Event(
-                Random.nextInt(), "Third Conference", Event.randomDate(),
+                Random.nextInt(), "en", "Third Conference", Event.randomDate(),
                 Event.randomDate(), "Madrid, Spain", "Random Square",
                 "Eximeeting", descriptionText, Event.randomSpeakers(), Event.randomModerators(), businessProgramme)
             events.add(event)
             event = Event(
-                Random.nextInt(), "Fourth Conference", Event.randomDate(),
+                Random.nextInt(), "en", "Fourth Conference", Event.randomDate(),
                 Event.randomDate(), "Casablanca, Morocco", "Random Square",
                 "Eximeeting", descriptionText, Event.randomSpeakers(), Event.randomModerators(), businessProgramme)
             events.add(event)
             event = Event(
-                Random.nextInt(), "Fifth Conference", Event.randomDate(),
+                Random.nextInt(), "en", "Fifth Conference", Event.randomDate(),
                 Event.randomDate(), "Minsk, Belarus", "Random Drive",
                 "Eximeeting", descriptionText, Event.randomSpeakers(), Event.randomModerators(), businessProgramme)
             events.add(event)
             event = Event(
-                Random.nextInt(), "Sixth Conference", Event.randomDate(),
+                Random.nextInt(), "en", "Sixth Conference", Event.randomDate(),
                 Event.randomDate(), "Los Angeles, CA, USA", "Random Road",
                 "Eximeeting", descriptionText, Event.randomSpeakers(), Event.randomModerators(), businessProgramme)
             events.add(event)
             event = Event(
-                Random.nextInt(), "Seventh Conference", Event.randomDate(),
+                Random.nextInt(), "en", "Seventh Conference", Event.randomDate(),
                 Event.randomDate(), "Washington D.C., USA", "Random Event",
                 "Eximeeting", descriptionText, Event.randomSpeakers(), Event.randomModerators(), businessProgramme)
             events.add(event)
             event = Event(
-                Random.nextInt(), "Eighth Conference", Event.randomDate(),
+                Random.nextInt(), "en", "Eighth Conference", Event.randomDate(),
                 Event.randomDate(), "Seattle, WA, USA", "Random Street",
                 "Eximeeting", descriptionText, Event.randomSpeakers(), Event.randomModerators(), businessProgramme)
             events.add(event)
             event = Event(
-                Random.nextInt(), "Ninth Conference", Event.randomDate(),
+                Random.nextInt(), "en", "Ninth Conference", Event.randomDate(),
                 Event.randomDate(), "New York, NY, USA", "Random Square",
                 "Eximeeting", descriptionText, Event.randomSpeakers(), Event.randomModerators(), businessProgramme)
             events.add(event)
             event = Event(
-                Random.nextInt(), "Tenth Conference", Event.randomDate(),
+                Random.nextInt(), "en", "Tenth Conference", Event.randomDate(),
                 Event.randomDate(), "Albany, NY, USA", "Random Road",
                 "Eximeeting", descriptionText, Event.randomSpeakers(), Event.randomModerators(), businessProgramme)
             events.add(event)
 
             val databaseReference = FirebaseDatabase
                 .getInstance().getReference("Events")
+            for (element in events) {
+                databaseReference.child(element.id.toString()).setValue(Gson().toJson(element))
+            }
+
+            Thread.sleep(1000)
+
+            val descriptionTextRu: String = """Присоединяйтесь к нам, чтобы провести увлекательный вечер общения и обмена знаниями на нашем ежегодном Саммите бизнес-инноваций. Это мероприятие объединяет лидеров отрасли, предпринимателей и профессионалов из различных секторов для изучения последних тенденций и стратегий, формирующих бизнес-ландшафт.
+
+Благодаря выступлениям известных основных докладчиков, интерактивным панельным дискуссиям и секционным заседаниям, Саммит бизнес-инноваций предлагает ценные знания о разрушительных технологиях, тенденциях рынка и успешных бизнес-моделях. Наберитесь вдохновения от презентаций, наводящих на размышления, и примите участие в содержательных беседах с профессионалами-единомышленниками.
+
+Если вы начинающий предприниматель, опытный руководитель или энтузиаст бизнеса, это мероприятие станет отличной платформой для расширения вашей сети, налаживания новых партнерских отношений и опережающего развития. Общайтесь с экспертами отрасли, открывайте для себя инновационные решения и изучайте возможности для сотрудничества в динамичной и оживленной обстановке.
+
+Не упустите эту возможность присоединиться к разговору и стать частью революции в бизнесе. Забронируйте свое место на Саммите бизнес-инноваций сегодня и откройте новые возможности для роста, инноваций и успеха."""
+
+            val businessProgrammeRu: LinkedHashMap<String, ArrayList<String?>?>? = LinkedHashMap()
+
+            businessProgrammeRu?.set("Понедельник", """9:00 - 10:00: Собрание команды
+10:00 - 11:00: Сессия планирования проекта
+11:00 - 12:00: Звонок клиента
+12:00 - 13:00: Перерыв на обед
+13:00 - 15:00: Семинар по маркетинговой стратегии
+15:00 - 16:00: Обсуждение разработки продукта
+16:00 - 17:00: Сетевое мероприятие""".trim().split("\n").toList() as ArrayList<String?>?
+            )
+            businessProgrammeRu?.set("Вторник", """9:00 - 10:30: Совещание по финансовому анализу
+10:30 - 11:30: Тренинг по продажам
+11:30 - 12:30: Сессия мозгового штурма
+12:30 - 13:30: Перерыв на обед
+13:30 - 15:00: Мероприятие по формированию команды
+15:00 - 16:30: Подготовка презентации клиента
+16:30 - 17:30: Встреча по оценке проекта""".trim().split("\n").toList() as ArrayList<String?>?
+            )
+            businessProgrammeRu?.set("Среда", """9:00 - 10:00: Заседание кафедры
+10:00 - 11:00: Анализ маркетинговых исследований
+11:00 - 12:00: Обзор дизайна продукта
+12:00 - 13:00: Перерыв на обед
+13:00 - 14:30: Обсуждение развития бизнеса
+14:30 - 16:00: Учебный семинар
+16:00 - 17:00: Сессия командного взаимодействия""".trim().split("\n").toList() as ArrayList<String?>?
+            )
+            businessProgrammeRu?.set("Четверг", """9:00 - 10:30: Практика продаж
+10:30 - 11:30: Встреча с поставщиками
+11:30 - 12:30: Анализ отзывов клиентов
+12:30 - 13:30: Перерыв на обед
+13:30 - 15:00: Обновление статуса проекта
+15:00 - 16:30: Сессия стратегического планирования
+16:30 - 17:30: Сетевое мероприятие""".trim().split("\n").toList() as ArrayList<String?>?
+            )
+            businessProgrammeRu?.set("Пятница", """9:00 - 10:00: Собрание команды
+10:00 - 11:00: Обзор маркетинговой кампании
+11:00 - 12:00: Анализ отчета о продажах
+12:00 - 13:00: Перерыв на обед
+13:00 - 15:00: Встреча с клиентом
+15:00 - 16:30: Демонстрация продукта
+16:30 - 17:30: Ретроспектива проекта""".trim().split("\n").toList() as ArrayList<String?>?
+            )
+
+            event = Event(
+                Random.nextInt(), "ru", "Первая конференция", Event.randomDate(),
+                Event.randomDate(), "Москва, Россия", "Проектируемый проезд №0001",
+                "Eximeeting (Экзимитинг)", descriptionTextRu, Event.randomSpeakersRu(),
+                Event.randomModeratorsRu(), businessProgrammeRu)
+            events.add(event)
+            event = Event(
+                Random.nextInt(), "ru", "Вторая конференция", Event.randomDate(),
+                Event.randomDate(), "Санкт-Петербург, Россия", "Проектируемый проезд №0121",
+                "Eximeeting (Экзимитинг)", descriptionTextRu, Event.randomSpeakersRu(),
+                Event.randomModeratorsRu(), businessProgrammeRu)
+            events.add(event)
+            event = Event(
+                Random.nextInt(), "ru", "Третья конференция", Event.randomDate(),
+                Event.randomDate(), "Саратов, Россия", "Проектируемый проезд №9001",
+                "Eximeeting (Экзимитинг)", descriptionTextRu, Event.randomSpeakersRu(),
+                Event.randomModeratorsRu(), businessProgrammeRu)
+            events.add(event)
+            event = Event(
+                Random.nextInt(), "ru", "Четвёртая конференция", Event.randomDate(),
+                Event.randomDate(), "Калининград, Россия", "Проектируемый проезд №3241",
+                "Eximeeting (Экзимитинг)", descriptionTextRu, Event.randomSpeakersRu(),
+                Event.randomModeratorsRu(), businessProgrammeRu)
+            events.add(event)
+            event = Event(
+                Random.nextInt(), "ru", "Пятая конференция", Event.randomDate(),
+                Event.randomDate(), "Владивосток, Россия", "Проектируемый проезд №5001",
+                "Eximeeting (Экзимитинг)", descriptionTextRu, Event.randomSpeakersRu(),
+                Event.randomModeratorsRu(), businessProgrammeRu)
+            events.add(event)
+            event = Event(
+                Random.nextInt(), "ru", "Шестая конференция", Event.randomDate(),
+                Event.randomDate(), "Минск, Беларусь", "Проектируемый проезд №4621",
+                "Eximeeting (Экзимитинг)", descriptionTextRu, Event.randomSpeakersRu(),
+                Event.randomModeratorsRu(), businessProgrammeRu)
+            events.add(event)
+            event = Event(
+                Random.nextInt(), "ru", "Седьмая конференция", Event.randomDate(),
+                Event.randomDate(), "Москва, Россия", "Проектируемый проезд №45001",
+                "Eximeeting (Экзимитинг)", descriptionTextRu, Event.randomSpeakersRu(),
+                Event.randomModeratorsRu(), businessProgrammeRu)
+            events.add(event)
+            event = Event(
+                Random.nextInt(), "ru", "Восьмая конференция", Event.randomDate(),
+                Event.randomDate(), "Мурманск, Россия", "Проектируемый проезд №0001",
+                "Eximeeting (Экзимитинг)", descriptionTextRu, Event.randomSpeakersRu(),
+                Event.randomModeratorsRu(), businessProgrammeRu)
+            events.add(event)
+            event = Event(
+                Random.nextInt(), "ru", "Девятая конференция", Event.randomDate(),
+                Event.randomDate(), "Владикавказ, Россия", "Проектируемый проезд №578001",
+                "Eximeeting (Экзимитинг)", descriptionTextRu, Event.randomSpeakersRu(),
+                Event.randomModeratorsRu(), businessProgrammeRu)
+            events.add(event)
+            event = Event(
+                Random.nextInt(), "ru", "Десятая конференция", Event.randomDate(),
+                Event.randomDate(), "Астрахань, Россия", "Проектируемый проезд №5601",
+                "Eximeeting (Экзимитинг)", descriptionTextRu, Event.randomSpeakersRu(),
+                Event.randomModeratorsRu(), businessProgrammeRu)
+            events.add(event)
+
             for (element in events) {
                 databaseReference.child(element.id.toString()).setValue(Gson().toJson(element))
             }

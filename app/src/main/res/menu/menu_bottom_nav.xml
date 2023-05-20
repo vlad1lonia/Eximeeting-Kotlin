@@ -5,18 +5,18 @@
         android:id="@id/upcomingEventListFragment"
         android:icon="@drawable/home_selector"
         android:fontFamily="@font/roboto_regular"
-        android:title="Upcoming" />
+        android:title="@string/upcoming" />
 
     <item
         android:id="@id/completedEventListFragment"
         android:icon="@drawable/completed_selector"
         android:fontFamily="@font/roboto_regular"
-        android:title="Completed" />
+        android:title="@string/completed" />
 
     <item
         android:id="@id/settingsFragment"
         android:icon="@drawable/person_selector"
         android:fontFamily="@font/roboto_regular"
-        android:title="Settings" />
+        android:title="@string/settings" />
 
 </menu>
