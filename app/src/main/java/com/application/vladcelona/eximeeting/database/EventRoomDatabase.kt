@@ -19,7 +19,7 @@ private const val DATABASE_NAME = "event_database"
 
 private const val appVersion = BuildConfig.VERSION_CODE
 
-@Database(entities = [Event::class], version = 1, exportSchema = false)
+@Database(entities = [Event::class], version = appVersion, exportSchema = false)
 @TypeConverters(EventConverters::class)
 abstract class EventRoomDatabase : RoomDatabase() {
 
@@ -66,7 +66,7 @@ abstract class EventRoomDatabase : RoomDatabase() {
         fun getDatabase(context: Context, scope: CoroutineScope): EventRoomDatabase {
             return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(context.applicationContext,
-                    EventRoomDatabase::class.java, DATABASE_NAME)
+                    EventRoomDatabase::class.java, DATABASE_NAME).fallbackToDestructiveMigration()
                     .addCallback(EventDatabaseCallback(scope)).build()
                 INSTANCE = instance
                 instance
