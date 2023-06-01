@@ -38,7 +38,9 @@ private const val REQUEST_PHOTO = 100
 private const val REQUEST_CROP_PHOTO = 200
 
 
+// TODO: Change Realtime Database for Firestore
 class SettingsFragment : Fragment() {
+
     private var param1: String? = null
     private var param2: String? = null
 
@@ -157,6 +159,7 @@ class SettingsFragment : Fragment() {
         }
     }
 
+    // TODO: Change Realtime Database for Firestore
     private fun getUserData() {
 
         databaseReference.child(uid).addValueEventListener(object : ValueEventListener {
@@ -186,6 +189,7 @@ class SettingsFragment : Fragment() {
         })
     }
 
+    // TODO: Change Realtime Database for Firestore
     private fun uploadProfileData() {
         user.profileImage = bitmapToString()
         val newUserValues: Map<String, Any> = user.toMap()

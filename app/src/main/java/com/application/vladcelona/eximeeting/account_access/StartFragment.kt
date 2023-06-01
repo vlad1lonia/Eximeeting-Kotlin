@@ -21,8 +21,9 @@ import com.google.firebase.database.FirebaseDatabase
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-private const val TAG = "StarFragment"
+private const val TAG = "StartFragment"
 
+// TODO: Change Realtime Database for Firestore
 class StartFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
@@ -36,6 +37,7 @@ class StartFragment : Fragment() {
         val navOptions = NavOptions.Builder()
             .setPopUpTo(R.id.startFragment, true).build()
 
+        // TODO: Change Realtime Database for Firestore
         val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         FirebaseAuth.getInstance().currentUser.let { it?.let {it1 ->
             databaseReference.child(it1.uid)

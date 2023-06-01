@@ -19,6 +19,8 @@ private const val ARG_PARAM2 = "param2"
 
 private const val TAG = "PersonalInfoFragment"
 
+
+// TODO: Change Realtime Database for Firestore
 @Suppress("DEPRECATION")
 class PersonalInfoFragment : Fragment() {
     private var param1: String? = null
@@ -64,6 +66,7 @@ class PersonalInfoFragment : Fragment() {
         return binding.root
     }
 
+    // Do not update this method
     private fun updateInformation() {
         editedFullName = binding.fullNameEditText.text.toString()
         editedCompanyName = binding.companyNameEditText.text.toString()
@@ -71,6 +74,7 @@ class PersonalInfoFragment : Fragment() {
         checkCredentials()
     }
 
+    // Do not update this method
     private fun checkCredentials() {
         if (editedFullName.isEmpty()) {
             editedFullName = user.fullName
@@ -88,6 +92,7 @@ class PersonalInfoFragment : Fragment() {
         }
     }
 
+    // Do not update this method!
     private fun checkPasswordReset() {
         val oldPassword = binding.oldPasswordEditText.text.toString().trim()
         val newPassword = binding.newPasswordEditText.text.toString().trim()
@@ -110,6 +115,7 @@ class PersonalInfoFragment : Fragment() {
             }
     }
 
+    // TODO: Change Realtime Database for Firestore
     private fun updateFirebase() {
         if (editedFullName.isNotEmpty()) { user.fullName = editedFullName }
         if (editedCompanyName.isNotEmpty()) { user.companyName = editedCompanyName }
@@ -124,6 +130,7 @@ class PersonalInfoFragment : Fragment() {
         }
     }
 
+    // TODO: Change Realtime Database for Firestore
     private fun getUserData() {
         databaseReference.child(uid).addValueEventListener(object : ValueEventListener {
 

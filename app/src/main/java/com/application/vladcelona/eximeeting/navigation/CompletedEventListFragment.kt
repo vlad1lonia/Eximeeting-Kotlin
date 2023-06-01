@@ -31,6 +31,7 @@ private const val ARG_PARAM2 = "param2"
 
 private const val TAG = "CompletedEventListFragment"
 
+// TODO: Change Realtime Database for Firestore
 class CompletedEventListFragment : Fragment() {
 
     private var param1: String? = null

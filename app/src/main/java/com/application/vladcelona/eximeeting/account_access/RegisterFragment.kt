@@ -39,6 +39,7 @@ private const val ARG_PARAM2 = "param2"
 
 private const val TAG = "RegisterFragment"
 
+// TODO: Change Realtime Database for Firestore
 class RegisterFragment : Fragment() {
 
     private var param1: String? = null
@@ -222,6 +223,7 @@ class RegisterFragment : Fragment() {
         createAccount()
     }
 
+    // TODO: Change Realtime Database for Firestore
     private fun createAccount() {
         firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
                 task ->
@@ -230,6 +232,8 @@ class RegisterFragment : Fragment() {
 
                     val user = User(fullName, email, companyName, birthDate,
                         profileImageString, visitedEvents = readJsonFromFile())
+
+                    // TODO: Change Realtime Database for Firestore
                     FirebaseAuth.getInstance().currentUser.let { it?.let { it1 ->
                         FirebaseDatabase.getInstance().getReference("Users")
                             .child(it1.uid).setValue(user).addOnCompleteListener { task1 ->
