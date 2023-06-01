@@ -25,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
 
+        EximeetingFirebase.testFirestore()
         MapKitInitializer.initialize("eb50f8b7-3004-48a1-aff6-da437619b1b8", this)
     }
 

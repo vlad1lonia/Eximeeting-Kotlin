@@ -35,7 +35,6 @@ private const val TAG = "SettingsFragment"
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 private const val REQUEST_PHOTO = 100
-private const val REQUEST_CROP_PHOTO = 200
 
 
 // TODO: Change Realtime Database for Firestore

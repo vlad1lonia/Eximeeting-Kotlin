@@ -15,9 +15,10 @@ import java.io.InputStreamReader
 import java.io.Reader
 import java.io.StringWriter
 import java.io.Writer
+import java.util.UUID
 
 data class User(
-    var fullName: String = "", val email: String = "",
+    val id: UUID = UUID.randomUUID(), var fullName: String = "", val email: String = "",
     var companyName: String = "", val birthDate: String = "", var profileImage: String = "",
     var position: String = "The CEO", var phoneNumber: String = "+7 (985) 162-36-99",
     var website: String = "https://t.me/vladcel0na", var visitedEvents: String = ""
