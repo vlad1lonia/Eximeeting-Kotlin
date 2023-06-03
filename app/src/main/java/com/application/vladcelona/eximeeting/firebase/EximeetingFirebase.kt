@@ -1,14 +1,12 @@
 package com.application.vladcelona.eximeeting.firebase
 
 import android.util.Log
-import com.application.vladcelona.eximeeting.data_classes.Event
-import com.application.vladcelona.eximeeting.data_classes.User
-import com.google.firebase.auth.FirebaseAuth
+import com.application.vladcelona.eximeeting.data_classes.event.Event
+import com.application.vladcelona.eximeeting.data_classes.user.User
 import com.google.firebase.database.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.gson.Gson
-import kotlin.random.Random
 
 private const val TAG = "EximeetingFirebase"
 
@@ -30,10 +28,27 @@ class EximeetingFirebase {
                 birthDate = "02/11/2004"
             )
 
+            Log.i(TAG, testUser.toString())
+
             firestore.collection("users")
                 .document(testUser.id.toString()).set(testUser)
                 .addOnSuccessListener { Log.d(TAG, "Snapshot successfully written!") }
                 .addOnFailureListener { e -> Log.d(TAG, "Failed to write document", e) }
+
+            val userReference = firestore.collection("users")
+                .document(testUser.id.toString())
+
+            userReference.get()
+                .addOnSuccessListener { document ->
+                    if (document != null) {
+                        Log.d(TAG, "DocumentSnapshot data: ${document.data}")
+                    } else {
+                        Log.d(TAG, "No such document")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.d(TAG, "get failed with ", exception)
+                }
         }
 
         // TODO: Change Realtime Database for Firestore

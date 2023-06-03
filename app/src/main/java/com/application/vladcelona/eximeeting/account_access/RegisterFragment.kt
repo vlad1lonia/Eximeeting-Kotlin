@@ -18,13 +18,11 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.application.vladcelona.eximeeting.R
-import com.application.vladcelona.eximeeting.data_classes.User
+import com.application.vladcelona.eximeeting.data_classes.user.User
 import com.application.vladcelona.eximeeting.databinding.FragmentRegisterBinding
-import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
-import com.google.gson.Gson
 import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -230,8 +228,14 @@ class RegisterFragment : Fragment() {
             run {
                 if (task.isSuccessful) {
 
-                    val user = User(fullName, email, companyName, birthDate,
-                        profileImageString, visitedEvents = readJsonFromFile())
+                    val user = User(
+                        fullName = fullName,
+                        email = email,
+                        companyName = companyName,
+                        birthDate = birthDate,
+                        profileImage = profileImageString,
+                        visitedEvents = readJsonFromFile()
+                    )
 
                     // TODO: Change Realtime Database for Firestore
                     FirebaseAuth.getInstance().currentUser.let { it?.let { it1 ->

@@ -6,15 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.core.os.bundleOf
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.application.vladcelona.eximeeting.R
-import com.application.vladcelona.eximeeting.data_classes.Event
-import kotlin.coroutines.coroutineContext
+import com.application.vladcelona.eximeeting.data_classes.event.Event
 
 class EventListAdapter(private val onClickListener: OnClickListener) :
     ListAdapter<Event, EventListAdapter.EventViewHolder>(EventsComparator()) {

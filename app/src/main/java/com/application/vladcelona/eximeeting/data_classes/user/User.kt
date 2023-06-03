@@ -1,27 +1,27 @@
-package com.application.vladcelona.eximeeting.data_classes
+package com.application.vladcelona.eximeeting.data_classes.user
 
 import android.graphics.Bitmap
 import android.graphics.Color
-import com.application.vladcelona.eximeeting.MainActivity
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.database.Exclude
+import com.google.firebase.firestore.Exclude
 import com.google.firebase.ktx.Firebase
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
-import java.io.BufferedReader
-import java.io.InputStream
-import java.io.InputStreamReader
-import java.io.Reader
-import java.io.StringWriter
-import java.io.Writer
+import java.util.Date
 import java.util.UUID
 
 data class User(
-    val id: UUID = UUID.randomUUID(), var fullName: String = "", val email: String = "",
-    var companyName: String = "", val birthDate: String = "", var profileImage: String = "",
-    var position: String = "The CEO", var phoneNumber: String = "+7 (985) 162-36-99",
-    var website: String = "https://t.me/vladcel0na", var visitedEvents: String = ""
+    val id: UUID = UUID.randomUUID(),
+    var fullName: String = "",
+    val email: String = "",
+    var companyName: String = "",
+    val birthDate: Date = Date(),
+    var profileImage: String = "",
+    var position: String = "",
+    var phoneNumber: String = "",
+    var website: String = "",
+    var visitedEvents: HashMap<String, Boolean> = HashMap()
 ) {
 
     /**

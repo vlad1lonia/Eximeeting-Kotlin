@@ -20,7 +20,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import com.application.vladcelona.eximeeting.R
-import com.application.vladcelona.eximeeting.data_classes.User
+import com.application.vladcelona.eximeeting.data_classes.user.User
 import com.application.vladcelona.eximeeting.databinding.FragmentSettingsBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth

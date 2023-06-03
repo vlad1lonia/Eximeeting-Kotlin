@@ -1,7 +1,7 @@
 package com.application.vladcelona.eximeeting.event_managment
 
 import androidx.lifecycle.*
-import com.application.vladcelona.eximeeting.data_classes.Event
+import com.application.vladcelona.eximeeting.data_classes.event.Event
 import kotlinx.coroutines.launch
 
 class EventViewModel(private val repository: EventRepository) : ViewModel() {

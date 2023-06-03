@@ -5,7 +5,7 @@ import android.util.Log
 import androidx.room.*
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.application.vladcelona.eximeeting.BuildConfig
-import com.application.vladcelona.eximeeting.data_classes.Event
+import com.application.vladcelona.eximeeting.data_classes.event.Event
 import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase
 import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope

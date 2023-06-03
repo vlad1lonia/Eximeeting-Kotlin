@@ -7,11 +7,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.application.vladcelona.eximeeting.R
-import com.application.vladcelona.eximeeting.data_classes.User
+import com.application.vladcelona.eximeeting.data_classes.user.User
 import com.application.vladcelona.eximeeting.databinding.FragmentBusinessCardBinding
-import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot

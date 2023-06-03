@@ -1,4 +1,4 @@
-package com.application.vladcelona.eximeeting.data_classes
+package com.application.vladcelona.eximeeting.data_classes.event
 
 import android.annotation.SuppressLint
 import android.graphics.Color
@@ -8,13 +8,12 @@ import androidx.core.os.bundleOf
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.application.vladcelona.eximeeting.event_managment.EventFragment
+import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.dateToString
 import com.google.firebase.database.Exclude
-import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
-import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 import kotlin.math.abs
 import kotlin.random.Random
 
@@ -130,38 +129,19 @@ data class Event(
             "date" to "${dateToString(fromDate)} - \n${dateToString(toDate)}",
             "location" to location, "address" to address, "organizer" to organizer,
             "status" to getStatusCode(), "description" to description,
-            "speakers" to arrayListToString(speakers), "moderators" to arrayListToString(moderators),
+            "speakers" to speakers, "moderators" to moderators,
             "businessProgramme" to businessProgramme, "maps" to maps, "id" to id
         )
     }
 
+    fun convert(): FirebaseEvent {
+
+        return FirebaseEvent(
+            id.toString(), language, name, 
+        )
+    }
+
     companion object {
-        fun randomDate(): Date {
-            return Date(Random.nextLong(1682520400000L, 1685566800000L))
-        }
-
-        @SuppressLint("SimpleDateFormat")
-        fun randomDateToString(randomDate: Date): String {
-            return SimpleDateFormat("dd-MM-yyyy HH:mm").format(randomDate)
-        }
-
-        /**
-         * Method for converting String object with pattern "dd-MM-yyyy HH:mm" to Date object
-         * @return A new instance of Date
-         */
-        @SuppressLint("SimpleDateFormat")
-        fun stringToDate(dateString: String?): Date? {
-            return dateString?.let { SimpleDateFormat("dd-MM-yyyy HH:mm").parse(it) }
-        }
-
-        /**
-         * Method for converting Date object with pattern "dd-MM-yyyy HH:mm" to String object
-         * @return A new instance of String
-         */
-        @SuppressLint("SimpleDateFormat")
-        fun dateToString(date: Date?): String? {
-            return date?.let { SimpleDateFormat("dd-MM-yyyy HH:mm").format(it) }
-        }
 
         /**
          * Method for converting [statusCode] field into the String
@@ -211,67 +191,6 @@ data class Event(
                     Color.BLACK
                 }
             }
-        }
-
-        /**
-         * Method for converting String object into an ArrayList object
-         * @return A new instance of ArrayList
-         */
-        fun stringToArrayList(inputString: String): ArrayList<String?>? {
-            val arrayList: ArrayList<String?>? = ArrayList()
-            for (element in inputString.substring(1, inputString.length - 1).split(", ")) {
-                arrayList?.add(element)
-            }
-
-            return arrayList
-        }
-
-        /**
-         * Method for converting String object into an HashMap object
-         * @return A new instance of HashMap
-         */
-        fun stringToMap(inputString: String): LinkedHashMap<String, ArrayList<String?>?>? {
-            return Gson().fromJson(
-                inputString, HashMap::class.java) as LinkedHashMap<String, ArrayList<String?>?>?
-        }
-
-        fun arrayListToString(inputArrayList: ArrayList<String?>?): String {
-            val arrayString: String = inputArrayList.toString()
-            return arrayString.substring(1, arrayString.length - 1)
-        }
-
-        fun randomSpeakers(): ArrayList<String?>? {
-            val speakersList: ArrayList<String?> =
-                arrayListOf("Vladislav Balandin", "Leonid Sheshukov", "Stepan Ivanov",
-                    "Andrey Androsov", "Evgeniy Maksimilianov", "Vladimir Poddubniy",
-                    "Pavel Maksimov", "Nikita Evgeniev")
-
-            return speakersList.asSequence().shuffled().take(3).toList() as ArrayList<String?>?
-        }
-
-        fun randomSpeakersRu(): ArrayList<String?>? {
-            val speakersList: ArrayList<String?> =
-                arrayListOf("Владислав Баландин", "Леонид Шешуков", "Степан Иванов",
-                    "Андрей Андросов", "Евгений Максимилианов", "Владимир Поддубный",
-                    "Павел Максимов", "Никита Евгеньев")
-
-            return speakersList.asSequence().shuffled().take(3).toList() as ArrayList<String?>?
-        }
-
-        fun randomModerators(): ArrayList<String?>? {
-            val moderatorsList: ArrayList<String?> =
-                arrayListOf("Aleksandr Aleksandrov", "Mark Rublev", "Eduard Kazakov",
-                    "Roman Belousov", "Georgy Nikitov", "Vladislav Aleksandrov")
-
-            return moderatorsList.asSequence().shuffled().take(3).toList() as ArrayList<String?>?
-        }
-
-        fun randomModeratorsRu(): ArrayList<String?>? {
-            val moderatorsList: ArrayList<String?> =
-                arrayListOf("Александр Александров", "Марк Рублев", "Эдуард Казаков",
-                    "Роман Белоусов", "Георгий Никитов", "Владислав Александров")
-
-            return moderatorsList.asSequence().shuffled().take(3).toList() as ArrayList<String?>?
         }
     }
 }

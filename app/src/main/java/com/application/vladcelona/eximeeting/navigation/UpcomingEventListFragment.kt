@@ -11,17 +11,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.vladcelona.eximeeting.EximeetingApplication
 import com.application.vladcelona.eximeeting.R
-import com.application.vladcelona.eximeeting.data_classes.User
 import com.application.vladcelona.eximeeting.event_managment.EventListAdapter
 import com.application.vladcelona.eximeeting.event_managment.EventViewModel
 import com.application.vladcelona.eximeeting.event_managment.EventViewModelFactory
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.gson.Gson
 import java.util.Locale
 
 private const val ARG_PARAM1 = "param1"
@@ -38,9 +33,6 @@ class UpcomingEventListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
 
     private lateinit var databaseReference: DatabaseReference
-    private lateinit var visitedEvents: HashMap<String, Boolean>
-
-    private lateinit var user: User
     private lateinit var uid: String
 
     private val eventViewModel: EventViewModel by viewModels {
@@ -52,19 +44,6 @@ class UpcomingEventListFragment : Fragment() {
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
-
-        databaseReference.child(uid).addValueEventListener(object : ValueEventListener {
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                user = snapshot.getValue(User::class.java)!!
-                visitedEvents = Gson().fromJson(user.visitedEvents,
-                    HashMap<String, Boolean>()::class.java)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "Failed to download data from Database")
-            }
-        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

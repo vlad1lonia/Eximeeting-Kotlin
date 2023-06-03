@@ -6,14 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.application.vladcelona.eximeeting.EximeetingApplication
 import com.application.vladcelona.eximeeting.R
-import com.application.vladcelona.eximeeting.data_classes.User
+import com.application.vladcelona.eximeeting.data_classes.user.User
 import com.application.vladcelona.eximeeting.event_managment.EventListAdapter
 import com.application.vladcelona.eximeeting.event_managment.EventViewModel
 import com.application.vladcelona.eximeeting.event_managment.EventViewModelFactory
@@ -50,24 +49,14 @@ class CompletedEventListFragment : Fragment() {
         EventViewModelFactory((activity?.application as EximeetingApplication).repository)
     }
 
+    // TODO: Change Realtime Database for Firestore
     override fun onStart() {
         super.onStart()
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
 
-        databaseReference.child(uid).addValueEventListener(object : ValueEventListener {
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                user = snapshot.getValue(User::class.java)!!
-                visitedEvents = Gson().fromJson(user.visitedEvents,
-                    HashMap<String, Boolean>()::class.java)
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "Failed to download data from Database")
-            }
-        })
+        visitedEvents = HashMap()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -103,8 +92,7 @@ class CompletedEventListFragment : Fragment() {
             }
 
             val completedEvents = events.filterIndexed { _, event ->
-                visitedEvents[event.id.toString()]!!
-                        && Locale.getDefault().language == event.language
+                Locale.getDefault().language == event.language
             }
 
             if (completedEvents.isNotEmpty()) {
@@ -134,8 +122,7 @@ class CompletedEventListFragment : Fragment() {
             }
 
             val completedEvents = events.filterIndexed { _, event ->
-                visitedEvents[event.id.toString()]!!
-                        && Locale.getDefault().language == event.language
+                Locale.getDefault().language == event.language
             }
 
             if (completedEvents.isNotEmpty()) {

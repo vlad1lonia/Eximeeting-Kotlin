@@ -1,7 +1,7 @@
 package com.application.vladcelona.eximeeting.event_managment
 
 import androidx.annotation.WorkerThread
-import com.application.vladcelona.eximeeting.data_classes.Event
+import com.application.vladcelona.eximeeting.data_classes.event.Event
 import com.application.vladcelona.eximeeting.database.EventDao
 import kotlinx.coroutines.flow.Flow
 

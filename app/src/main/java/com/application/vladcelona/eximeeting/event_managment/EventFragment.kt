@@ -9,8 +9,8 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.application.vladcelona.eximeeting.R
-import com.application.vladcelona.eximeeting.data_classes.Event
-import com.application.vladcelona.eximeeting.data_classes.User
+import com.application.vladcelona.eximeeting.data_classes.event.Event
+import com.application.vladcelona.eximeeting.data_classes.user.User
 import com.application.vladcelona.eximeeting.databinding.FragmentEventBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -20,7 +20,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.gson.Gson
 import com.yandex.mapkit.Animation
-import com.yandex.mapkit.MapKitFactory
 import com.yandex.mapkit.geometry.Point
 import com.yandex.mapkit.map.CameraPosition
 import kotlin.random.Random
@@ -62,7 +61,8 @@ class EventFragment : Fragment() {
         
         eventId = arguments?.getInt("id").toString()
 
-        binding.fragmentEventStatus.setTextColor(Event.getStatusCodeColor
+        binding.fragmentEventStatus.setTextColor(
+            Event.getStatusCodeColor
             (arguments?.getInt("status")))
 
         binding.businessProgrammeButton.setOnClickListener {
