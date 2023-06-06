@@ -237,6 +237,8 @@ class RegisterFragment : Fragment() {
                         visitedEvents = readJsonFromFile()
                     )
 
+
+
                     // TODO: Change Realtime Database for Firestore
                     FirebaseAuth.getInstance().currentUser.let { it?.let { it1 ->
                         FirebaseDatabase.getInstance().getReference("Users")
