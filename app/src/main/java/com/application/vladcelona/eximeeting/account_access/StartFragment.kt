@@ -38,22 +38,6 @@ class StartFragment : Fragment() {
             .setPopUpTo(R.id.startFragment, true).build()
 
         // TODO: Change Realtime Database for Firestore
-        val databaseReference = FirebaseDatabase.getInstance().getReference("Users")
-        FirebaseAuth.getInstance().currentUser.let { it?.let {it1 ->
-            databaseReference.child(it1.uid)
-                .get().addOnCompleteListener {task: Task<DataSnapshot> ->
-                    if (task.isSuccessful && task.result.exists()) {
-                        Toast.makeText(context, "You have been logged in successfully",
-                            Toast.LENGTH_SHORT).show()
-                        navView?.visibility = View.VISIBLE
-                        findNavController()
-                            .navigate(
-                                R.id.action_startFragment_to_upcomingEventsListFragment,
-                                bundleOf(), navOptions
-                            )
-                    }
-            }
-        } }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

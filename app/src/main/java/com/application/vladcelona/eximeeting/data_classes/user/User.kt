@@ -2,6 +2,8 @@ package com.application.vladcelona.eximeeting.data_classes.user
 
 import android.graphics.Bitmap
 import android.graphics.Color
+import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.birthDateToString
+import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.objectToJson
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Exclude
 import com.google.firebase.ktx.Firebase
@@ -63,6 +65,14 @@ data class User(
         }
 
         return bitmap
+    }
+
+    fun convert(): FirebaseUser {
+
+        return FirebaseUser(
+            id.toString(), fullName, email, companyName, birthDateToString(birthDate),
+            profileImage, position, phoneNumber, website, objectToJson(visitedEvents)
+        )
     }
 
     companion object {

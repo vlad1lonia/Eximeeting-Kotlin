@@ -2,7 +2,9 @@ package com.application.vladcelona.eximeeting.firebase
 
 import android.util.Log
 import com.application.vladcelona.eximeeting.data_classes.event.Event
+import com.application.vladcelona.eximeeting.data_classes.user.FirebaseUser
 import com.application.vladcelona.eximeeting.data_classes.user.User
+import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.stringToBirthDate
 import com.google.firebase.database.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -16,17 +18,17 @@ class EximeetingFirebase {
     companion object {
 
         /**
-         * This is a test method, to check teh correct data upload to Firestore
+         * This is a test method, to check the correct data upload to Firestore
          */
-        fun testFirestore() {
+        fun testPushFirestore() {
 
             val firestore = Firebase.firestore
-            val testUser: User = User(
+            val testUser: FirebaseUser = User(
                 fullName = "Balandin Vladislav",
                 email = "vladbalandin2013@gmail.com",
                 companyName = "Eximeeting",
-                birthDate = "02/11/2004"
-            )
+                birthDate = stringToBirthDate("02/11/2004")
+            ).convert()
 
             Log.i(TAG, testUser.toString())
 

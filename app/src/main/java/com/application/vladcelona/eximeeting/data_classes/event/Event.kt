@@ -130,14 +130,15 @@ data class Event(
             "location" to location, "address" to address, "organizer" to organizer,
             "status" to getStatusCode(), "description" to description,
             "speakers" to speakers, "moderators" to moderators,
-            "businessProgramme" to businessProgramme, "maps" to maps, "id" to id
+            "businessProgramme" to businessProgramme,
+            "maps" to maps, "id" to id
         )
     }
 
     fun convert(): FirebaseEvent {
 
         return FirebaseEvent(
-            id.toString(), language, name, 
+            id.toString(), language, name,
         )
     }
 

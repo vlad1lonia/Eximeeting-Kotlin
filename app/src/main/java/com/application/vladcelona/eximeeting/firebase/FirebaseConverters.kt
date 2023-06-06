@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import com.google.gson.Gson
 import java.text.SimpleDateFormat
 import java.util.Date
-import java.util.LinkedHashMap
 
 class FirebaseConverters {
 
@@ -29,25 +28,51 @@ class FirebaseConverters {
         }
 
         /**
-         * Method for converting [String] object into an [ArrayList] object
-         * @return A new instance of [ArrayList]
+         * Method for converting Birth date [String] with pattern "dd/MM/yyyy" to [Date] object
+         * @return A new instance of [Date]
          */
-        fun stringToArrayList(inputString: String): ArrayList<String?> {
-            val arrayList: ArrayList<String?> = ArrayList()
-            for (element in inputString.substring(1, inputString.length - 1).split(", ")) {
-                arrayList.add(element)
-            }
-
-            return arrayList
+        @SuppressLint("SimpleDateFormat")
+        fun stringToBirthDate(dateString: String): Date {
+            return SimpleDateFormat("dd/MM/yyyy").parse(dateString)!!
         }
 
         /**
-         * Method for converting [String] object into an [HashMap] object
+         * Method for converting Birth date [Date] with pattern "dd/MM/yyyy" to [String] object
+         * @return A new instance of [Date]
+         */
+        @SuppressLint("SimpleDateFormat")
+        fun birthDateToString(date: Date): String {
+            return SimpleDateFormat("dd/MM/yyyy").format(date)
+        }
+
+        /**
+         * Method for converting [Any] type object to Json string using [Gson]
+         * @return A new instance of [String]
+         */
+        fun objectToJson(kotlinObject: Any): String {
+            return Gson().toJson(kotlinObject)
+        }
+
+        /**
+         * Method for converting Json string into [HashMap] object
          * @return A new instance of [HashMap]
          */
-        fun stringToMap(inputString: String): LinkedHashMap<String, ArrayList<String?>?> {
-            return Gson().fromJson(
-                inputString, HashMap::class.java) as LinkedHashMap<String, ArrayList<String?>?>
+        fun jsonToMap(jsonString: String): HashMap<String, Any> {
+            return Gson().fromJson(jsonString,
+                HashMap::class.java) as HashMap<String, Any>
+        }
+
+        /**
+         * Method for converting Json string object into an [ArrayList] object
+         * @return A new instance of [ArrayList]
+         */
+        fun jsonToArrayList(inputString: String): ArrayList<String?> {
+            val arrayList: ArrayList<String?> = ArrayList()
+            for (element in inputString.substring(1, inputString.length - 1).split(",")) {
+                arrayList.add(element.trim())
+            }
+
+            return arrayList
         }
     }
 }

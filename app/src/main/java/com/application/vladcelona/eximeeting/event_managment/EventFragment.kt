@@ -36,6 +36,8 @@ class EventFragment : Fragment() {
     private lateinit var uid: String
     private lateinit var eventId: String
 
+
+    // TODO: Change Realtime Database for Firestore
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -88,49 +90,10 @@ class EventFragment : Fragment() {
         return binding.root
     }
 
+
+    // TODO: Change Realtime Database for Firestore
     private fun setFloatingButton() {
 
-        databaseReference.child(uid).addValueEventListener(object : ValueEventListener {
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                user = snapshot.getValue(User::class.java)!!
-                Log.i(TAG, user.visitedEvents)
-
-                val visitedEvents: HashMap<String, Boolean> = Gson()
-                        .fromJson(user.visitedEvents, HashMap<String, Boolean>()::class.java)
-                Log.i(TAG, visitedEvents.toString())
-                Log.i(TAG, "$eventId: " + visitedEvents[eventId].toString())
-
-                binding.eventVisitedButton.apply {
-
-                    if (arguments?.getInt("status") == 0) {
-                        visibility = View.INVISIBLE
-                    }
-
-                    if (visitedEvents[eventId]!!) {
-                        isClickable = false
-                        setImageResource(R.drawable.completed_icon)
-                    } else {
-                        setImageResource(R.drawable.completed_icon_outlined)
-                    }
-
-                    setOnClickListener {
-
-                        if (!visitedEvents[eventId]!!) {
-                            visitedEvents[eventId] = true
-                            setImageResource(R.drawable.completed_icon)
-                            user.visitedEvents = Gson().toJson(visitedEvents)
-
-                            val newUserValues: Map<String, Any> = user.toMap()
-                            databaseReference.child(uid).updateChildren(newUserValues)
-                        }
-                    }
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "Failed to download data from Database")
-            }
-        })
     }
 }

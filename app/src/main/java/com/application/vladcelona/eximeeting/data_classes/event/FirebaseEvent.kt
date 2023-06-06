@@ -1,10 +1,10 @@
 package com.application.vladcelona.eximeeting.data_classes.event
 
-import com.application.vladcelona.eximeeting.data_classes.user.FirebaseUser
-import com.application.vladcelona.eximeeting.data_classes.user.User
-import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.stringToArrayList
+import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.jsonToArrayList
 import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.stringToDate
-import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.stringToMap
+import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.jsonToMap
+import java.util.ArrayList
+import java.util.LinkedHashMap
 
 
 data class FirebaseEvent(
@@ -38,8 +38,9 @@ data class FirebaseEvent(
             id.toInt(), language, name,
             stringToDate(fromDate), stringToDate(toDate),
             location, address, organizer, description,
-            stringToArrayList(speakers), stringToArrayList(moderators),
-            stringToMap(businessProgramme), stringToArrayList(maps)
+            jsonToArrayList(speakers), jsonToArrayList(moderators),
+            jsonToMap(businessProgramme) as LinkedHashMap<String, ArrayList<String?>?>?,
+            jsonToArrayList(maps)
         )
     }
 }
