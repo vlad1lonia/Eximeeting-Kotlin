@@ -6,7 +6,6 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.util.Patterns
 import android.view.LayoutInflater
 import android.view.View
@@ -20,9 +19,12 @@ import androidx.navigation.fragment.findNavController
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.user.User
 import com.application.vladcelona.eximeeting.databinding.FragmentRegisterBinding
+import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase.Companion.getDocument
+import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase.Companion.pushDocument
+import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.jsonToMap
+import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.stringToBirthDate
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import java.io.BufferedReader
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
@@ -31,6 +33,7 @@ import java.io.Reader
 import java.io.StringWriter
 import java.io.Writer
 import java.util.*
+import kotlin.collections.HashMap
 
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
@@ -221,48 +224,28 @@ class RegisterFragment : Fragment() {
         createAccount()
     }
 
-    // TODO: Change Realtime Database for Firestore
     private fun createAccount() {
-        firebaseAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener {
-                task ->
+
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
             run {
                 if (task.isSuccessful) {
 
                     val user = User(
-                        fullName = fullName,
-                        email = email,
-                        companyName = companyName,
-                        birthDate = birthDate,
-                        profileImage = profileImageString,
-                        visitedEvents = readJsonFromFile()
+                        FirebaseAuth.getInstance().currentUser?.uid!!.toString(),
+                        fullName, email, companyName, stringToBirthDate(birthDate),
+                        profileImageString, "", "", "",
+                        jsonToMap(readJsonFromFile()) as HashMap<String, Boolean>
                     )
 
+                    pushDocument("users", user); Thread.sleep(1000)
 
+                    val navView =
+                        activity?.findViewById<BottomNavigationView>(R.id.bottom_nav_view)
+                    navView?.visibility = View.VISIBLE
+                    findNavController()
+                        .navigate(R.id.action_startFragment_to_upcomingEventsListFragment)
 
-                    // TODO: Change Realtime Database for Firestore
-                    FirebaseAuth.getInstance().currentUser.let { it?.let { it1 ->
-                        FirebaseDatabase.getInstance().getReference("Users")
-                            .child(it1.uid).setValue(user).addOnCompleteListener { task1 ->
-                                if (task1.isSuccessful) {
-                                    Toast.makeText(context,
-                                        "Account is created successfully!",
-                                        Toast.LENGTH_SHORT).show()
-                                    Log.i(TAG, "Creating ActivityMain")
-
-                                    val navView = activity?.
-                                    findViewById<BottomNavigationView>(R.id.bottom_nav_view)
-                                    navView?.visibility = View.VISIBLE
-                                    findNavController()
-                                        .navigate(R.id.action_startFragment_to_upcomingEventsListFragment)
-//                                    packageManager.setComponentEnabledSetting()
-                                } else {
-                                    Toast.makeText(context,
-                                        "Failed to create an account! Try again",
-                                        Toast.LENGTH_SHORT).show()
-                                }
-                            }
-                    }
-                    }
                 } else {
                     Toast.makeText(context,
                         "Failed to create an account", Toast.LENGTH_SHORT).show()

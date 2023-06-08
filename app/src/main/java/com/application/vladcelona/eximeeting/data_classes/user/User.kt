@@ -4,17 +4,14 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.birthDateToString
 import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.objectToJson
-import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.Exclude
-import com.google.firebase.ktx.Firebase
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
 import java.util.Date
-import java.util.UUID
 
 data class User(
-    val id: UUID = UUID.randomUUID(),
+    val id: String = "",
     var fullName: String = "",
     val email: String = "",
     var companyName: String = "",
@@ -48,7 +45,7 @@ data class User(
 
     /**
      * Method for converting the [User] url link into QR-code
-     * @return A new instance of Bitmap which contains the QR-code of the url
+     * @return A new instance of [Bitmap] which contains the QR-code of the url
      */
     fun convertToQRCode(): Bitmap {
         val writer = QRCodeWriter()
@@ -73,19 +70,5 @@ data class User(
             id.toString(), fullName, email, companyName, birthDateToString(birthDate),
             profileImage, position, phoneNumber, website, objectToJson(visitedEvents)
         )
-    }
-
-    companion object {
-
-        /**
-         * Method for check if user has been logged in on a certain device before
-         * @return A new instance of Boolean
-         */
-        fun checkAccess(): Boolean {
-            return when (Firebase.auth.currentUser) {
-                null -> false
-                else -> true
-            }
-        }
     }
 }

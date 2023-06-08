@@ -16,13 +16,8 @@ import com.application.vladcelona.eximeeting.data_classes.user.User
 import com.application.vladcelona.eximeeting.event_managment.EventListAdapter
 import com.application.vladcelona.eximeeting.event_managment.EventViewModel
 import com.application.vladcelona.eximeeting.event_managment.EventViewModelFactory
+import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase.Companion.getDocument
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.gson.Gson
 import java.util.Locale
 
 private const val ARG_PARAM1 = "param1"
@@ -30,7 +25,6 @@ private const val ARG_PARAM2 = "param2"
 
 private const val TAG = "CompletedEventListFragment"
 
-// TODO: Change Realtime Database for Firestore
 class CompletedEventListFragment : Fragment() {
 
     private var param1: String? = null
@@ -39,9 +33,6 @@ class CompletedEventListFragment : Fragment() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var notVisitedTextView: TextView
 
-    private lateinit var databaseReference: DatabaseReference
-    private lateinit var visitedEvents: HashMap<String, Boolean>
-
     private lateinit var user: User
     private lateinit var uid: String
 
@@ -49,14 +40,11 @@ class CompletedEventListFragment : Fragment() {
         EventViewModelFactory((activity?.application as EximeetingApplication).repository)
     }
 
-    // TODO: Change Realtime Database for Firestore
     override fun onStart() {
         super.onStart()
 
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
-
-        visitedEvents = HashMap()
+        user = getDocument("users", uid) as User
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -85,22 +73,7 @@ class CompletedEventListFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        eventViewModel.events.observe(viewLifecycleOwner) { events ->
-
-            for (event in events) {
-                Log.i(TAG, "${event.id}: ${visitedEvents[event.id.toString()]}")
-            }
-
-            val completedEvents = events.filterIndexed { _, event ->
-                Locale.getDefault().language == event.language
-            }
-
-            if (completedEvents.isNotEmpty()) {
-                notVisitedTextView.visibility = View.INVISIBLE
-            }
-
-            completedEvents.let { adapter.submitList(it) }
-        }
+        populateRecyclerView(adapter)
 
         return view
     }
@@ -115,10 +88,19 @@ class CompletedEventListFragment : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
 
+        populateRecyclerView(adapter)
+    }
+
+    /**
+     * Method for populating [RecyclerView] with data from Cloud Firestore
+     * @author Balandin (Vladcelona) Vladislav
+     */
+    private fun populateRecyclerView(adapter: EventListAdapter) {
+
         eventViewModel.events.observe(viewLifecycleOwner) { events ->
 
             for (event in events) {
-                Log.i(TAG, "${event.id}: ${visitedEvents[event.id.toString()]}")
+                Log.i(TAG, "${event.id}: ${user.visitedEvents[event.id.toString()]}")
             }
 
             val completedEvents = events.filterIndexed { _, event ->

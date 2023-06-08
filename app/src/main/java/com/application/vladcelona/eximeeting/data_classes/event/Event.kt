@@ -47,6 +47,7 @@ data class Event(
      * @return A new instance of String
      */
     fun convertStatusCode(): String {
+
         if (Locale.getDefault().language == "en") {
             return when (getStatusCode()) {
                 0 -> "Starts soon" // If the event starts within a week

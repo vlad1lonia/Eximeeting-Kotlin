@@ -7,6 +7,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import com.application.vladcelona.eximeeting.BuildConfig
 import com.application.vladcelona.eximeeting.data_classes.event.Event
 import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase
+import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase.Companion.getCollection
 import com.google.firebase.database.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -50,7 +51,7 @@ abstract class EventRoomDatabase : RoomDatabase() {
 
         suspend fun populateDatabase(eventDao: EventDao) {
 
-            val events: ArrayList<Event> = EximeetingFirebase.getEventData() as ArrayList<Event>
+            val events: ArrayList<Event> = getCollection("events") as ArrayList<Event>
             withContext(Dispatchers.IO) { Thread.sleep(1500) }
             for (event in events) {
                 eventDao.insert(event)

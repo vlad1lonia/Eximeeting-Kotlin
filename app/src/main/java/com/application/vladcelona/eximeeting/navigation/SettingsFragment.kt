@@ -22,6 +22,8 @@ import androidx.navigation.fragment.findNavController
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.user.User
 import com.application.vladcelona.eximeeting.databinding.FragmentSettingsBinding
+import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase.Companion.getDocument
+import com.application.vladcelona.eximeeting.firebase.EximeetingFirebase.Companion.updateDocument
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
@@ -40,9 +42,6 @@ private const val REQUEST_PHOTO = 100
 // TODO: Change Realtime Database for Firestore
 class SettingsFragment : Fragment() {
 
-    private var param1: String? = null
-    private var param2: String? = null
-
     private lateinit var binding: FragmentSettingsBinding
 
     private lateinit var user: User
@@ -50,7 +49,6 @@ class SettingsFragment : Fragment() {
 
     private lateinit var imageUri: Uri
     private lateinit var selectedImage: Bitmap
-    private lateinit var databaseReference: DatabaseReference
 
     override fun onResume() {
         super.onResume()
@@ -64,13 +62,8 @@ class SettingsFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         uid = FirebaseAuth.getInstance().currentUser?.uid.toString()
+        user = getDocument("users", uid) as User
     }
 
     override fun onCreateView(
@@ -161,51 +154,24 @@ class SettingsFragment : Fragment() {
     // TODO: Change Realtime Database for Firestore
     private fun getUserData() {
 
-        databaseReference.child(uid).addValueEventListener(object : ValueEventListener {
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                user = snapshot.getValue(User::class.java)!!
-                binding.usernameTextView.text = user.fullName
-                binding.companyNameTextView.text = user.companyName
-
-                try {
-                    val imageBytes = Base64.decode(user.profileImage, 0)
-                    val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
-
-                    binding.profilePicture.setImageBitmap(image)
-
-                    setViewVisibility(true)
-
-                } catch (exception: Exception) {
-
-                    setViewVisibility(true)
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "Failed to download data from Firebase Realtime Database")
-            }
-        })
-    }
-
-    // TODO: Change Realtime Database for Firestore
-    private fun uploadProfileData() {
-        user.profileImage = bitmapToString()
-        val newUserValues: Map<String, Any> = user.toMap()
+        binding.usernameTextView.text = user.fullName
+        binding.companyNameTextView.text = user.companyName
 
         try {
-            databaseReference.child(uid).updateChildren(newUserValues).addOnSuccessListener {
-                Toast.makeText(context, "Successfully updated information",
-                    Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener {
-                Toast.makeText(context, "Unable to complete action",
-                    Toast.LENGTH_SHORT).show()
-            }
-        } catch (exception: Exception) {
-            Log.e(TAG, "Failed to commit update to teh database")
-        }
+            val imageBytes = Base64.decode(user.profileImage, 0)
+            val image = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 
-        Thread.sleep(1000)
+            binding.profilePicture.setImageBitmap(image)
+            setViewVisibility(true)
+
+        } catch (exception: Exception) {
+            setViewVisibility(true)
+        }
+    }
+
+    private fun uploadProfileData() {
+        user.profileImage = bitmapToString()
+        updateDocument("users", user)
     }
 
     private fun bitmapToString(): String {

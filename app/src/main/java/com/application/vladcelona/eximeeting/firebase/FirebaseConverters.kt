@@ -12,6 +12,7 @@ class FirebaseConverters {
         /**
          * Method for converting [String] object with pattern "dd-MM-yyyy HH:mm" to [Date] object
          * @return A new instance of [Date]
+         * @author Balandin (Vladcelona) Vladislav
          */
         @SuppressLint("SimpleDateFormat")
         fun stringToDate(dateString: String): Date {
@@ -21,6 +22,7 @@ class FirebaseConverters {
         /**
          * Method for converting [Date] object with pattern "dd-MM-yyyy HH:mm" to [String] object
          * @return A new instance of [String]
+         * @author Balandin (Vladcelona) Vladislav
          */
         @SuppressLint("SimpleDateFormat")
         fun dateToString(date: Date): String {
@@ -30,6 +32,7 @@ class FirebaseConverters {
         /**
          * Method for converting Birth date [String] with pattern "dd/MM/yyyy" to [Date] object
          * @return A new instance of [Date]
+         * @author Balandin (Vladcelona) Vladislav
          */
         @SuppressLint("SimpleDateFormat")
         fun stringToBirthDate(dateString: String): Date {
@@ -39,6 +42,7 @@ class FirebaseConverters {
         /**
          * Method for converting Birth date [Date] with pattern "dd/MM/yyyy" to [String] object
          * @return A new instance of [Date]
+         * @author Balandin (Vladcelona) Vladislav
          */
         @SuppressLint("SimpleDateFormat")
         fun birthDateToString(date: Date): String {
@@ -48,6 +52,7 @@ class FirebaseConverters {
         /**
          * Method for converting [Any] type object to Json string using [Gson]
          * @return A new instance of [String]
+         * @author Balandin (Vladcelona) Vladislav
          */
         fun objectToJson(kotlinObject: Any): String {
             return Gson().toJson(kotlinObject)
@@ -56,15 +61,17 @@ class FirebaseConverters {
         /**
          * Method for converting Json string into [HashMap] object
          * @return A new instance of [HashMap]
+         * @author Balandin (Vladcelona) Vladislav
          */
-        fun jsonToMap(jsonString: String): HashMap<String, Any> {
+        fun jsonToMap(jsonString: String): Map<String, Any> {
             return Gson().fromJson(jsonString,
-                HashMap::class.java) as HashMap<String, Any>
+                HashMap::class.java) as Map<String, Any>
         }
 
         /**
          * Method for converting Json string object into an [ArrayList] object
          * @return A new instance of [ArrayList]
+         * @author Balandin (Vladcelona) Vladislav
          */
         fun jsonToArrayList(inputString: String): ArrayList<String?> {
             val arrayList: ArrayList<String?> = ArrayList()

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.application.vladcelona.eximeeting.R
 import com.application.vladcelona.eximeeting.data_classes.event.Event
+import com.application.vladcelona.eximeeting.firebase.FirebaseConverters.Companion.dateToString
 
 class EventListAdapter(private val onClickListener: OnClickListener) :
     ListAdapter<Event, EventListAdapter.EventViewHolder>(EventsComparator()) {
@@ -41,11 +42,10 @@ class EventListAdapter(private val onClickListener: OnClickListener) :
         @SuppressLint("SetTextI18n")
         fun bind(event: Event?) {
             eventName.text = event?.name
-            eventDate.text = "${Event.dateToString(event?.fromDate)} - " +
-                    "${Event.dateToString(event?.toDate)}"
+            eventDate.text = "${dateToString(event?.fromDate!!)} - ${dateToString(event?.toDate!!)}"
             eventLocation.text = event?.location
             eventStatus.text = event?.convertStatusCode()
-            event?.getStatusCodeColor()?.let { eventStatus.setTextColor(it) }
+            event.getStatusCodeColor()?.let { eventStatus.setTextColor(it) }
         }
 
         companion object {
