@@ -7,6 +7,7 @@ import com.application.vladcelona.eximeeting.data_classes.user.FirebaseUser
 import com.application.vladcelona.eximeeting.data_classes.user.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 private const val TAG = "EximeetingFirebase"
@@ -63,32 +64,41 @@ class EximeetingFirebase {
          */
         fun getDocument(collection: String, objectId: Any): Any {
 
-            val collectionData: ArrayList<Any> = getCollection(collection) as ArrayList<Any>
-            when (collection) {
+            Log.d(TAG, objectId.toString())
+
+            val objectReference = Firebase.firestore.collection(collection)
+                .document(objectId.toString())
+
+            Log.d(TAG, getCollection("users").toString())
+
+            return when (collection) {
 
                 "users" -> {
-                    for (document in collectionData) {
-                        val userDocument = document as FirebaseUser
-                        if (userDocument.id == objectId.toString()) {
-                            return userDocument
-                        }
+                    var documentUser = FirebaseUser()
+
+                    objectReference.get().addOnSuccessListener { documentSnapshot ->
+                        documentUser = documentSnapshot.toObject<FirebaseUser>()!!
                     }
 
-                    return FirebaseUser()
+                    Log.d(TAG, documentUser.toString())
+                    documentUser.convert()
                 }
 
                 "events" -> {
-                    for (document in collectionData) {
-                        val eventDocument = document as FirebaseEvent
-                        if (eventDocument.id == objectId.toString()) {
-                            return eventDocument
-                        }
+                    var documentEvent = FirebaseEvent()
+
+                    objectReference.get().addOnSuccessListener { documentSnapshot ->
+                        documentEvent = documentSnapshot.toObject<FirebaseEvent>()!!
                     }
 
-                    return FirebaseEvent()
+                    Log.d(TAG, documentEvent.toString())
+                    documentEvent.convert()
                 }
 
-                else -> { return Any() }
+                else -> {
+                    Log.d(TAG, "Wrong collection parameter input")
+                    Any()
+                }
             }
         }
 
@@ -121,78 +131,14 @@ class EximeetingFirebase {
          * @return A new instance of [ArrayList]
          * @author Balandin (Vladcelona) Vladislav
          */
-        fun getCollection(collection: String): Any {
+        fun getCollection(collection: String): ArrayList<Any> {
 
-            when (collection) {
-
-                "users" -> {
-                    val collectionUsers: ArrayList<FirebaseUser> = ArrayList()
-
-                    getUsersOnCallback { firestoreList ->
-                        for (document in firestoreList) {
-                            collectionUsers.add(document as FirebaseUser)
-                        }
-                    }
-
-                    return collectionUsers
-                }
-
-                "events" -> {
-                    val collectionEvents: ArrayList<FirebaseEvent> = ArrayList()
-
-                    getEventsOnCallback { firestoreList ->
-                        for (document in firestoreList) {
-                            collectionEvents.add(document as FirebaseEvent)
-                        }
-                    }
-
-                    return collectionEvents
-                }
-
-                else -> { return arrayListOf<Any>() }
+            var collectionData: ArrayList<Any> = ArrayList()
+            getDataOnCallback(collection) { firestoreList ->
+                collectionData = firestoreList as ArrayList<Any>
             }
-        }
 
-        /**
-         * Method for getting all document snapshots from "users" collection in Cloud Firestore
-         * @author Balandin (Vladcelona) Vladislav
-         */
-        private fun getUsersOnCallback(dataCallback: (List<Any>) -> Unit) {
-
-            val firestoreReference = Firebase.firestore.collection("users").get()
-
-            firestoreReference.addOnCompleteListener { snapshot ->
-                if (snapshot.isSuccessful) {
-
-                    val list = ArrayList<FirebaseUser>()
-                    for (document in snapshot.result) {
-                        list.add(document.toObject(FirebaseUser::class.java))
-                    }
-
-                    dataCallback(list)
-                }
-            }
-        }
-
-        /**
-         * Method for getting all document snapshots from "events" collection in Cloud Firestore
-         * @author Balandin (Vladcelona) Vladislav
-         */
-        private fun getEventsOnCallback(dataCallback: (List<Any>) -> Unit) {
-
-            val firestoreReference = Firebase.firestore.collection("events").get()
-
-            firestoreReference.addOnCompleteListener { snapshot ->
-                if (snapshot.isSuccessful) {
-
-                    val list = ArrayList<FirebaseEvent>()
-                    for (document in snapshot.result) {
-                        list.add(document.toObject(FirebaseEvent::class.java))
-                    }
-
-                    dataCallback(list)
-                }
-            }
+            return collectionData
         }
 
         /**
@@ -205,6 +151,46 @@ class EximeetingFirebase {
             return when (FirebaseAuth.getInstance().currentUser) {
                 null -> false
                 else -> true
+            }
+        }
+
+        /**
+         * Method for getting all document snapshots from Cloud Firestore
+         * @author Balandin (Vladcelona) Vladislav
+         */
+        private fun getDataOnCallback(collection: String, dataCallback: (List<Any>) -> Unit) {
+
+            val firestoreReference = Firebase.firestore.collection(collection).get()
+
+            when (collection) {
+
+                "users" -> {
+                    firestoreReference.addOnCompleteListener { snapshot ->
+                        if (snapshot.isSuccessful) {
+
+                            val list = ArrayList<FirebaseUser>()
+                            for (document in snapshot.result) {
+                                list.add(document.toObject(FirebaseUser::class.java))
+                            }
+
+                            dataCallback(list)
+                        }
+                    }
+                }
+
+                "events" -> {
+                    firestoreReference.addOnCompleteListener { snapshot ->
+                        if (snapshot.isSuccessful) {
+
+                            val list = ArrayList<FirebaseEvent>()
+                            for (document in snapshot.result) {
+                                list.add(document.toObject(FirebaseEvent::class.java))
+                            }
+
+                            dataCallback(list)
+                        }
+                    }
+                }
             }
         }
     }

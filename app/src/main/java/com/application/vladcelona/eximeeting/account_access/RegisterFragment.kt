@@ -238,7 +238,7 @@ class RegisterFragment : Fragment() {
                         jsonToMap(readJsonFromFile()) as HashMap<String, Boolean>
                     )
 
-                    pushDocument("users", user)
+                    pushDocument("users", user); Thread.sleep(1000)
 
                     val navView =
                         activity?.findViewById<BottomNavigationView>(R.id.bottom_nav_view)
@@ -272,7 +272,7 @@ class RegisterFragment : Fragment() {
      * This file is used only once when user creates an account
      * @return A new instance of String
      */
-    private fun readJsonFromFile(): String {
+    fun readJsonFromFile(): String {
         val inputStream: InputStream = resources.openRawResource(R.raw.events_visit_status)
         val writer: Writer = StringWriter()
         val bufferArray: CharArray = CharArray(1024)
