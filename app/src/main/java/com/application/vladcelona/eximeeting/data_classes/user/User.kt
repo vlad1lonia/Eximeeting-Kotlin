@@ -10,6 +10,10 @@ import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
 import java.util.Date
 
+/**
+ * Data class which contains information about a user who has an account on Firebase
+ * @author Balandin (Vladcelona) Vladislav
+ */
 data class User(
     val id: String = "",
     var fullName: String = "",
@@ -26,6 +30,7 @@ data class User(
     /**
      * Method for converting the [User] data class object into the Map
      * @return A new instance of Map with String type key and Any type object
+     * @author Balandin (Vladcelona) Vladislav
      */
     @Exclude
     fun toMap(): Map<String, Any> {
@@ -46,6 +51,7 @@ data class User(
     /**
      * Method for converting the [User] url link into QR-code
      * @return A new instance of [Bitmap] which contains the QR-code of the url
+     * @author Balandin (Vladcelona) Vladislav
      */
     fun convertToQRCode(): Bitmap {
         val writer = QRCodeWriter()
@@ -64,6 +70,11 @@ data class User(
         return bitmap
     }
 
+    /**
+     * Method for converting [User] class object to [FirebaseUser] class object
+     * @return A new instance of [FirebaseUser]
+     * @author Balandin (Vladcelona) Vladislav
+     */
     fun convert(): FirebaseUser {
 
         return FirebaseUser(
